@@ -5,12 +5,15 @@ import Link from "next/link";
 import type { Analysis } from "@/lib/analyze";
 import type { Dict } from "@/lib/i18n";
 import { Gauge, TrustBadge } from "./Gauge";
+import { CategoryIcon } from "./CategoryIcon";
 
 type Props = {
   lang: "en" | "am";
   t: Pick<Dict, "ask" | "trust" | "places" | "home">;
   initialText?: string;
   speechLang: string;
+  /** Category of each of the 17 signs, in the same order as the examples. */
+  categories: string[];
 };
 
 type SR = {
@@ -25,10 +28,9 @@ type SR = {
   onerror: ((e: { error: string }) => void) | null;
 };
 
-const PLACE_KEYS = ["wol", "tel", "har"] as const;
 
-export default function AskClient({ lang, t, initialText, speechLang }: Props) {
-  const [loc, setLoc] = useState<string>("wol");
+export default function AskClient({ lang, t, initialText, speechLang, categories }: Props) {
+  const loc = "wol"; // all signs were recorded in Wolaita, South Ethiopia
   const [text, setText] = useState(initialText ?? "");
   const [res, setRes] = useState<Analysis | null>(null);
   const [stage, setStage] = useState(0);
@@ -58,8 +60,6 @@ export default function AskClient({ lang, t, initialText, speechLang }: Props) {
   // Remember the place and the last sign between visits.
   useEffect(() => {
     try {
-      const l = localStorage.getItem("sns_loc");
-      if (l && (PLACE_KEYS as readonly string[]).includes(l)) setLoc(l);
       const last = Number(sessionStorage.getItem("sns_last"));
       if (last > 0) lastRef.current = last;
     } catch {}
@@ -70,11 +70,6 @@ export default function AskClient({ lang, t, initialText, speechLang }: Props) {
     if ("speechSynthesis" in window) window.speechSynthesis.getVoices();
   }, []);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem("sns_loc", loc);
-    } catch {}
-  }, [loc]);
 
   // ---------- speaking ----------
   const stopAudio = useCallback(() => {
@@ -192,7 +187,7 @@ export default function AskClient({ lang, t, initialText, speechLang }: Props) {
         setBusy(false);
       }
     },
-    [busy, lang, loc, speak, stopAudio, t.ask.error],
+    [busy, lang, speak, stopAudio, t.ask.error],
   );
 
   // Run once when opened with ?q=
@@ -340,19 +335,19 @@ export default function AskClient({ lang, t, initialText, speechLang }: Props) {
   return (
     <>
       <div className="ask-card">
-        <label htmlFor="loc">{t.home.place}</label>
-        <select id="loc" value={loc} onChange={(e) => setLoc(e.target.value)}>
-          {PLACE_KEYS.map((k) => (
-            <option key={k} value={k}>
-              {t.places[k].label}
-            </option>
-          ))}
-        </select>
+        <p className="place-line">
+          <span className="muted">{t.home.place}:</span> <strong>{t.places.wol.label}</strong>
+        </p>
         <form
           className="ask-row"
           onSubmit={(e) => {
             e.preventDefault();
             altRef.current = "";
+            if (!text.trim()) {
+              setHint(t.ask.empty);
+              document.getElementById("said")?.focus();
+              return;
+            }
             run(text);
           }}
         >
@@ -373,26 +368,43 @@ export default function AskClient({ lang, t, initialText, speechLang }: Props) {
             {a.label}
           </label>
           <input id="said" type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder={a.placeholder} autoComplete="off" />
-          <button className="btn" type="submit" disabled={busy || !text.trim()}>
+          <button className="btn" type="submit" disabled={busy}>
             {a.go}
           </button>
         </form>
-        <div className="chips">
-          {a.examples.map((x) => (
-            <button
-              key={x}
-              type="button"
-              className="chip"
-              onClick={() => {
-                altRef.current = "";
-                setText(x);
-                run(x);
-              }}
-            >
-              {x}
-            </button>
+        <h2 className="examples-title">{a.examplesTitle}</h2>
+        <ol className="sign-examples">
+          {a.examples.map((x, i) => (
+            <li key={x}>
+              <button
+                type="button"
+                className="example"
+                onClick={() => {
+                  altRef.current = "";
+                  setText(x);
+                  run(x);
+                }}
+              >
+                <CategoryIcon category={categories[i] ?? "other"} />
+                <span>{x}</span>
+              </button>
+            </li>
           ))}
-        </div>
+        </ol>
+        <p className="question-line">
+          <span className="muted">{a.questionTitle}:</span>{" "}
+          <button
+            type="button"
+            className="chip"
+            onClick={() => {
+              altRef.current = "";
+              setText(a.question);
+              run(a.question);
+            }}
+          >
+            {a.question}
+          </button>
+        </p>
         <p className="hint" aria-live="polite">
           {hint}
         </p>

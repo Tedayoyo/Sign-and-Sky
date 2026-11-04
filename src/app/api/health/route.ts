@@ -1,20 +1,9 @@
 // Deployment check: /api/health tells you what is missing, without revealing any secret.
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { dbProblem } from "@/lib/dbstatus";
 
 export const dynamic = "force-dynamic";
-
-function reason(e: unknown): string {
-  const err = e as { message?: string; code?: string };
-  const msg = err?.message || "";
-  if (msg.includes("DATABASE_URL")) return msg;
-  if (err?.code === "28P01" || /password authentication failed/i.test(msg)) return "The database password in DATABASE_URL is wrong.";
-  if (err?.code === "ENOTFOUND" || err?.code === "EAI_AGAIN") return "The database host in DATABASE_URL cannot be found. Copy the connection string again from Supabase → Connect.";
-  if (/timeout|ETIMEDOUT|ECONNREFUSED/i.test(msg + (err?.code ?? ""))) return "Cannot reach the database. Use the Supabase pooler connection string (port 6543).";
-  if (err?.code === "42P01") return "The database tables are missing. Run the SQL files 1 to 4 in the Supabase SQL Editor.";
-  if (/Tenant or user not found/i.test(msg)) return "The user name in DATABASE_URL does not match the pooler. It should look like postgres.yourprojectref.";
-  return "Database error: " + msg.slice(0, 200);
-}
 
 export async function GET() {
   const session = (process.env.SESSION_SECRET || "").length >= 32;
@@ -35,6 +24,6 @@ export async function GET() {
       { status: ok ? 200 : 503 },
     );
   } catch (e) {
-    return NextResponse.json({ ok: false, error: reason(e), session_secret: session ? "set" : "missing or shorter than 32 characters" }, { status: 503 });
+    return NextResponse.json({ ok: false, error: dbProblem(e), note: "The public pages still work from the built-in library; the research area, sharing signs and saving new signs need the database.", session_secret: session ? "set" : "missing or shorter than 32 characters" }, { status: 503 });
   }
 }

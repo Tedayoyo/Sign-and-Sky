@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { dict, fmt, SPEECH, type Locale } from "@/lib/i18n";
 import { librarySigns } from "@/lib/assistant";
-import { evaluationFor } from "@/lib/records";
+import { evaluationFor, BUILTIN } from "@/lib/records";
 import AskClient from "@/components/AskClient";
+import { Landscape } from "@/components/Landscape";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,7 @@ export default async function Home({ params, searchParams }: { params: Promise<{
   return (
     <main>
       <section className="hero">
+        <Landscape />
         <div className="wrap narrow">
           <h1>{d.home.title}</h1>
           <p>{d.home.intro}</p>
@@ -38,6 +40,7 @@ export default async function Home({ params, searchParams }: { params: Promise<{
           lang={lang as Locale}
           speechLang={SPEECH[lang as Locale]}
           t={{ ask: d.ask, trust: d.trust, places: d.places, home: d.home }}
+          categories={BUILTIN.map((s) => s.category)}
           initialText={typeof q === "string" ? q.slice(0, 300) : undefined}
         />
       </div>

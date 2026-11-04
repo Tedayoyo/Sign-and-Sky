@@ -12,7 +12,8 @@
     "db:seed": "tsx scripts/seed.ts",
     "create-admin": "tsx scripts/create-admin.ts",
     "extract-audio": "node scripts/extract-audio.mjs",
-    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json"
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json",
+    "build-library": "tsx scripts/build-library.ts"
   },
   "engines": {
     "node": "22.x"

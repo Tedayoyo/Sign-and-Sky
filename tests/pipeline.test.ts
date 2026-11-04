@@ -37,13 +37,13 @@ test("the library matches the 2025 Wolaita field record", async () => {
     assert.equal(s.tr.am.translation_status, "needs_review");
   }
   const locs = await query<{ slug: string }>("select slug from locations where slug is not null order by slug");
-  assert.deepEqual(locs.map((l) => l.slug), ["har", "tel", "wol"]);
+  assert.deepEqual(locs.map((l) => l.slug), ["wol"]);
 });
 
 test("re-running seed 0002 is safe", async () => {
   await pool().query(fs.readFileSync(path.join(__dirname, "..", "supabase", "seed", "0002_voice_and_locations.sql"), "utf8"));
   const n = await one<{ n: number }>("select count(*)::int as n from locations");
-  assert.equal(n!.n, 3);
+  assert.equal(n!.n, 1);
 });
 
 test("simulator example sentences match the right sign in English and Amharic", async () => {
@@ -74,15 +74,17 @@ test("simulator example sentences match the right sign in English and Amharic", 
     assert.equal(a.kind, "sign", text);
     assert.equal(a.record?.number, n, text);
   }
-  // Every example chip in the dictionaries resolves (the last one is the follow-up question).
+  // Each of the 17 example sentences on the Ask page finds its own sign, in both languages.
   for (const lang of ["en", "am"]) {
-    const ex = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", "dictionaries", `${lang}.json`), "utf8")).ask.examples as string[];
-    let last: number | null = null;
-    for (const text of ex) {
-      const a = analyzeWith(signs, { text, lang, loc: "wol", last });
-      assert.notEqual(a.kind, "unknown", text);
-      last = a.last;
-    }
+    const ask = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", "dictionaries", `${lang}.json`), "utf8")).ask;
+    assert.equal(ask.examples.length, 17, lang);
+    ask.examples.forEach((text: string, i: number) => {
+      const a = analyzeWith(signs, { text, lang, loc: "wol" });
+      assert.equal(a.kind, "sign", `${lang}: ${text}`);
+      assert.equal(a.record?.number, i + 1, `${lang}: ${text}`);
+    });
+    const fu = analyzeWith(signs, { text: ask.question, lang, loc: "wol", last: 16 });
+    assert.equal(fu.kind, "followup", ask.question);
   }
 });
 
@@ -94,6 +96,7 @@ test("reply pattern: thanks + test sentence + advice, and 'score X out of 10'", 
     "Thank you for sharing. The sign and the recorded weather agree (score 9 out of 10). Heavy rain is close. Protect harvested grain and open drainage in your field.",
   );
   assert.equal(a.season, "Kiremt / Meher (main rains, June–September)");
+  assert.equal(a.place.name, "Wolaita, South Ethiopia");
   assert.equal(a.test?.trust, "strong");
   assert.ok(!/years/.test(a.reply));
 
@@ -103,14 +106,6 @@ test("reply pattern: thanks + test sentence + advice, and 'score X out of 10'", 
   const am = analyzeWith(signs, { text: "ወፎች ከሩቅ መጡ", lang: "am", loc: "wol" });
   assert.equal(am.reply, "ስላካፈሉን እናመሰግናለን። ምልክቱና የተመዘገበው የአየር ሁኔታ ይስማማሉ (ከ10 ነጥብ 8.5)። ዝናብ እየመጣ ነው። መሬትዎን አሁን ማዘጋጀት ይጀምሩ።");
   assert.deepEqual(am.segments.map((s) => s.clips), [["thanks"], undefined, ["adv-16"]]);
-});
-
-test("India: the answer says where the sign was tested, and uses monsoon seasons", async () => {
-  const signs = await publishedSigns();
-  const a = analyzeWith(signs, { text: "Frogs are croaking", lang: "en", loc: "har", month: 7 });
-  assert.match(a.reply, /This sign was tested in Wolaita, Ethiopia\./);
-  assert.equal(a.season, "Monsoon (June–September)");
-  assert.equal(a.test?.testedHere, false);
 });
 
 test("'When should I sow?' follows up on the last sign; unknown signs ask to be saved", async () => {
@@ -212,4 +207,26 @@ test("row-level security is on for every table", async () => {
     "select relname, relrowsecurity from pg_class where relnamespace = 'public'::regnamespace and relkind = 'r'",
   );
   for (const r of rows) assert.ok(r.relrowsecurity, r.relname);
+});
+
+test("the built-in library is identical to the database and answers the same way", async () => {
+  const { BUILTIN } = await import("../src/lib/records");
+  const db = await publishedSigns();
+  const strip = (r: (typeof db)[number]) => ({
+    ...r,
+    id: "",
+    evaluations: r.evaluations.filter((e) => e.method_version === "field-ai-2025").map((e) => ({ ...e, id: "", created_at: "" })),
+  });
+  assert.deepEqual(BUILTIN.map(strip), db.filter((r) => r.record_number <= 17).map(strip));
+  for (const lang of ["en", "am"]) {
+    const ex = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", "dictionaries", `${lang}.json`), "utf8")).ask.examples as string[];
+    ex.forEach((text, i) => assert.equal(analyzeWith(BUILTIN, { text, lang, loc: "wol" }).record?.number, i + 1, text));
+  }
+});
+
+test("no page text mentions India", () => {
+  for (const lang of ["en", "am"]) {
+    const raw = fs.readFileSync(path.join(__dirname, "..", "src", "dictionaries", `${lang}.json`), "utf8");
+    assert.doesNotMatch(raw, /India|Telangana|Haryana|ሕንድ|ተላንጋና|ሃርያና|monsoon|ሞንሱን/);
+  }
 });

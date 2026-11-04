@@ -39,7 +39,7 @@ function makePool(): Pool {
     ...connectionConfig(raw),
     max: Number(process.env.DB_POOL_MAX || 5),
     idleTimeoutMillis: 20_000,
-    connectionTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 6_000,
   });
 }
 

@@ -14,8 +14,6 @@ const KEEP = {
   name_ants: "name-1", // record 1 name, used in "When should I sow?" follow-ups
   fu_pre: "fu-pre",
   fu_wol: "fu-wol",
-  fu_tel: "fu-tel",
-  fu_har: "fu-har",
 };
 
 const file = process.argv[2];

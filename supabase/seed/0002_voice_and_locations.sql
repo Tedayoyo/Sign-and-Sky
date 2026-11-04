@@ -3,10 +3,6 @@
 begin;
 insert into locations (name, region, zone, country, latitude, longitude, slug, coordinates_note) values ('Wolaita', 'South Ethiopia Regional State', 'Wolaita Zone', 'Ethiopia', 6.855, 37.761, 'wol', 'Representative point: Wolaita Sodo. Replace with the village coordinates when a test is about one village.')
   on conflict (name, country) do update set latitude = excluded.latitude, longitude = excluded.longitude, slug = excluded.slug, coordinates_note = excluded.coordinates_note;
-insert into locations (name, region, zone, country, latitude, longitude, slug, coordinates_note) values ('Telangana', 'Telangana', NULL, 'India', 17.9, 79.1, 'tel', 'Representative point in central Telangana (Warangal–Jangaon cotton and pulses belt).')
-  on conflict (name, country) do update set latitude = excluded.latitude, longitude = excluded.longitude, slug = excluded.slug, coordinates_note = excluded.coordinates_note;
-insert into locations (name, region, zone, country, latitude, longitude, slug, coordinates_note) values ('Haryana', 'Haryana', NULL, 'India', 29.149, 75.721, 'har', 'Representative point: Hisar district (bajra and mustard belt).')
-  on conflict (name, country) do update set latitude = excluded.latitude, longitude = excluded.longitude, slug = excluded.slug, coordinates_note = excluded.coordinates_note;
 update translations t set keywords = array['ant','ants','egg','uphill','up the hill','higher ground','carrying']::text[] from translations e where e.record_id = t.record_id and e.locale = 'en' and e.name = 'Ants carrying eggs uphill' and t.locale = 'en';
 update translations t set keywords = array['ጉንዳ','እንቁላ','ከፍታ','ከፍተኛ ቦታ','ዳገት','ያጓጉ','ተሸክመ']::text[] from translations e where e.record_id = t.record_id and e.locale = 'en' and e.name = 'Ants carrying eggs uphill' and t.locale = 'am';
 update translations t set keywords = array['plumage','feather','glossy','blue bird','grey bird','gray bird','greyish','bird colour','bird color']::text[] from translations e where e.record_id = t.record_id and e.locale = 'en' and e.name = 'Bird plumage colouration' and t.locale = 'en';

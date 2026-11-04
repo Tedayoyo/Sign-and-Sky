@@ -52,10 +52,15 @@ export async function currentUser(): Promise<User | null> {
   const jar = await cookies();
   const p = readToken(jar.get(COOKIE)?.value);
   if (!p) return null;
-  const row = await one<User & { password_hash: string }>(
-    "select id, email, full_name, role, password_hash from profiles where id = $1 and is_active",
-    [p.u],
-  );
+  let row: (User & { password_hash: string }) | null;
+  try {
+    row = await one<User & { password_hash: string }>(
+      "select id, email, full_name, role, password_hash from profiles where id = $1 and is_active",
+      [p.u],
+    );
+  } catch {
+    return null; // database not reachable: the sign-in page explains why
+  }
   if (!row || fingerprint(row.password_hash) !== p.f) return null;
   return { id: row.id, email: row.email, full_name: row.full_name, role: row.role };
 }

@@ -13,11 +13,14 @@
     "menu": "Menu",
     "skip": "Skip to content"
   },
-  "langName": { "en": "English", "am": "አማርኛ" },
+  "langName": {
+    "en": "English",
+    "am": "አማርኛ"
+  },
   "home": {
     "title": "What did the sky tell you today?",
     "intro": "Tell us a sign you saw in the sky, the trees or the animals. Sign & Sky checks how that sign has matched recorded rainfall and gives you advice you can hear.",
-    "place": "Where is the farmer?",
+    "place": "Place",
     "stats": "{tested} signs from Wolaita tested against recorded weather. {strong} of them are strong."
   },
   "ask": {
@@ -29,14 +32,36 @@
     "hint": "Tap the microphone and speak, or type. You can also tap an example.",
     "examples": [
       "Ants are carrying their eggs uphill",
-      "Birds arrived from far away",
-      "Frogs are croaking every night",
+      "The birds' feathers look greyish this year",
+      "The wind has changed its direction and strength",
+      "Specific stars have appeared in the night sky",
       "I saw a ring around the moon",
-      "Dark clouds are moving toward the farm",
-      "When should I sow my maize?"
+      "Thick mist and fog covered the fields this morning",
+      "The ants are marching in a straight line",
+      "The stars and the moon are aligned",
+      "Ground squirrels are digging in the field",
+      "Ants are scattered everywhere, searching for food",
+      "A slow breeze is raising dust from the ground",
+      "A strong wind is blowing from east to west",
+      "The sun was red at sunrise",
+      "The trees are flowering",
+      "Frogs are croaking every night",
+      "Migrating birds arrived from far away",
+      "Dark clouds are moving toward the farm"
     ],
-    "steps": { "listen": "Listen", "understand": "Understand", "test": "Test", "advice": "Voice advice" },
-    "kv": { "sign": "Sign", "place": "Place", "season": "Season", "predicts": "It predicts", "delay": "Usual delay" },
+    "steps": {
+      "listen": "Listen",
+      "understand": "Understand",
+      "test": "Test",
+      "advice": "Voice advice"
+    },
+    "kv": {
+      "sign": "Sign",
+      "place": "Place",
+      "season": "Season",
+      "predicts": "It predicts",
+      "delay": "Usual delay"
+    },
     "notRecognised": "Not recognised yet",
     "unknownTest": "This sign is not in the library yet. If you save it, researchers will test it against past rainfall.",
     "scoreLabel": "Score {score} out of 10",
@@ -63,7 +88,11 @@
     "saveButton": "Save the sign",
     "saving": "Saving…",
     "saved": "Saved. Your reference is {code}.",
-    "saveFailed": "The sign could not be saved. Please try again later."
+    "saveFailed": "The sign could not be saved. Please try again later.",
+    "question": "When should I sow my maize?",
+    "examplesTitle": "Try one of the 17 Wolaita signs",
+    "questionTitle": "Or ask",
+    "empty": "Say or type a sign first, or tap one of the 17 signs."
   },
   "reply": {
     "thanks": "Thank you for sharing.",
@@ -71,23 +100,27 @@
     "fair": "The sign is fairly reliable (score {score} out of 10).",
     "weak": "Be careful: this sign scored only {score} out of 10.",
     "untested": "This sign has not been tested against recorded weather yet.",
-    "testedElsewhere": "This sign was tested in {place}.",
     "follow": "Based on the last sign you told me, {name}, {advice} Your {rain} and {crops} depend on good timing, so check again in three days.",
     "unknown": "I have not heard that sign before. Thank you for sharing it. We will save it and test it against past rainfall. Can you tell me another sign, like birds, ants or frogs?"
   },
-  "trust": { "strong": "Strong", "fair": "Fair", "weak": "Weak", "untested": "Not yet tested" },
+  "trust": {
+    "strong": "Strong",
+    "fair": "Fair",
+    "weak": "Weak",
+    "untested": "Not yet tested"
+  },
   "places": {
-    "wol": { "name": "Wolaita, Ethiopia", "label": "Wolaita, Ethiopia (enset, maize, teff)", "crops": "enset and maize", "rain": "Belg and Kiremt rains" },
-    "tel": { "name": "Telangana, India", "label": "Telangana, India (cotton, pulses, millets)", "crops": "cotton and pulses", "rain": "monsoon" },
-    "har": { "name": "Haryana, India", "label": "Haryana, India (bajra, mustard, wheat)", "crops": "bajra and mustard", "rain": "monsoon" }
+    "wol": {
+      "name": "Wolaita, South Ethiopia",
+      "label": "Wolaita, South Ethiopia (enset, maize, teff)",
+      "crops": "enset and maize",
+      "rain": "Belg and Kiremt rains"
+    }
   },
   "seasons": {
     "belg": "Belg (short rains, March–May)",
     "kiremt": "Kiremt / Meher (main rains, June–September)",
-    "bega": "Bega (dry season, October–February)",
-    "pre": "Pre-monsoon (March–May)",
-    "monsoon": "Monsoon (June–September)",
-    "post": "Post-monsoon (October–February)"
+    "bega": "Bega (dry season, October–February)"
   },
   "categories": {
     "animal": "Animals",
@@ -98,7 +131,11 @@
     "soil_temperature": "Soil and heat",
     "other": "Other"
   },
-  "types": { "rainfall": "Rainfall", "dry": "Dry spell", "seasonal": "Season" },
+  "types": {
+    "rainfall": "Rainfall",
+    "dry": "Dry spell",
+    "seasonal": "Season"
+  },
   "outcomes": {
     "rain": "Rain",
     "heavy_rain": "Heavy rain",
@@ -171,7 +208,14 @@
     "title": "Field results, Wolaita 2025",
     "intro": "17 indicators recorded with farmers in Wolaita, South Ethiopia. Each prediction was compared with historical recorded weather and scored out of 10.",
     "summary": "{strong} strong, {fair} fair, {weak} weak.",
-    "table": { "sign": "Indicator", "behaviour": "Behaviour or feature", "meaning": "Farmers' interpretation", "date": "Date recorded", "score": "Score", "trust": "Trust" },
+    "table": {
+      "sign": "Indicator",
+      "behaviour": "Behaviour or feature",
+      "meaning": "Farmers' interpretation",
+      "date": "Date recorded",
+      "score": "Score",
+      "trust": "Trust"
+    },
     "trustRule": "Strong is a score of 8 or more, fair is 6 to 7.9, weak is below 6.",
     "methodTitle": "How a score is made",
     "methodField": "The 17 field scores were calculated by the Sign & Sky AI, which compared the farmers' prediction with historical recorded scientific weather data for Wolaita. They are stored as recorded and marked “field-ai-2025”.",
@@ -194,13 +238,33 @@
     "indicator": "The sign, in a few words",
     "description": "What did you see or hear?",
     "language": "Language you are writing in",
-    "languages": { "am": "Amharic", "en": "English", "wal": "Wolaytta", "om": "Afaan Oromo", "ti": "Tigrinya", "other": "Other" },
+    "languages": {
+      "am": "Amharic",
+      "en": "English",
+      "wal": "Wolaytta",
+      "om": "Afaan Oromo",
+      "ti": "Tigrinya",
+      "other": "Other"
+    },
     "interpretation": "What does it tell you about the weather? (optional)",
     "expected": "What weather do you expect? (optional)",
     "timing": "How soon?",
-    "timings": { "within_1_week": "Within a week", "within_3_weeks": "Within three weeks", "within_1_month": "Within a month", "other_unknown": "Not sure" },
+    "timings": {
+      "within_1_week": "Within a week",
+      "within_3_weeks": "Within three weeks",
+      "within_1_month": "Within a month",
+      "other_unknown": "Not sure"
+    },
     "activity": "What farm work does it guide?",
-    "activities": { "land_preparation": "Land preparation", "sowing": "Sowing", "crop_protection": "Crop protection", "irrigation": "Irrigation", "harvesting": "Harvesting", "drying": "Drying the harvest", "other": "Other" },
+    "activities": {
+      "land_preparation": "Land preparation",
+      "sowing": "Sowing",
+      "crop_protection": "Crop protection",
+      "irrigation": "Irrigation",
+      "harvesting": "Harvesting",
+      "drying": "Drying the harvest",
+      "other": "Other"
+    },
     "crop": "Crop (optional)",
     "notes": "Anything else (optional)",
     "photo": "Photo (optional, JPEG, PNG or WebP, up to 3 MB)",
@@ -235,10 +299,9 @@
       "Voice advice: the answer is spoken and written."
     ],
     "seasonsTitle": "Seasons",
-    "seasonsEthiopia": "Ethiopia: Belg March–May, Kiremt / Meher June–September, Bega October–February.",
-    "seasonsIndia": "India: pre-monsoon March–May, monsoon June–September, post-monsoon October–February.",
-    "placesTitle": "Places",
-    "placesText": "Scores were recorded in Wolaita, South Ethiopia. Farmers in Telangana and Haryana, India can use the assistant too; their answers say where the sign was tested.",
+    "seasonsEthiopia": "Belg (short rains): March–May. Kiremt / Meher (main rains): June–September. Bega (dry season): October–February.",
+    "placesTitle": "Where",
+    "placesText": "Every sign in Sign & Sky was recorded with farmers in Wolaita, South Ethiopia, and every score was calculated with recorded weather for Wolaita.",
     "dataTitle": "Data",
     "dataText": "Recorded weather comes from ERA5 reanalysis and, when connected, CHIRPS satellite rainfall.",
     "apiTitle": "Open data",
@@ -281,7 +344,12 @@
     "publishedCount": "{n} published",
     "unpublishedCount": "{n} unpublished",
     "testsCount": "{n} tests",
-    "submissionStatus": { "pending": "Waiting for review", "approved": "Approved", "rejected": "Rejected", "needs_info": "Asked for more information" },
+    "submissionStatus": {
+      "pending": "Waiting for review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "needs_info": "Asked for more information"
+    },
     "noSubmissions": "No submissions here.",
     "filterAll": "All",
     "farmer": "Farmer",
@@ -306,7 +374,11 @@
     "expectedTiming": "How soon",
     "observationDate": "Observation date",
     "precision": "Date precision",
-    "precisions": { "day": "Day", "month": "Month", "year": "Year" },
+    "precisions": {
+      "day": "Day",
+      "month": "Month",
+      "year": "Year"
+    },
     "observationPeriod": "Observation period (as recorded)",
     "status": "Verification status",
     "published": "Published",
@@ -326,7 +398,11 @@
     "keywords": "Voice keywords (comma separated)",
     "voiceAdvice": "Spoken advice (up to 400 characters)",
     "trStatus": "Translation status",
-    "trStatuses": { "original": "Original", "reviewed": "Reviewed", "needs_review": "Needs review" },
+    "trStatuses": {
+      "original": "Original",
+      "reviewed": "Reviewed",
+      "needs_review": "Needs review"
+    },
     "saved": "Saved.",
     "runTest": "Run a weather test",
     "runTestHelp": "Fetches daily rainfall for the prediction window and the same window in earlier years, then scores the sign with sns-score-v1. The data and calculation are kept with the result.",
@@ -340,9 +416,20 @@
     "seasonalNote": "This sign predicts a change of season. Choose the outcome the farmers meant before testing.",
     "recordOutcome": "Record what happened",
     "actualOutcome": "What happened",
-    "actualOutcomes": { "rain": "Rain", "heavy_rain": "Heavy rain", "light_rain": "Light rain", "dry": "Dry", "mixed": "Mixed", "unknown": "Unknown" },
+    "actualOutcomes": {
+      "rain": "Rain",
+      "heavy_rain": "Heavy rain",
+      "light_rain": "Light rain",
+      "dry": "Dry",
+      "mixed": "Mixed",
+      "unknown": "Unknown"
+    },
     "sourceType": "Reported by",
-    "sourceTypes": { "farmer_reported": "Farmer", "researcher_observed": "Researcher", "external_dataset": "Dataset" },
+    "sourceTypes": {
+      "farmer_reported": "Farmer",
+      "researcher_observed": "Researcher",
+      "external_dataset": "Dataset"
+    },
     "rainfall": "Rainfall (mm, optional)",
     "periodStart": "From",
     "periodEnd": "To",
@@ -354,7 +441,10 @@
     "newMember": "Add a team member",
     "fullName": "Full name",
     "role": "Role",
-    "roles": { "admin": "Admin", "researcher": "Researcher" },
+    "roles": {
+      "admin": "Admin",
+      "researcher": "Researcher"
+    },
     "create": "Create account",
     "created": "Account created. Give this one-time password to {email} privately: {password}",
     "active": "Active",
@@ -372,6 +462,12 @@
     "invalid": "Some fields are missing or not valid.",
     "view": "Open",
     "all": "All records",
-    "unpublishedNote": "Unpublished records are not in the library, the assistant or the open API."
+    "unpublishedNote": "Unpublished records are not in the library, the assistant or the open API.",
+    "dbDown": "The research area cannot reach the database right now. The public pages still work. Reason:"
+  },
+  "errorPage": {
+    "title": "This page could not load.",
+    "text": "Please try again. If it keeps happening, the website's settings need attention.",
+    "retry": "Try again"
   }
 }

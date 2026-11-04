@@ -1,6 +1,6 @@
 # Sign & Sky website — standing requirements
 
-Captured from the project owner (Tewodros); last updated 3 Nov 2026. Read this before building or changing the website.
+Captured from the project owner (Tewodros); last updated 4 Nov 2026. Read this before building or changing the website.
 
 ## 1. Knowledge database — source of truth: `indigenous_wolaita.pdf`
 - The library is the 17 indicators in the 2025 Wolaita field record ("Traditional Knowledge Systems & Microclimate Indicators"), in that order, all published, status "tested".
@@ -38,7 +38,9 @@ Captured from the project owner (Tewodros); last updated 3 Nov 2026. Read this b
 - Four steps: 1 Listen (voice or text, EN/AM) → 2 Understand (sign, place, season, what it predicts, usual delay) → 3 Test (score and trust level) → 4 Voice advice (spoken plus written).
 - Each published sign has, in both languages: name, behaviour/feature, interpretation, prediction (`expected_weather`), usual delay (`expected_timing_text`), spoken advice (`voice_advice`) and voice keywords. The simulator's example sentences, in English and Amharic, all match the right sign.
 - Reply pattern, as in the simulator: "Thank you for sharing." + test sentence + advice. Test sentence from the score: Strong — the sign and the recorded weather agree (score X of 10); Fair — the sign is fairly reliable (X of 10); Weak — be careful (X of 10). Say "score X out of 10", never "X out of 10 years".
-- Locations: Wolaita (Ethiopia), Telangana and Haryana (India), with their crops and rain seasons. The scores were recorded in Wolaita; for India, say the sign was tested in Wolaita.
+- Location: **Wolaita, South Ethiopia only** (owner, 4 Nov 2026: the research covers only Wolaita; nothing about India anywhere on the site).
+- The Ask page offers an example for **all 17 signs**, in English and Amharic, plus "When should I sow?" (owner, 4 Nov 2026).
+- The public pages (Ask, sign library, results) must work even when the database is unreachable (built-in copy of the 17 signs).
 - Voice input via browser speech recognition (en-US / am-ET). Spoken replies via speech synthesis, with recorded Amharic clips as a fallback (only clips whose words still match: ants carrying eggs, birds migrating).
 - An unknown sign is saved for testing (with consent). "When should I sow?" follows up on the last sign given.
 - New signs are scored with `src/lib/scoring.ts` (`sns-score-v1`): historical daily rainfall (ERA5 via Open-Meteo first; CHIRPS when connected), predicted outcome checked in the window and ranked against earlier years, score = 10 × (0.5·happened + 0.5·rank), with the full data trail.

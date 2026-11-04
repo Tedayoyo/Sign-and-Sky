@@ -5,6 +5,7 @@ import { publishedSigns, evaluationFor, tr } from "@/lib/records";
 import { normalize } from "@/lib/match";
 import { trustLevel } from "@/lib/scoring";
 import { Gauge, TrustBadge } from "@/components/Gauge";
+import { CategoryIcon } from "@/components/CategoryIcon";
 
 export const dynamic = "force-dynamic";
 
@@ -103,6 +104,7 @@ export default async function Signs({ params, searchParams }: { params: Promise<
                 <span className="n">{s.record_number}</span>
                 <div>
                   <h3>
+                    <CategoryIcon category={s.category} />
                     <Link href={`/${lang}/signs/${s.record_number}`}>{t.name}</Link>
                   </h3>
                   <p>{t.expected_weather}</p>

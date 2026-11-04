@@ -1,26 +1,21 @@
-// Places served by the voice assistant, and their rain seasons.
+// The research area: Wolaita, South Ethiopia. All signs were recorded and scored here.
 // Seasons confirmed by the owner (3 Nov 2026):
-//   Ethiopia: Belg = March–May; Kiremt / Meher = June–September; Bega (dry) = October–February.
-//   India:    pre-monsoon = March–May; monsoon = June–September; post-monsoon = October–February.
-// Coordinates are representative points; the database (locations table) is the source used for weather tests.
+//   Belg = March–May; Kiremt / Meher = June–September; Bega (dry) = October–February.
 
-export type PlaceSlug = "wol" | "tel" | "har";
-export const PLACE_SLUGS: PlaceSlug[] = ["wol", "tel", "har"];
+export type PlaceSlug = "wol";
+export const PLACE_SLUGS: PlaceSlug[] = ["wol"];
 
-export const PLACES: Record<PlaceSlug, { country: "Ethiopia" | "India"; lat: number; lon: number; dbName: string }> = {
+export const PLACES: Record<PlaceSlug, { country: "Ethiopia"; lat: number; lon: number; dbName: string }> = {
   wol: { country: "Ethiopia", lat: 6.855, lon: 37.761, dbName: "Wolaita" },
-  tel: { country: "India", lat: 17.9, lon: 79.1, dbName: "Telangana" },
-  har: { country: "India", lat: 29.149, lon: 75.721, dbName: "Haryana" },
 };
 
-export type SeasonKey = "belg" | "kiremt" | "bega" | "pre" | "monsoon" | "post";
+export type SeasonKey = "belg" | "kiremt" | "bega";
 
 /** month: 1–12 */
-export function seasonFor(place: PlaceSlug, month: number): SeasonKey {
-  const ethiopia = PLACES[place].country === "Ethiopia";
-  if (month >= 3 && month <= 5) return ethiopia ? "belg" : "pre";
-  if (month >= 6 && month <= 9) return ethiopia ? "kiremt" : "monsoon";
-  return ethiopia ? "bega" : "post";
+export function seasonFor(_place: PlaceSlug, month: number): SeasonKey {
+  if (month >= 3 && month <= 5) return "belg";
+  if (month >= 6 && month <= 9) return "kiremt";
+  return "bega";
 }
 
 export function isPlace(x: unknown): x is PlaceSlug {

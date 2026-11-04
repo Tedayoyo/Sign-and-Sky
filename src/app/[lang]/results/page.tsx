@@ -33,7 +33,7 @@ export default async function Results({ params }: { params: Promise<{ lang: stri
         </p>
       </header>
 
-      <figure style={{ margin: "0 0 2rem" }}>
+      <figure className="chart" style={{ margin: "0 0 2rem" }}>
         <div className="bars" role="img" aria-label={fmt(d.results.summary, count)}>
           <div className="line8" style={{ bottom: "calc(1.6rem + 0.8 * (170px - 1.6rem))" }} />
           <div className="line6" style={{ bottom: "calc(1.6rem + 0.6 * (170px - 1.6rem))" }} />

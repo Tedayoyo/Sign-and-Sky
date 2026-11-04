@@ -4,6 +4,7 @@ import { dict } from "@/lib/i18n";
 import { currentUser } from "@/lib/auth";
 import { login } from "../actions";
 import { Flash } from "@/components/ResearchNav";
+import { dbStatus } from "@/lib/dbstatus";
 
 export const metadata: Metadata = { title: "Research", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -13,12 +14,19 @@ export default async function Login({ params, searchParams }: { params: Promise<
   const { e, ok } = await searchParams;
   const r = dict(lang).research;
   if (await currentUser()) redirect(`/${lang}/research`);
+  const down = await dbStatus();
   return (
     <main className="wrap" style={{ maxWidth: 440 }}>
       <header className="page-head">
         <h1>{r.title}</h1>
       </header>
-      <Flash error={e === "locked" ? r.locked : e ? r.badLogin : null} ok={ok === "password" ? r.passwordChanged : null} />
+      {down ? (
+        <p className="alert error" role="alert">
+          {r.dbDown} <strong>{down}</strong>
+        </p>
+      ) : (
+        <Flash error={e === "locked" ? r.locked : e === "db" ? r.dbDown : e ? r.badLogin : null} ok={ok === "password" ? r.passwordChanged : null} />
+      )}
       <form action={login} className="stack">
         <input type="hidden" name="lang" value={lang} />
         <div>

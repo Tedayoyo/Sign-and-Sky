@@ -1,5 +1,7 @@
 // Read model for the knowledge library (public side).
 import { query, one } from "./db";
+import { dbProblem } from "./dbstatus";
+import builtin from "@/data/library.json";
 
 export type Tr = {
   locale: string;
@@ -77,8 +79,28 @@ select k.id, k.record_number, k.category, k.indicator_types, k.original_language
 from knowledge_records k
 left join locations l on l.id = k.location_id`;
 
+/** The 17 published signs as stored in the seed SQL (src/data/library.json). */
+export const BUILTIN: SignRecord[] = (builtin as unknown as { signs: SignRecord[] }).signs;
+
+// After a failure, skip the database for 30 seconds so pages stay fast instead of waiting for timeouts.
+const g = globalThis as unknown as { __snsDbDownUntil?: number };
+function dbLooksDown() {
+  return (g.__snsDbDownUntil ?? 0) > Date.now();
+}
+function logFallback(e: unknown) {
+  g.__snsDbDownUntil = Date.now() + 30_000;
+  console.error(`[sign-and-sky] Database not reachable, using the built-in library: ${dbProblem(e)}`);
+}
+
+/** Published signs from the database; the built-in library when the database cannot be reached. */
 export async function publishedSigns(): Promise<SignRecord[]> {
-  return query<SignRecord>(`${SELECT} where k.is_published order by k.record_number`);
+  if (dbLooksDown()) return BUILTIN;
+  try {
+    return await query<SignRecord>(`${SELECT} where k.is_published order by k.record_number`);
+  } catch (e) {
+    logFallback(e);
+    return BUILTIN;
+  }
 }
 
 export async function allRecords(): Promise<SignRecord[]> {
@@ -87,7 +109,14 @@ export async function allRecords(): Promise<SignRecord[]> {
 
 export async function recordByNumber(n: number, includeUnpublished = false): Promise<SignRecord | null> {
   if (!Number.isInteger(n) || n < 1) return null;
-  return one<SignRecord>(`${SELECT} where k.record_number = $1 ${includeUnpublished ? "" : "and k.is_published"}`, [n]);
+  if (includeUnpublished) return one<SignRecord>(`${SELECT} where k.record_number = $1`, [n]);
+  if (dbLooksDown()) return BUILTIN.find((r) => r.record_number === n) ?? null;
+  try {
+    return await one<SignRecord>(`${SELECT} where k.record_number = $1 and k.is_published`, [n]);
+  } catch (e) {
+    logFallback(e);
+    return BUILTIN.find((r) => r.record_number === n) ?? null;
+  }
 }
 
 /** The evaluation used for a place: one tested at that place if any, else the latest one. */

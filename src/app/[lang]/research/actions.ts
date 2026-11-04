@@ -40,7 +40,13 @@ function back(path: string, params: Record<string, string> = {}): never {
 // ---------- sign in / out ----------
 export async function login(f: FormData) {
   const lang = L(f);
-  const r = await attemptLogin(s(f, "email"), String(f.get("password") ?? ""), await clientIp());
+  let r: Awaited<ReturnType<typeof attemptLogin>>;
+  try {
+    r = await attemptLogin(s(f, "email"), String(f.get("password") ?? ""), await clientIp());
+  } catch (e) {
+    console.error("login failed", e);
+    back(`/${lang}/research/login`, { e: "db" });
+  }
   if (!r.ok) back(`/${lang}/research/login`, { e: r.reason });
   await setSessionCookie(r.token);
   redirect(`/${lang}/research`);

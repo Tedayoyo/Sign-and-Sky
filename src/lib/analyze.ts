@@ -121,7 +121,6 @@ export function analyzeWith(
   else {
     const s = fmtScore(ev.score);
     testSentence = fmt(d.reply[trustLevel(ev.score)], { score: s });
-    if (!testedHere && test.testedIn) testSentence += " " + fmt(d.reply.testedElsewhere, { place: test.testedIn });
   }
   const segments: Segment[] = [
     { text: d.reply.thanks, clips: ["thanks"] },

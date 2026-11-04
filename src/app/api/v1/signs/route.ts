@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     const [signs, locations] = await Promise.all([
       publishedSigns(),
       query<{ slug: string; name: string; country: string; latitude: number; longitude: number }>(
-        "select slug, name, country, latitude, longitude from locations where slug is not null order by name",
+        "select slug, name, country, latitude, longitude from locations where slug = 'wol'",
       ),
     ]);
     const origin = new URL(req.url).origin;

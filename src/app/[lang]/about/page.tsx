@@ -11,7 +11,7 @@ export default async function About({ params }: { params: Promise<{ lang: string
   const a = dict(lang).about;
   const parts = a.apiText.split("{url}");
   return (
-    <main className="wrap narrow">
+    <main className="wrap narrow about-body">
       <header className="page-head">
         <h1>{a.title}</h1>
         <p>{a.lead}</p>
@@ -30,7 +30,6 @@ export default async function About({ params }: { params: Promise<{ lang: string
       </ul>
       <h2>{a.seasonsTitle}</h2>
       <p>{a.seasonsEthiopia}</p>
-      <p>{a.seasonsIndia}</p>
       <h2>{a.placesTitle}</h2>
       <p>{a.placesText}</p>
       <h2>{a.dataTitle}</h2>

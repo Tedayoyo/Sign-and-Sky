@@ -26,12 +26,14 @@ You need: a Supabase account, a Vercel account and a GitHub account.
 
 ### 1. Database (Supabase)
 
-1. supabase.com → **New project**. Pick the region closest to your farmers (for Ethiopia and India, Frankfurt or Mumbai). Save the database password.
+1. supabase.com → **New project**. Pick the region closest to your farmers (for Wolaita, Frankfurt). Save the database password.
 2. Open **SQL Editor** → **New query**. Paste and **Run** each file below, in this order, one at a time:
    1. `supabase/migrations/0001_schema.sql`
    2. `supabase/migrations/0002_voice_and_testing.sql`
    3. `supabase/seed/0001_initial_records.sql`
    4. `supabase/seed/0002_voice_and_locations.sql`
+
+   5. If your database was set up before 4 Nov 2026, also run `supabase/maintenance/remove_india_locations.sql` (removes the Telangana and Haryana places; safe to repeat).
 
    **Database already set up from 2 Nov 2026?** If 0001 says a table already exists, skip it. Run 0002 (safe to repeat), then
    `supabase/maintenance/replace_knowledge_records.sql`, then seed 0001, then seed 0002. That replaces only the knowledge library; researcher accounts, farmer submissions and locations are kept.
@@ -121,6 +123,10 @@ Data: ERA5 via the Open-Meteo Historical Weather API first (free, no key, ~6 day
 
 The 17 field scores are stored as recorded (AI-calculated, method `field-ai-2025`); they show "underlying data not attached" until re-run with the test tool. Signs whose prediction is a seasonal change (star and wind signs, flowering) need a researcher to choose the predicted outcome when re-testing; the form says so.
 
+## Built-in library (works without the database)
+
+`src/data/library.json` holds the 17 published signs exactly as the seed SQL stores them. When the database cannot be reached, the Ask page, the sign library, each sign's page and the results use it, so farmers always get an answer; `/api/health` and the research sign-in page say why the database is unreachable. Sharing a sign, saving an unknown sign and the research area need the database. When the database works, it is always used (so researchers' edits appear). After changing `scripts/build_seed.py`, run `python3 scripts/build_seed.py` and then `npm run build-library`.
+
 ## Languages and voice
 
 - Text: `src/dictionaries/en.json`, `am.json`. A new language is a new file plus one line in `src/lib/i18n.ts`. `npm test` checks both files have the same keys, placeholders and list lengths, and that no Amharic string was left in English.
@@ -131,17 +137,17 @@ The 17 field scores are stored as recorded (AI-calculated, method `field-ai-2025
 
 ## Seasons
 
-Confirmed by the owner: Belg Mar–May, Kiremt/Meher Jun–Sep, Bega Oct–Feb (India: pre-monsoon, monsoon, post-monsoon). Defined in `src/lib/places.ts`.
+Confirmed by the owner: Belg Mar–May, Kiremt/Meher Jun–Sep, Bega Oct–Feb. Defined in `src/lib/places.ts`. The research covers Wolaita, South Ethiopia only.
 
 ## Tests
 
 ```bash
-npm test                                            # 30 tests: scoring, matching, dictionaries, connection strings, and the full pipeline
+npm test                                            # 31 tests: scoring, matching, dictionaries, connection strings, and the full pipeline
 npm run typecheck                                   # type-checks the website, scripts and tests
 TEST_DATABASE_URL=postgres://... npm test           # the same pipeline tests on a disposable Postgres (it is wiped)
 ```
 
-Without `TEST_DATABASE_URL` the pipeline tests run on an in-process Postgres (PGlite): migrations and seeds load, the 17 scores and trust counts match the field record, every simulator example sentence (English and Amharic) finds the right sign, reply wording, India "tested in Wolaita", follow-ups, unknown signs, private submissions, a full weather test with its data trail, and RLS on every table.
+Without `TEST_DATABASE_URL` the pipeline tests run on an in-process Postgres (PGlite): migrations and seeds load, the 17 scores and trust counts match the field record, each of the 17 Ask-page examples (English and Amharic) finds its own sign, the built-in library equals the database, no text mentions India, reply wording, follow-ups, unknown signs, private submissions, a full weather test with its data trail, and RLS on every table.
 
 ## Project layout
 
