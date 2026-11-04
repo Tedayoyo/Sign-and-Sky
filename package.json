@@ -2,7 +2,7 @@
   "name": "sign-and-sky-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Sign & Sky — farmers' weather signs tested against recorded weather, in English and Amharic.",
+  "description": "Sign & Sky \u2014 farmers' weather signs tested against recorded weather, in English and Amharic.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,10 +11,11 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
     "create-admin": "tsx scripts/create-admin.ts",
-    "extract-audio": "node scripts/extract-audio.mjs"
+    "extract-audio": "node scripts/extract-audio.mjs",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -16,7 +16,7 @@ Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIR
 | `/api/v1/signs` | Apps | Open JSON of the published library in both languages with test results (for the offline Android app). |
 | `/api/v1/tests/[id]` | Everyone | The full data trail of one weather test (published records). |
 | `/api/analyze` | Apps | The voice assistant's logic as an API (POST JSON `{text, lang, loc, last}` or GET with the same query parameters). |
-| `/api/health` | Hosting | `{"ok":true,"published":17}` when the database is reachable. |
+| `/api/health` | Hosting | `{"ok":true,"published":17,"admins":1,"session_secret":"set"}` when everything is set up; otherwise it names what is missing. |
 
 Paths without a language (`/`, `/signs`, `/research` …) redirect to the visitor's language (cookie, then browser setting).
 
@@ -46,18 +46,28 @@ You need: a Supabase account, a Vercel account and a GitHub account.
 
 ### 2. Code (GitHub)
 
-Create a new **private** repository on github.com and upload the contents of this folder (drag and drop works; leave out `node_modules`, `.next` and any `.env.local`).
+The repository must look like this at the top level, with **nothing else** loose beside it:
+
+```
+public/  scripts/  src/  supabase/  tests/
+.env.example  .gitignore  README.md  REQUIREMENTS.md  next.config.ts
+package.json  package-lock.json  tsconfig.json  tsconfig.tools.json
+```
+
+Upload by **dragging the folders** from your computer into GitHub's *Add file → Upload files* page. The *choose your files* button flattens every file into the top level and drops the folders, which breaks the build.
 
 ### 3. Website (Vercel)
 
-1. vercel.com → **Add New… → Project** → import the GitHub repository. Framework: Next.js (detected).
-2. **Environment Variables**:
-   - `DATABASE_URL` — the pooler URI from step 1.4
+1. vercel.com → **Add New… → Project** → import the GitHub repository. Framework: Next.js (detected). Root Directory: leave empty (`./`).
+2. **Environment Variables** (Settings → Environment Variables, for Production, Preview and Development):
+   - `DATABASE_URL` — the pooler URI from step 1.4, with your real database password in place of `[YOUR-PASSWORD]` (no square brackets)
    - `SESSION_SECRET` — a random string of at least 32 characters (on a Mac or Linux: `openssl rand -base64 48`; or any password generator, 48+ characters)
    - `CHIRPS_ENDPOINT` — leave out until CHIRPS is connected
-3. **Deploy**. Then Project → Settings → Functions → set the region next to your Supabase region.
-4. Check: open `https://YOUR-SITE.vercel.app/api/health` → `{"ok":true,"published":17}`. Then `/en`, `/am`, and sign in at `/en/research`.
+3. **Deploy**. Node.js 22 is used automatically (set in `package.json`). Then Project → Settings → Functions → Function Region: choose the region next to your Supabase project (for example Frankfurt `fra1` for an EU Central Supabase project, or Mumbai `bom1`), and redeploy.
+4. Check: open `https://YOUR-SITE.vercel.app/api/health`. It should show `{"ok":true,"published":17,"admins":1,"session_secret":"set"}`. If not, it says what is missing: a wrong database password, a missing setting, or SQL files not yet run. Then open `/en`, `/am`, and sign in at `/en/research`.
 5. Optional: Settings → Domains to use your own domain (for example `signandsky.org`).
+
+After changing an environment variable, redeploy: Deployments → ⋯ on the latest → **Redeploy**.
 
 Voice input needs HTTPS (Vercel gives you that) and works best in Chrome or Edge, including Chrome on Android.
 
@@ -126,7 +136,8 @@ Confirmed by the owner: Belg Mar–May, Kiremt/Meher Jun–Sep, Bega Oct–Feb (
 ## Tests
 
 ```bash
-npm test                                            # 27 tests: scoring, matching, dictionaries, and the full pipeline
+npm test                                            # 30 tests: scoring, matching, dictionaries, connection strings, and the full pipeline
+npm run typecheck                                   # type-checks the website, scripts and tests
 TEST_DATABASE_URL=postgres://... npm test           # the same pipeline tests on a disposable Postgres (it is wiped)
 ```
 

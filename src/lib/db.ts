@@ -7,18 +7,39 @@ types.setTypeParser(1700, (v) => (v === null ? null : parseFloat(v)));
 
 const g = globalThis as unknown as { __snsPool?: Pool };
 
+/** Builds the connection settings. Accepts passwords with special characters (@ # / ? %) even when not URL-encoded. */
+export function connectionConfig(raw: string) {
+  const m = raw.trim().match(/^(postgres(?:ql)?):\/\/([^:/]+)(?::(.*))?@([^@/:]+)(?::(\d+))?\/([^?]*)(?:\?(.*))?$/);
+  if (!m) throw new Error("DATABASE_URL is not a valid Postgres connection string (postgresql://user:password@host:port/database).");
+  const [, , user, password = "", host, port, database] = m;
+  const dec = (x: string) => {
+    try {
+      return decodeURIComponent(x);
+    } catch {
+      return x;
+    }
+  };
+  const local = ["localhost", "127.0.0.1", "::1"].includes(host);
+  const useSsl = process.env.DATABASE_SSL ? process.env.DATABASE_SSL !== "false" : !local;
+  return {
+    user: dec(user),
+    password: dec(password),
+    host,
+    port: port ? Number(port) : 5432,
+    database: dec(database || "postgres"),
+    // Supabase pooler certificates are not in the default store; the connection is still encrypted.
+    ssl: useSsl ? { rejectUnauthorized: false } : undefined,
+  };
+}
+
 function makePool(): Pool {
   const raw = process.env.DATABASE_URL;
-  if (!raw) throw new Error("DATABASE_URL is not set. Copy .env.example to .env.local and fill it in.");
-  const url = new URL(raw);
-  const local = ["localhost", "127.0.0.1", "::1"].includes(url.hostname);
-  const useSsl = process.env.DATABASE_SSL ? process.env.DATABASE_SSL !== "false" : !local;
-  url.searchParams.delete("sslmode"); // we set SSL ourselves (Supabase pooler certificates are not in the default store)
+  if (!raw) throw new Error("DATABASE_URL is not set. Add it in Vercel → Settings → Environment Variables (or .env.local).");
   return new Pool({
-    connectionString: url.toString(),
+    ...connectionConfig(raw),
     max: Number(process.env.DB_POOL_MAX || 5),
-    ssl: useSsl ? { rejectUnauthorized: false } : undefined,
     idleTimeoutMillis: 20_000,
+    connectionTimeoutMillis: 10_000,
   });
 }
 
