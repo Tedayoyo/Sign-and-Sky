@@ -3,7 +3,9 @@ import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { dbProblem } from "@/lib/dbstatus";
 import { ttsVoices } from "@/lib/tts";
-import { addisKey, addisUsage } from "@/lib/addis";
+import { addisKey, addisSelfTest, addisUsage } from "@/lib/addis";
+
+export const maxDuration = 60;
 
 async function ttsState() {
   const voices = ttsVoices();
@@ -18,7 +20,12 @@ async function ttsState() {
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: Request) {
+  // /api/health?voice=test speaks one short Amharic sentence through Addis AI and reports the result.
+  if (new URL(req.url).searchParams.get("voice") === "test") {
+    const r = await addisSelfTest();
+    return NextResponse.json(r, { status: r.ok ? 200 : 503, headers: { "Cache-Control": "no-store" } });
+  }
   const session = (process.env.SESSION_SECRET || "").length >= 32;
   try {
     const [r] = await query<{ n: number; admins: number }>(

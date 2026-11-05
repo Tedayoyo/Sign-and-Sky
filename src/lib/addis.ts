@@ -38,6 +38,11 @@ export function requestId(voice: string, language: string, text: string): string
   return "sns-" + crypto.createHash("sha256").update(`${voice}\n${language}\n${text}`).digest("hex").slice(0, 32);
 }
 
+function dataUrlBytes(u: string): ArrayBuffer {
+  const b = Buffer.from(u.slice(u.indexOf(",") + 1), "base64");
+  return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;
+}
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 type ErrBody = { error?: { code?: string; message?: string } | string; message?: string };
@@ -105,8 +110,11 @@ export async function addisSpeak(
       const d = (j && typeof j === "object" && "data" in j ? j.data : j) as Record<string, unknown> | undefined;
       const playback = d?.playback as { url?: string } | undefined;
       const url = (d?.audio_url as string | undefined) ?? playback?.url;
-      if (!url) throw new AddisError("Addis AI returned no audio link", 502, "no_audio");
-      const a = await f(url, { signal: AbortSignal.timeout(Math.max(1000, deadline - Date.now())) });
+      // The docs say a first response may also carry the audio inline as a data URL.
+      const inline = Object.values(d ?? {}).find((v): v is string => typeof v === "string" && v.startsWith("data:audio/"));
+      if (!url && inline) return dataUrlBytes(inline);
+      if (!url) throw new AddisError(`Addis AI returned no audio link (fields: ${Object.keys(d ?? {}).join(", ")})`, 502, "no_audio");
+      const a = await f(new URL(url, base()).toString(), { signal: AbortSignal.timeout(Math.max(1000, deadline - Date.now())) });
       if (!a.ok) throw new AddisError(`The Addis AI clip could not be downloaded (${a.status})`, 502, "download");
       return a.arrayBuffer();
     }
@@ -135,5 +143,35 @@ export async function addisUsage(fetchImpl: typeof fetch = fetch): Promise<{ ok:
     return { ok: true, detail: j && typeof j === "object" && "data" in j ? j.data : j };
   } catch (e) {
     return { ok: false, detail: `Could not reach Addis AI: ${(e as Error).message}` };
+  }
+}
+
+/**
+ * Self-test for /api/health?voice=test: speaks one short sentence and reports what Addis AI answered,
+ * without the key. The fixed request id makes repeats a free replay.
+ */
+export async function addisSelfTest(fetchImpl: typeof fetch = fetch): Promise<Record<string, unknown>> {
+  const started = Date.now();
+  const text = "ሰላም፣ እንኳን ወደ ሳይን ኤንድ ስካይ በደህና መጡ።";
+  const voice = addisVoiceAm();
+  const out: Record<string, unknown> = { voice, text, endpoint: `${base()}/api/v1/voice/generations` };
+  if (!addisKey()) return { ...out, ok: false, problem: "ADDIS_API_KEY is not set in this deployment (add it, then Redeploy)." };
+  out.key_length = addisKey()!.length;
+  try {
+    const audio = await addisSpeak(text, { fetchImpl, budgetMs: 50_000 });
+    return { ...out, ok: true, audio_bytes: audio.byteLength, ms: Date.now() - started };
+  } catch (e) {
+    const err = e as AddisError;
+    const hint =
+      err.status === 401 || err.status === 403
+        ? "The key was refused: copy it again from addisassistant.com/apikeys (no spaces), save, Redeploy."
+        : err.status === 402
+          ? "The Addis AI balance is too low: top up the wallet."
+          : err.status === 400 || err.status === 422
+            ? "Addis AI did not accept the request (for example the voice name)."
+            : err.status === 429
+              ? "Addis AI is busy: try again in a minute."
+              : undefined;
+    return { ...out, ok: false, status: err.status, code: err.code, problem: err.message, hint, ms: Date.now() - started };
   }
 }

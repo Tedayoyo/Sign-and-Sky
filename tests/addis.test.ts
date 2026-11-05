@@ -106,3 +106,19 @@ test("Amharic uses Addis AI while English keeps the phone's own voice", async ()
   delete process.env.ADDIS_API_KEY;
   assert.equal(ttsUrl("am", "ሰላም።"), null);
 });
+
+test("inline audio and relative links are handled; the self-test explains a refused key", async () => {
+  process.env.ADDIS_API_KEY = "test-key";
+  const inline = mockFetch([json(200, { data: { id: "c", audio: "data:audio/mpeg;base64,SUQz" } })]);
+  assert.equal((await addisSpeak("ሰላም።", { fetchImpl: inline.f })).byteLength, 3);
+  const rel = mockFetch([json(200, { data: { audio_url: "/files/c.mp3" } }), mp3()]);
+  await addisSpeak("ሰላም።", { fetchImpl: rel.f });
+  assert.equal(rel.calls[1].url, "https://api.addisassistant.com/files/c.mp3");
+  const { addisSelfTest } = await import("../src/lib/addis");
+  const refused = mockFetch([json(401, { status: "error", error: { code: "invalid_api_key", message: "Invalid or expired API key." } })]);
+  const r = await addisSelfTest(refused.f);
+  assert.equal(r.ok, false);
+  assert.equal(r.status, 401);
+  assert.match(String(r.hint), /key was refused/);
+  assert.ok(!JSON.stringify(r).includes("test-key"));
+});
