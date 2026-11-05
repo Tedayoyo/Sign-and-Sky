@@ -437,3 +437,7 @@ fieldset { border-radius: 16px; box-shadow: 0 8px 24px -22px rgba(16, 30, 60, 0.
 @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
 @media (prefers-reduced-motion: reduce) { .team-card, .team-card img { transition: none; } .team-card:hover { transform: none; } .team-card:hover img { transform: none; } }
+.hint.preparing { display: flex; align-items: center; gap: .5rem; }
+.spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--enset); animation: spin .8s linear infinite; flex: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }

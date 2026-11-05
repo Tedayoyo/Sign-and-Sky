@@ -8,9 +8,30 @@ types.setTypeParser(1700, (v) => (v === null ? null : parseFloat(v)));
 const g = globalThis as unknown as { __snsPool?: Pool };
 
 /** Builds the connection settings. Accepts passwords with special characters (@ # / ? %) even when not URL-encoded. */
+/** Removes what is often pasted around the address by mistake: the name, quotes, a psql command, spaces, line breaks. */
+export function cleanDatabaseUrl(raw: string): string {
+  let s = raw.trim().replace(/^DATABASE_URL\s*=\s*/i, "").trim();
+  s = s.replace(/^psql\s+/i, "").trim();
+  s = s.replace(/^["'`]+|["'`]+$/g, "").trim();
+  return s.replace(/\s+/g, "");
+}
+
+/** A description of a database address that never shows the password, for /api/health. */
+export function describeDatabaseUrl(raw: string): string {
+  const s = cleanDatabaseUrl(raw);
+  const scheme = (s.match(/^[a-z]+:\/\//i) || ["(no postgresql:// at the start)"])[0];
+  const at = s.lastIndexOf("@");
+  const tail = at >= 0 ? s.slice(at + 1) : "(no @ before the host)";
+  return `starts with ${scheme} · host part: ${tail.replace(/\?.*/, "")} · ${s.length} characters`;
+}
+
 export function connectionConfig(raw: string) {
-  const m = raw.trim().match(/^(postgres(?:ql)?):\/\/([^:/]+)(?::(.*))?@([^@/:]+)(?::(\d+))?\/([^?]*)(?:\?(.*))?$/);
-  if (!m) throw new Error("DATABASE_URL is not a valid Postgres connection string (postgresql://user:password@host:port/database).");
+  const clean = cleanDatabaseUrl(raw);
+  const m = clean.match(/^(postgres(?:ql)?):\/\/([^:/]+)(?::(.*))?@([^@/:]+)(?::(\d+))?(?:\/([^?]*))?(?:\?(.*))?$/i);
+  if (!m)
+    throw new Error(
+      `DATABASE_URL is not a valid Postgres connection string (postgresql://user:password@host:port/database). What Vercel has: ${describeDatabaseUrl(raw)}.`,
+    );
   const [, , user, password = "", host, port, database] = m;
   const dec = (x: string) => {
     try {

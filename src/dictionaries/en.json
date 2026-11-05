@@ -95,7 +95,9 @@
     "stopVoice": "Stop voice",
     "shareAnswer": "Share answer",
     "copied": "Answer copied",
-    "shareTitle": "Sign & Sky answer"
+    "shareTitle": "Sign & Sky answer",
+    "preparingVoice": "Preparing the voice…",
+    "voiceFallback": "The natural voice is not available right now, so your phone's voice is reading the answer."
   },
   "reply": {
     "thanks": "Thank you for sharing.",
