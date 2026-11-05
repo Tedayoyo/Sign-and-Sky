@@ -12,7 +12,6 @@ const KEEP = {
   adv_birds: "adv-16", // record 16, Birds migrating from far away — spoken advice unchanged
   name_ants: "name-1", // record 1 name, used in "When should I sow?" follow-ups
   fu_pre: "fu-pre",
-  fu_wol: "fu-wol",
 };
 
 const file = process.argv[2];

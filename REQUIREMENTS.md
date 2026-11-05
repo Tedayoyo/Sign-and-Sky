@@ -41,7 +41,7 @@ Captured from the project owner (Tewodros); last updated 4 Nov 2026. Read this b
 - Location: **Wolaita, South Ethiopia only** (owner, 4 Nov 2026: the research covers only Wolaita; nothing about India anywhere on the site).
 - The Ask page offers an example for **all 17 signs**, in English and Amharic, plus "When should I sow?" (owner, 4 Nov 2026).
 - The public pages (Ask, sign library, results) must work even when the database is unreachable (built-in copy of the 17 signs).
-- Voice input via browser speech recognition (en-US / am-ET), forgiving of recognition mistakes (Amharic vowel forms, English words a letter or two off). Spoken replies from a neural speech service (Azure AI Speech am-ET-MekdesNeural, or Google Cloud Text-to-Speech am-ET) so every phone hears Amharic; the device voice and recorded clips are fallbacks.
+- Voice input via browser speech recognition (en-US / am-ET), forgiving of recognition mistakes (Amharic vowel forms, English words a letter or two off). Spoken Amharic replies from Addis AI (voice am-hamen) so every phone hears Amharic; English uses the device voice (Azure or Google optional); the device voice and recorded clips are fallbacks.
 - An unknown sign is saved for testing (with consent). "When should I sow?" follows up on the last sign given.
 - New signs are scored with `src/lib/scoring.ts` (`sns-score-v1`): historical daily rainfall (ERA5 via Open-Meteo first; CHIRPS when connected), predicted outcome checked in the window and ranked against earlier years, score = 10 × (0.5·happened + 0.5·rank), with the full data trail.
 

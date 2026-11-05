@@ -1,7 +1,10 @@
 // Spoken replies made on the server, so every phone can hear the answer — including Amharic,
 // which almost no phone or browser can speak by itself.
 //
-// Providers (the first one configured is used):
+// Providers, chosen per language (the first one configured is used):
+//   Amharic: Addis AI       ADDIS_API_KEY  (voice ADDIS_TTS_VOICE_AM, default am-hamen; see addis.ts)
+//            then Azure / Google below
+//   English: Azure / Google below; without them the phone's own voice is used (no server audio).
 //   Azure AI Speech   AZURE_SPEECH_KEY + AZURE_SPEECH_REGION   Amharic: am-ET-MekdesNeural (female) / am-ET-AmehaNeural (male)
 //   Google Cloud TTS  GOOGLE_TTS_API_KEY                        Amharic: am-ET (Standard / Wavenet voices)
 // Optional: TTS_VOICE_AM, TTS_VOICE_EN to choose another voice name.
@@ -9,10 +12,21 @@
 // The assistant only gives out signed audio links for replies it wrote itself, so the endpoint
 // cannot be used to read out arbitrary text and spend the speech quota.
 import crypto from "node:crypto";
+import { addisKey, addisSpeak, addisVoiceAm } from "./addis";
+import { amharicForSpeech } from "./amharic-speech";
 
 export type TtsLang = "en" | "am";
 export const TTS_MAX_CHARS = 700;
 
+export type TtsProvider = "addis" | "azure" | "google";
+
+/** The speech service that reads replies in `lang`, or null when the phone's own voice is used. */
+export function ttsProviderFor(lang: TtsLang): TtsProvider | null {
+  if (lang === "am" && addisKey()) return "addis";
+  return ttsProvider();
+}
+
+/** Azure or Google, which serve both languages. */
 export function ttsProvider(): "azure" | "google" | null {
   if (process.env.AZURE_SPEECH_KEY && process.env.AZURE_SPEECH_REGION) return "azure";
   if (process.env.GOOGLE_TTS_API_KEY) return "google";
@@ -24,8 +38,21 @@ function signingKey(): string | null {
   return s.length >= 32 ? s : null;
 }
 
-export function ttsAvailable(): boolean {
-  return ttsProvider() !== null && signingKey() !== null;
+export function ttsAvailable(lang?: TtsLang): boolean {
+  if (signingKey() === null) return false;
+  return lang ? ttsProviderFor(lang) !== null : ttsProviderFor("am") !== null || ttsProviderFor("en") !== null;
+}
+
+/** Which voice reads each language, for /api/health. */
+export function ttsVoices(): Record<TtsLang, string> {
+  const name = (lang: TtsLang) => {
+    const p = ttsProviderFor(lang);
+    if (!p) return "phone's own voice";
+    if (!signingKey()) return `${p} key set, but SESSION_SECRET is missing`;
+    if (p === "addis") return `addis (${addisVoiceAm()})`;
+    return p;
+  };
+  return { am: name("am"), en: name("en") };
 }
 
 function sign(lang: string, text: string): string {
@@ -34,14 +61,14 @@ function sign(lang: string, text: string): string {
 
 /** A link that plays `text` read aloud, or null when no speech service is configured. */
 export function ttsUrl(lang: TtsLang, text: string): string | null {
-  if (!ttsAvailable() || !text || text.length > TTS_MAX_CHARS) return null;
+  if (!ttsAvailable(lang) || !text || text.length > TTS_MAX_CHARS) return null;
   const t = Buffer.from(text, "utf8").toString("base64url");
   return `/api/tts?lang=${lang}&t=${t}&s=${sign(lang, text)}`;
 }
 
 /** Checks a link made by ttsUrl and returns the text it stands for. */
 export function verifyTts(lang: string, t: string, s: string): string | null {
-  if (!ttsAvailable() || (lang !== "en" && lang !== "am") || !t || !s) return null;
+  if ((lang !== "en" && lang !== "am") || !ttsAvailable(lang) || !t || !s) return null;
   let text: string;
   try {
     text = Buffer.from(t, "base64url").toString("utf8");
@@ -98,8 +125,10 @@ async function google(lang: TtsLang, text: string): Promise<ArrayBuffer> {
 }
 
 export async function synthesize(lang: TtsLang, text: string): Promise<ArrayBuffer> {
-  const p = ttsProvider();
-  if (p === "azure") return azure(lang, text);
-  if (p === "google") return google(lang, text);
+  const p = ttsProviderFor(lang);
+  if (p === "addis") return addisSpeak(amharicForSpeech(text));
+  const said = lang === "am" ? amharicForSpeech(text) : text;
+  if (p === "azure") return azure(lang, said);
+  if (p === "google") return google(lang, said);
   throw new Error("No speech service is configured.");
 }

@@ -57,6 +57,8 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
   const playerRef = useRef<HTMLAudioElement | null>(null);
   const unlockedRef = useRef(false);
   const [speaking, setSpeaking] = useState(false);
+  const [preparing, setPreparing] = useState(false);
+  const blobsRef = useRef(new Map<string, string>());
   const seqRef = useRef(0);
   const clipsRef = useRef<Record<string, string> | null>(null);
   const resultRef = useRef<HTMLOListElement | null>(null);
@@ -106,6 +108,7 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
   const stopAudio = useCallback(() => {
     seqRef.current++;
     setSpeaking(false);
+    setPreparing(false);
     try {
       window.speechSynthesis?.cancel();
     } catch {}
@@ -183,14 +186,56 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
   }, [t.ask.tapToHear]);
 
   const fallback = useCallback(
-    (r: Analysis, id: number) => {
+    (r: Analysis, id: number, serverFailed = false) => {
       if (id !== seqRef.current) return;
-      if (speakBrowser(r.reply, id)) return;
+      setPreparing(false);
+      if (speakBrowser(r.reply, id)) {
+        if (serverFailed) setVoiceNote(t.ask.voiceFallback);
+        return;
+      }
       if (lang === "am" && playClips(r, id)) return;
       setSpeaking(false);
       setVoiceNote(t.ask.noVoice);
     },
-    [lang, playClips, speakBrowser, t.ask.noVoice],
+    [lang, playClips, speakBrowser, t.ask.noVoice, t.ask.voiceFallback],
+  );
+
+  /** Natural voice from the speech service (Addis AI for Amharic). New clips can take several seconds. */
+  const playServer = useCallback(
+    async (r: Analysis, id: number) => {
+      const url = r.audio!;
+      let blobUrl = blobsRef.current.get(url);
+      if (!blobUrl) {
+        setPreparing(true);
+        const ctl = new AbortController();
+        const timer = setTimeout(() => ctl.abort(), 25000);
+        try {
+          const res = await fetch(url, { signal: ctl.signal });
+          if (!res.ok || !(res.headers.get("content-type") || "").startsWith("audio/")) throw new Error(String(res.status));
+          blobUrl = URL.createObjectURL(await res.blob());
+          blobsRef.current.set(url, blobUrl);
+        } catch {
+          clearTimeout(timer);
+          return fallback(r, id, true);
+        }
+        clearTimeout(timer);
+      }
+      if (id !== seqRef.current) return;
+      setPreparing(false);
+      const p = playerRef.current ?? (playerRef.current = new Audio());
+      p.onended = () => id === seqRef.current && setSpeaking(false);
+      p.onerror = () => fallback(r, id, true);
+      p.src = blobUrl;
+      try {
+        await p.play();
+        if (id === seqRef.current) setSpeaking(true);
+      } catch (e) {
+        if (id !== seqRef.current) return;
+        if (e instanceof DOMException && e.name === "NotAllowedError") setHint(t.ask.tapToHear);
+        else fallback(r, id, true);
+      }
+    },
+    [fallback, t.ask.tapToHear],
   );
 
   const speak = useCallback(
@@ -199,24 +244,10 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
       stopAudio();
       setVoiceNote("");
       const id = seqRef.current;
-      if (r.audio) {
-        // Natural voice from the speech service (works for Amharic on every phone).
-        const p = playerRef.current ?? (playerRef.current = new Audio());
-        p.onended = () => id === seqRef.current && setSpeaking(false);
-        p.onerror = () => fallback(r, id);
-        p.src = r.audio;
-        p.play()
-          ?.then(() => id === seqRef.current && setSpeaking(true))
-          .catch((e: unknown) => {
-            if (id !== seqRef.current) return;
-            if (e instanceof DOMException && e.name === "NotAllowedError") setHint(t.ask.tapToHear);
-            else fallback(r, id);
-          });
-        return;
-      }
-      fallback(r, id);
+      if (r.audio) playServer(r, id);
+      else fallback(r, id);
     },
-    [fallback, stopAudio, t.ask.tapToHear],
+    [fallback, playServer, stopAudio],
   );
 
   // ---------- analysing ----------
@@ -566,6 +597,11 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
                 {speaking && <span className="wave" aria-hidden="true"><i /><i /><i /><i /></span>}
                 {res.reply}
               </p>
+              {preparing && (
+                <p className="hint preparing" role="status">
+                  <span className="spinner" aria-hidden="true" /> {a.preparingVoice}
+                </p>
+              )}
               {voiceNote && <p className="hint warn">{voiceNote}</p>}
               <div className="actions">
                 <button
@@ -573,12 +609,12 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
                   className="btn secondary small"
                   onClick={() => {
                     unlock();
-                    if (speaking) stopAudio();
+                    if (speaking || preparing) stopAudio();
                     else speak(res, true);
                   }}
-                  aria-pressed={speaking}
+                  aria-pressed={speaking || preparing}
                 >
-                  {speaking ? a.stopVoice : a.playAgain}
+                  {speaking || preparing ? a.stopVoice : a.playAgain}
                 </button>
                 <button type="button" className="btn secondary small" onClick={toggleMute} aria-pressed={muted}>
                   {muted ? a.unmute : a.mute}
