@@ -5,13 +5,32 @@ import { dict, fmt, isLocale, type Locale } from "./i18n";
 import { findSign, isAsking } from "./match";
 import { isPlace, seasonFor, type PlaceSlug } from "./places";
 import { evaluationFor, tr, type SignRecord } from "./records";
-import { trustLevel } from "./scoring";
+import { trustLevel, type TrustLevel } from "./scoring";
 
 /** A piece of the spoken reply. clips: recorded Amharic clips that say exactly this text (all must exist to be played). */
+// Everyday words farmers use for the 17 field signs, added to the keywords stored with each record.
+const EXTRA_KEYWORDS: Record<number, string[]> = {
+  2: ["feathers", "ላባቸው"],
+  4: ["star", "ከዋክብት", "ኮከቦች"],
+  5: ["ring", "ቀለበቱ"],
+  6: ["haze"],
+  7: ["walking in line", "one behind the other"],
+  10: ["ants everywhere"],
+  12: ["east wind"],
+  13: ["red sky", "ፀሐይ ቀይ"],
+  14: ["trees bloom"],
+  16: ["birds came", "birds arrived"],
+  17: ["rain clouds"],
+};
+
 export type Segment = { text: string; clips?: string[] };
 
 export type Analysis = {
   kind: "sign" | "followup" | "unknown" | "empty";
+  /** Link to the reply read aloud by the speech service, when one is configured (added by /api/analyze). */
+  audio?: string | null;
+  /** "close" when the sign was recognised from words that were heard slightly wrong. */
+  match?: "exact" | "close";
   lang: Locale;
   heard: string;
   place: { slug: PlaceSlug; name: string };
@@ -26,7 +45,7 @@ export type Analysis = {
   };
   test?: {
     score: number | null;
-    trust: "strong" | "fair" | "weak" | "untested";
+    trust: TrustLevel | "untested";
     testedIn: string | null;
     testedHere: boolean;
     method: string | null;
@@ -62,7 +81,7 @@ export function analyzeWith(
   const items = records.map((r) => ({
     id: r.record_number,
     rec: r,
-    keywords: [...(r.tr.en?.keywords ?? []), ...(r.tr.am?.keywords ?? [])],
+    keywords: [...(r.tr.en?.keywords ?? []), ...(r.tr.am?.keywords ?? []), ...(EXTRA_KEYWORDS[r.record_number] ?? [])],
   }));
   // Alternative transcripts from speech recognition help matching but are not shown as "heard".
   const found = findSign(`${heard} ${(input.alt || "").slice(0, 500)}`, items);
@@ -94,7 +113,7 @@ export function analyzeWith(
   };
   const test = {
     score: ev ? ev.score : null,
-    trust: (ev ? trustLevel(ev.score) : "untested") as "strong" | "fair" | "weak" | "untested",
+    trust: (ev ? trustLevel(ev.score) : "untested") as TrustLevel | "untested",
     testedIn: ev?.location_name ? (ev.location_slug && isPlace(ev.location_slug) ? d.places[ev.location_slug].name : ev.location_name) : null,
     testedHere,
     method: ev?.method ?? null,
@@ -130,6 +149,7 @@ export function analyzeWith(
   return {
     ...base,
     kind: "sign",
+    match: found?.kind,
     record,
     test,
     reply: segments.map((s) => s.text).filter(Boolean).join(" "),

@@ -16,6 +16,9 @@ type Props = {
   categories: string[];
 };
 
+// A silent sound played on the first tap, so the phone lets the spoken reply play later.
+const SILENCE = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+
 type SR = {
   lang: string;
   continuous: boolean;
@@ -51,7 +54,9 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
   const restartsRef = useRef(0);
   const listeningRef = useRef(false);
   const stageTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playerRef = useRef<HTMLAudioElement | null>(null);
+  const unlockedRef = useRef(false);
+  const [speaking, setSpeaking] = useState(false);
   const seqRef = useRef(0);
   const clipsRef = useRef<Record<string, string> | null>(null);
   const resultRef = useRef<HTMLOListElement | null>(null);
@@ -67,45 +72,125 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
       .then((r) => (r.ok ? r.json() : {}))
       .then((m) => (clipsRef.current = m && typeof m === "object" ? (m as Record<string, string>) : {}))
       .catch(() => (clipsRef.current = {}));
-    if ("speechSynthesis" in window) window.speechSynthesis.getVoices();
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
   }, []);
 
 
   // ---------- speaking ----------
+  // Phones only allow sound that starts from a tap. The reply is ready about two seconds after the
+  // tap, so the tap itself "unlocks" one audio player and the speech engine, and the reply reuses them.
+  const unlock = useCallback(() => {
+    try {
+      if (!playerRef.current) {
+        const p = new Audio();
+        p.preload = "auto";
+        playerRef.current = p;
+      }
+      if (!unlockedRef.current) {
+        unlockedRef.current = true;
+        const p = playerRef.current;
+        p.src = SILENCE;
+        p.play()?.catch(() => {});
+        if ("speechSynthesis" in window) {
+          const u = new SpeechSynthesisUtterance(" ");
+          u.volume = 0;
+          window.speechSynthesis.speak(u);
+        }
+      }
+    } catch {}
+  }, []);
+
   const stopAudio = useCallback(() => {
     seqRef.current++;
+    setSpeaking(false);
     try {
       window.speechSynthesis?.cancel();
     } catch {}
-    if (audioRef.current) {
+    const p = playerRef.current;
+    if (p) {
       try {
-        audioRef.current.pause();
+        p.pause();
       } catch {}
-      audioRef.current = null;
+      p.onended = p.onerror = null;
     }
   }, []);
 
   const voiceFor = useCallback(() => {
     if (!("speechSynthesis" in window)) return null;
-    const want = speechLang.slice(0, 2).toLowerCase();
-    return window.speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith(want)) || null;
+    const want = speechLang.toLowerCase();
+    const voices = window.speechSynthesis.getVoices();
+    return (
+      voices.find((v) => v.lang?.toLowerCase().replace("_", "-") === want) ||
+      voices.find((v) => v.lang?.toLowerCase().startsWith(want.slice(0, 2))) ||
+      null
+    );
   }, [speechLang]);
 
-  const playClips = useCallback(
-    (files: string[]) => {
-      const id = ++seqRef.current;
-      let i = 0;
-      const next = () => {
-        if (id !== seqRef.current || i >= files.length) return;
-        const a = new Audio(`/audio/am/${files[i++]}`);
-        audioRef.current = a;
-        a.onended = () => setTimeout(next, 150);
-        a.onerror = next;
-        a.play()?.catch(() => setHint(t.ask.tapToHear));
-      };
-      next();
+  /** Browser voice, sentence by sentence (Chrome stops long utterances after about 15 seconds). */
+  const speakBrowser = useCallback(
+    (text: string, id: number) => {
+      if (!("speechSynthesis" in window)) return false;
+      const v = voiceFor();
+      if (!v && lang === "am") return false;
+      const parts = text.split(/(?<=[.!?።])\s+/).filter(Boolean);
+      // Give a just-cancelled engine a moment, or some phones drop the next utterance.
+      setTimeout(() => {
+        if (id !== seqRef.current) return;
+        try {
+          window.speechSynthesis.cancel();
+          parts.forEach((part, k) => {
+            const u = new SpeechSynthesisUtterance(part);
+            u.lang = speechLang;
+            if (v) u.voice = v;
+            u.rate = 0.95;
+            if (k === 0) u.onstart = () => id === seqRef.current && setSpeaking(true);
+            if (k === parts.length - 1) u.onend = u.onerror = () => id === seqRef.current && setSpeaking(false);
+            window.speechSynthesis.speak(u);
+          });
+          window.speechSynthesis.resume();
+        } catch {}
+      }, 80);
+      return true;
     },
-    [t.ask.tapToHear],
+    [lang, speechLang, voiceFor],
+  );
+
+  /** Recorded Amharic clips, when the reply is made only of recorded sentences. */
+  const playClips = useCallback((r: Analysis, id: number) => {
+    const manifest = clipsRef.current || {};
+    const files: string[] = [];
+    for (const seg of r.segments) {
+      const keys = seg.clips ?? [];
+      if (!keys.length || !keys.every((k) => manifest[k])) return false;
+      files.push(...keys.map((k) => manifest[k]));
+    }
+    if (!files.length) return false;
+    let i = 0;
+    const p = playerRef.current ?? (playerRef.current = new Audio());
+    const next = () => {
+      if (id !== seqRef.current) return;
+      if (i >= files.length) return setSpeaking(false);
+      p.src = `/audio/am/${files[i++]}`;
+      p.onended = () => setTimeout(next, 150);
+      p.onerror = next;
+      p.play()?.then(() => setSpeaking(true)).catch(() => setHint(t.ask.tapToHear));
+    };
+    next();
+    return true;
+  }, [t.ask.tapToHear]);
+
+  const fallback = useCallback(
+    (r: Analysis, id: number) => {
+      if (id !== seqRef.current) return;
+      if (speakBrowser(r.reply, id)) return;
+      if (lang === "am" && playClips(r, id)) return;
+      setSpeaking(false);
+      setVoiceNote(t.ask.noVoice);
+    },
+    [lang, playClips, speakBrowser, t.ask.noVoice],
   );
 
   const speak = useCallback(
@@ -113,33 +198,25 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
       if ((mutedRef.current && !force) || !r.reply) return;
       stopAudio();
       setVoiceNote("");
-      const v = voiceFor();
-      if (v || lang === "en") {
-        if (!("speechSynthesis" in window)) return;
-        try {
-          const u = new SpeechSynthesisUtterance(r.reply);
-          u.lang = speechLang;
-          if (v) u.voice = v;
-          u.rate = 0.95;
-          window.speechSynthesis.speak(u);
-        } catch {}
+      const id = seqRef.current;
+      if (r.audio) {
+        // Natural voice from the speech service (works for Amharic on every phone).
+        const p = playerRef.current ?? (playerRef.current = new Audio());
+        p.onended = () => id === seqRef.current && setSpeaking(false);
+        p.onerror = () => fallback(r, id);
+        p.src = r.audio;
+        p.play()
+          ?.then(() => id === seqRef.current && setSpeaking(true))
+          .catch((e: unknown) => {
+            if (id !== seqRef.current) return;
+            if (e instanceof DOMException && e.name === "NotAllowedError") setHint(t.ask.tapToHear);
+            else fallback(r, id);
+          });
         return;
       }
-      // Amharic without an Amharic voice: play recorded clips whose words still match the text.
-      const manifest = clipsRef.current || {};
-      const files: string[] = [];
-      let missing = false;
-      for (const seg of r.segments) {
-        const keys = seg.clips ?? [];
-        if (keys.length && keys.every((k) => manifest[k])) files.push(...keys.map((k) => manifest[k]));
-        else missing = true;
-      }
-      if (files.length) {
-        playClips(files);
-        if (missing) setVoiceNote(t.ask.someWritten);
-      } else setVoiceNote(t.ask.noVoice);
+      fallback(r, id);
     },
-    [lang, playClips, speechLang, stopAudio, t.ask.noVoice, t.ask.someWritten, voiceFor],
+    [fallback, stopAudio, t.ask.tapToHear],
   );
 
   // ---------- analysing ----------
@@ -233,6 +310,7 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
       setHint(t.ask.nosr);
       return;
     }
+    unlock();
     if (listeningRef.current) {
       endListening();
       return;
@@ -322,6 +400,20 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
     }
   };
 
+  const shareAnswer = async () => {
+    if (!res) return;
+    const url = `${location.origin}/${lang}?q=${encodeURIComponent(res.heard)}`;
+    const body = `“${res.heard}”\n${res.reply}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: t.ask.shareTitle, text: body, url });
+        return;
+      }
+      await navigator.clipboard.writeText(`${body}\n${url}`);
+      setVoiceNote(t.ask.copied);
+    } catch {}
+  };
+
   const toggleMute = () => {
     const m = !muted;
     setMuted(m);
@@ -342,6 +434,7 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
           className="ask-row"
           onSubmit={(e) => {
             e.preventDefault();
+            unlock();
             altRef.current = "";
             if (!text.trim()) {
               setHint(t.ask.empty);
@@ -380,6 +473,7 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
                 type="button"
                 className="example"
                 onClick={() => {
+                  unlock();
                   altRef.current = "";
                   setText(x);
                   run(x);
@@ -397,6 +491,7 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
             type="button"
             className="chip"
             onClick={() => {
+              unlock();
               altRef.current = "";
               setText(a.question);
               run(a.question);
@@ -437,7 +532,6 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
                   </>
                 )}
               </dl>
-              {res.record?.translationNeedsReview && lang === "am" && <p className="small muted" style={{ marginTop: ".6rem" }}>{a.amReview}</p>}
             </li>
           )}
           {stage >= 3 && (
@@ -468,14 +562,29 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
           {stage >= 4 && (
             <li className="step-enter">
               <h3>{a.steps.advice}</h3>
-              <p className="advice">{res.reply}</p>
+              <p className={`advice${speaking ? " speaking" : ""}`}>
+                {speaking && <span className="wave" aria-hidden="true"><i /><i /><i /><i /></span>}
+                {res.reply}
+              </p>
               {voiceNote && <p className="hint warn">{voiceNote}</p>}
               <div className="actions">
-                <button type="button" className="btn secondary small" onClick={() => speak(res, true)}>
-                  {a.playAgain}
+                <button
+                  type="button"
+                  className="btn secondary small"
+                  onClick={() => {
+                    unlock();
+                    if (speaking) stopAudio();
+                    else speak(res, true);
+                  }}
+                  aria-pressed={speaking}
+                >
+                  {speaking ? a.stopVoice : a.playAgain}
                 </button>
                 <button type="button" className="btn secondary small" onClick={toggleMute} aria-pressed={muted}>
                   {muted ? a.unmute : a.mute}
+                </button>
+                <button type="button" className="btn secondary small" onClick={shareAnswer}>
+                  {a.shareAnswer}
                 </button>
               </div>
               {res.kind === "unknown" && (

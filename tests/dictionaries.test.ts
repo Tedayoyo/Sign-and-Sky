@@ -27,6 +27,6 @@ test("placeholders and list lengths match", () => {
 
 test("Amharic strings are not left in English", () => {
   const a = flat(en as J), b = flat(am as J);
-  const same = Object.keys(a).filter((k) => !a[k].startsWith("array:") && a[k] === b[k] && /[a-z]{4,}/.test(a[k]) && !/^(meta\.title|langName|results\.formula)/.test(k));
+  const same = Object.keys(a).filter((k) => !a[k].startsWith("array:") && a[k] === b[k] && /[a-z]{4,}/.test(a[k]) && !/^(meta\.title|langName|results\.formula|about\.source\.doc)/.test(k));
   assert.deepEqual(same, []);
 });

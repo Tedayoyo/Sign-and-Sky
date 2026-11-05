@@ -1,6 +1,7 @@
 // The voice assistant's logic as an API. POST JSON { text, lang, loc, last, alt } or GET ?text=&lang=&loc=&last=
 import { NextResponse } from "next/server";
 import { analyze } from "@/lib/assistant";
+import { ttsUrl } from "@/lib/tts";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,10 @@ function toInput(o: Record<string, unknown>) {
 
 async function handle(o: Record<string, unknown>) {
   try {
-    return NextResponse.json(await analyze(toInput(o)), { headers: CORS });
+    const input = toInput(o);
+    const a = await analyze(input);
+    a.audio = a.reply ? ttsUrl(input.lang === "am" ? "am" : "en", a.reply) : null;
+    return NextResponse.json(a, { headers: CORS });
   } catch (e) {
     console.error("analyze failed", e);
     return NextResponse.json({ error: "The assistant is not available right now." }, { status: 503, headers: CORS });

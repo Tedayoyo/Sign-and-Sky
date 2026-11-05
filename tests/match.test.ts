@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { findSign, foldAmharic, isAsking, keywordMatches, normalize } from "../src/lib/match";
+import { consonants, findSign, foldAmharic, isAsking, keywordMatches, normalize } from "../src/lib/match";
 
 test("Amharic spelling variants fold together", () => {
   assert.equal(foldAmharic("ፀሐይ"), foldAmharic("ጸሀይ"));
@@ -30,4 +30,33 @@ test("questions are recognised in both languages", () => {
   assert.ok(isAsking("When should I sow my maize?"));
   assert.ok(isAsking("በቆሎዬን መቼ ልዝራ?"));
   assert.ok(!isAsking("Frogs are croaking"));
+});
+
+test("Amharic heard with a different vowel form still finds the sign", () => {
+  assert.equal(consonants("ጉንዳን"), consonants("ጎንደን"));
+  const items = [
+    { id: 15, keywords: ["እንቁራሪ"] },
+    { id: 17, keywords: ["ደመና", "ጥቁር ደመና"] },
+  ];
+  const r = findSign("እንቆረሪቶች ይጮሃሉ", items);
+  assert.equal(r?.item.id, 15);
+  assert.equal(r?.kind, "close");
+  assert.equal(findSign("ጥቁር ደመና መጣ", items)?.kind, "exact");
+});
+
+test("English heard slightly wrong still finds the sign, ordinary words do not", () => {
+  const items = [
+    { id: 1, keywords: ["ant", "ants", "uphill"] },
+    { id: 6, keywords: ["mist", "fog"] },
+    { id: 15, keywords: ["frog", "croak"] },
+    { id: 16, keywords: ["bird", "migrat"] },
+    { id: 9, keywords: ["squirrel", "digging"] },
+    { id: 3, keywords: ["wind"] },
+  ];
+  assert.equal(findSign("the aunts are carrying eggs", items)?.item.id, 1);
+  assert.equal(findSign("squirel is diging", items)?.item.id, 9);
+  assert.equal(findSign("frogz are croking", items)?.item.id, 15);
+  assert.equal(findSign("birdz are migrateing", items)?.item.id, 16);
+  assert.equal(findSign("I must sow from tomorrow", items), null);
+  assert.equal(findSign("what kind of storm is it", items), null);
 });

@@ -12,12 +12,11 @@ export default async function Dashboard({ params }: { params: Promise<{ lang: st
   const { lang } = await params;
   const d = dict(lang);
   const user = await requireUser(lang);
-  const c = (await one<{ pending: number; pub: number; unpub: number; tests: number; needs: number }>(
+  const c = (await one<{ pending: number; pub: number; unpub: number; tests: number }>(
     `select (select count(*) from farmer_submissions where status = 'pending')::int as pending,
             (select count(*) from knowledge_records where is_published)::int as pub,
             (select count(*) from knowledge_records where not is_published)::int as unpub,
-            (select count(*) from sign_evaluations)::int as tests,
-            (select count(*) from translations where translation_status = 'needs_review')::int as needs`,
+            (select count(*) from sign_evaluations)::int as tests`,
   ))!;
   const r = d.research;
   return (
@@ -41,10 +40,6 @@ export default async function Dashboard({ params }: { params: Promise<{ lang: st
           <strong>{c.tests}</strong>
           {fmt(r.testsCount, { n: "" }).trim()}
         </div>
-        <Link className="tile" href={`/${lang}/research/records?show=review`}>
-          <strong>{c.needs}</strong>
-          {d.signs.amReview}
-        </Link>
       </div>
     </main>
   );

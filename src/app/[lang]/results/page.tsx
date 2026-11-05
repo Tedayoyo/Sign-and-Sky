@@ -18,7 +18,7 @@ export default async function Results({ params }: { params: Promise<{ lang: stri
   const rows = (await publishedSigns())
     .map((s) => ({ s, ev: s.evaluations.find((e) => e.method_version === "field-ai-2025") }))
     .filter((x) => x.ev);
-  const count = { strong: 0, fair: 0, weak: 0 };
+  const count = { very_strong: 0, strong: 0, fair: 0, weak: 0 };
   rows.forEach(({ ev }) => count[trustLevel(ev!.score)]++);
 
   return (
@@ -27,6 +27,7 @@ export default async function Results({ params }: { params: Promise<{ lang: stri
         <h1>{d.results.title}</h1>
         <p>{d.results.intro}</p>
         <p style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", color: "inherit" }}>
+          <TrustBadge level="very_strong" text={`${d.trust.very_strong}: ${count.very_strong}`} />
           <TrustBadge level="strong" text={`${d.trust.strong}: ${count.strong}`} />
           <TrustBadge level="fair" text={`${d.trust.fair}: ${count.fair}`} />
           <TrustBadge level="weak" text={`${d.trust.weak}: ${count.weak}`} />
@@ -36,7 +37,7 @@ export default async function Results({ params }: { params: Promise<{ lang: stri
       <figure className="chart" style={{ margin: "0 0 2rem" }}>
         <div className="bars" role="img" aria-label={fmt(d.results.summary, count)}>
           <div className="line8" style={{ bottom: "calc(1.6rem + 0.8 * (170px - 1.6rem))" }} />
-          <div className="line6" style={{ bottom: "calc(1.6rem + 0.6 * (170px - 1.6rem))" }} />
+          <div className="line6" style={{ bottom: "calc(1.6rem + 0.7 * (170px - 1.6rem))" }} />
           {rows.map(({ s, ev }) => (
             <div
               key={s.id}

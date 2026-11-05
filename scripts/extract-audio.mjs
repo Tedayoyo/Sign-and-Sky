@@ -9,7 +9,6 @@ import path from "node:path";
 const KEEP = {
   thanks: "thanks", // "ስላካፈሉን እናመሰግናለን።"
   unk: "unk", // unknown-sign reply (same words as dictionaries/am.json reply.unknown)
-  adv_ants: "adv-1", // record 1, Ants carrying eggs uphill — spoken advice unchanged
   adv_birds: "adv-16", // record 16, Birds migrating from far away — spoken advice unchanged
   name_ants: "name-1", // record 1 name, used in "When should I sow?" follow-ups
   fu_pre: "fu-pre",

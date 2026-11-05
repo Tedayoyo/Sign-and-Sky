@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
+import { siteUrl } from "@/lib/site";
+
+const DESCRIPTION = "Indigenous weather signs from Wolaita, South Ethiopia, tested against CHIRPS and ERA5 recorded weather and returned to farmers by voice in English and Amharic.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
   title: { default: "Sign & Sky", template: "%s · Sign & Sky" },
-  description: "Farmers' weather signs, tested against recorded rainfall, and returned by voice in English and Amharic.",
+  description: DESCRIPTION,
+  applicationName: "Sign & Sky",
+  openGraph: { type: "website", siteName: "Sign & Sky", title: "Sign & Sky", description: DESCRIPTION, locale: "en_US", alternateLocale: ["am_ET"] },
+  twitter: { card: "summary", title: "Sign & Sky", description: DESCRIPTION },
   icons: { icon: "/icon.svg" },
   manifest: "/manifest.webmanifest",
 };

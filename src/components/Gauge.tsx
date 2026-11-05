@@ -17,6 +17,6 @@ export function Gauge({ score, label, small, of }: { score: number; label: strin
   );
 }
 
-export function TrustBadge({ level, text }: { level: "strong" | "fair" | "weak" | "untested"; text: string }) {
+export function TrustBadge({ level, text }: { level: "very_strong" | "strong" | "fair" | "weak" | "untested"; text: string }) {
   return <span className={`badge ${level}`}>{text}</span>;
 }

@@ -12,7 +12,7 @@
 //
 // So a prediction that came true and was wetter (or drier) than every reference year scores 10;
 // one that came true in an ordinary way scores about 7.5; one that did not come true scores 5 or less.
-// Trust levels follow the simulator: Strong ≥ 8, Fair 6–7.9, Weak < 6.
+// Trust levels (owner, 5 Nov 2026): Very strong ≥ 9, Strong 8–8.9, Fair 7–7.9, Weak < 7.
 
 export const METHOD_VERSION = "sns-score-v1";
 
@@ -72,7 +72,7 @@ export type ScoreResult = {
   percentile: number; // raw percentile of the target among reference years (wetter = higher)
   oriented: number; // P
   score: number;
-  trust: "strong" | "fair" | "weak";
+  trust: TrustLevel;
   actualOutcome: "heavy_rain" | "rain" | "light_rain" | "dry";
   explanation: string;
 };
@@ -94,8 +94,11 @@ export function windowFor(observationDate: string, windowDays: number) {
   return { start: addDays(observationDate, 1), end: addDays(observationDate, windowDays) };
 }
 
-export function trustLevel(score: number): "strong" | "fair" | "weak" {
-  return score >= 8 ? "strong" : score >= 6 ? "fair" : "weak";
+export type TrustLevel = "very_strong" | "strong" | "fair" | "weak";
+export const TRUST_LEVELS: TrustLevel[] = ["very_strong", "strong", "fair", "weak"];
+
+export function trustLevel(score: number): TrustLevel {
+  return score >= 9 ? "very_strong" : score >= 8 ? "strong" : score >= 7 ? "fair" : "weak";
 }
 
 export function statsFor(days: Map<string, number | null>, start: string, end: string, year: number): WindowStats {

@@ -93,15 +93,15 @@ test("reply pattern: thanks + test sentence + advice, and 'score X out of 10'", 
   const a = analyzeWith(signs, { text: "Ants are carrying their eggs uphill", lang: "en", loc: "wol", month: 6 });
   assert.equal(
     a.reply,
-    "Thank you for sharing. The sign and the recorded weather agree (score 9 out of 10). Heavy rain is close. Protect harvested grain and open drainage in your field.",
+    "Thank you for sharing. The sign and the recorded weather agree very strongly (score 9 out of 10). Heavy rain is close. Protect harvested grain and open drainage in your field.",
   );
   assert.equal(a.season, "Kiremt / Meher (main rains, June–September)");
   assert.equal(a.place.name, "Wolaita, South Ethiopia");
-  assert.equal(a.test?.trust, "strong");
+  assert.equal(a.test?.trust, "very_strong");
   assert.ok(!/years/.test(a.reply));
 
   const fair = analyzeWith(signs, { text: "I saw a ring around the moon", lang: "en", loc: "wol" });
-  assert.match(fair.reply, /fairly reliable \(score 6 out of 10\)/);
+  assert.match(fair.reply, /Be careful: this sign scored only 6 out of 10\./);
 
   const am = analyzeWith(signs, { text: "ወፎች ከሩቅ መጡ", lang: "am", loc: "wol" });
   assert.equal(am.reply, "ስላካፈሉን እናመሰግናለን። ምልክቱና የተመዘገበው የአየር ሁኔታ ይስማማሉ (ከ10 ነጥብ 8.5)። ዝናብ እየመጣ ነው። መሬትዎን አሁን ማዘጋጀት ይጀምሩ።");

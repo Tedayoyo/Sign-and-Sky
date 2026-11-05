@@ -75,7 +75,7 @@ export default async function Signs({ params, searchParams }: { params: Promise<
           <label htmlFor="trust" className="sr-only">{d.signs.allTrust}</label>
           <select id="trust" name="trust" defaultValue={sp.trust ?? ""}>
             <option value="">{d.signs.allTrust}</option>
-            {(["strong", "fair", "weak"] as const).map((t) => (
+            {(["very_strong", "strong", "fair", "weak"] as const).map((t) => (
               <option key={t} value={t}>{d.trust[t]}</option>
             ))}
           </select>
@@ -112,7 +112,6 @@ export default async function Signs({ params, searchParams }: { params: Promise<
                     <span>{d.categories[s.category as keyof typeof d.categories]}</span>
                     <span>{s.observation_period}</span>
                     <TrustBadge level={level} text={d.trust[level]} />
-                    {lang === "am" && t.translation_status === "needs_review" && <span className="flag">{d.signs.amReview}</span>}
                   </div>
                 </div>
                 {ev ? <Gauge small score={ev.score} label={fmt(d.ask.gaugeLabel, { score: ev.score })} /> : <span />}

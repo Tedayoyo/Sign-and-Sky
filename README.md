@@ -8,7 +8,7 @@ Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIR
 | Page | For | What happens |
 |---|---|---|
 | `/en`, `/am` — Home and **Ask** | Farmers | The voice simulator, made real: 1 Listen (voice or text) → 2 Understand (sign, place, season, prediction, usual delay) → 3 Test (real score from `sign_evaluations` shown as a rain gauge, or "Not yet tested") → 4 Voice advice (spoken + written). "When should I sow?" answers from the last sign. Unknown signs can be saved for researchers, with consent. `?q=` opens the page with a sign already asked. |
-| `/signs`, `/signs/[n]` | Everyone | The knowledge library: 17 published Wolaita indicators, all tested and scored, with search and filters (kind, prediction, trust). Each record shows the behaviour as recorded, both languages side by side, "Amharic needs review" flags, and every test with its data. |
+| `/signs`, `/signs/[n]` | Everyone | The knowledge library: 17 published Wolaita indicators, all tested and scored, with search and filters (kind, prediction, trust). Each record shows the behaviour as recorded, both languages side by side, and every test with its data. |
 | `/results` | Everyone | The 17 field scores from the 2025 Wolaita field record, a score chart, trust levels, and the scoring method. |
 | `/share` | Farmers | Share a new sign (optional photo). Name and village stay private. Returns a reference code. |
 | `/about` | Everyone | Method, promises, seasons, places, team, open API. |
@@ -16,7 +16,7 @@ Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIR
 | `/api/v1/signs` | Apps | Open JSON of the published library in both languages with test results (for the offline Android app). |
 | `/api/v1/tests/[id]` | Everyone | The full data trail of one weather test (published records). |
 | `/api/analyze` | Apps | The voice assistant's logic as an API (POST JSON `{text, lang, loc, last}` or GET with the same query parameters). |
-| `/api/health` | Hosting | `{"ok":true,"published":17,"admins":1,"session_secret":"set"}` when everything is set up; otherwise it names what is missing. |
+| `/api/health` | Hosting | `{"ok":true,"published":17,"admins":1,"session_secret":"set","tts":"azure"}` when everything is set up; otherwise it names what is missing. |
 
 Paths without a language (`/`, `/signs`, `/research` …) redirect to the visitor's language (cookie, then browser setting).
 
@@ -66,6 +66,8 @@ Upload by **dragging the folders** from your computer into GitHub's *Add file �
    - `SESSION_SECRET` — a random string of at least 32 characters (on a Mac or Linux: `openssl rand -base64 48`; or any password generator, 48+ characters)
    - `CHIRPS_ENDPOINT` — leave out until CHIRPS is connected
 3. **Deploy**. Node.js 22 is used automatically (set in `package.json`). Then Project → Settings → Functions → Function Region: choose the region next to your Supabase project (for example Frankfurt `fra1` for an EU Central Supabase project, or Mumbai `bom1`), and redeploy.
+   - Spoken replies (so every phone hears Amharic): `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION` from an Azure "Speech" resource (portal.azure.com → Create a resource → Speech → Free F0 tier → Keys and Endpoint), or `GOOGLE_TTS_API_KEY` (Google Cloud → enable Text-to-Speech API → Credentials → API key). Optional: `TTS_VOICE_AM` (e.g. `am-ET-AmehaNeural` for a male voice).
+   - Optional: `NEXT_PUBLIC_SITE_URL` — the official address (for the sitemap and shared previews).
 4. Check: open `https://YOUR-SITE.vercel.app/api/health`. It should show `{"ok":true,"published":17,"admins":1,"session_secret":"set"}`. If not, it says what is missing: a wrong database password, a missing setting, or SQL files not yet run. Then open `/en`, `/am`, and sign in at `/en/research`.
 5. Optional: Settings → Domains to use your own domain (for example `signandsky.org`).
 
@@ -114,7 +116,7 @@ A sign seen on day D predicts an outcome within W days. The test takes daily rai
 ```
 H = 1 if the predicted outcome happened in the window, else 0
 P = rank of this year's window among the earlier years (0–1), oriented to the prediction
-score = 10 × (0.5·H + 0.5·P)        Strong ≥ 8 · Fair 6–7.9 · Weak < 6
+score = 10 × (0.5·H + 0.5·P)        Very strong ≥ 9 · Strong 8–8.9 · Fair 7–7.9 · Weak < 7
 ```
 
 "Happened": rain ≥ 10 mm total; heavy rain = a day ≥ 20 mm; onset = 3 days ≥ 20 mm with ≥ 2 wet days; normal = total between the 25th–75th percentile; dry < 5 mm or < half the median; drought ≤ 20th percentile. Every test saves the request URL, the daily values used, the thresholds and the calculation in `weather_outcomes.dataset_payload`, linked from `sign_evaluations.weather_outcome_id`, and downloadable from the sign's page.
@@ -131,7 +133,7 @@ The 17 field scores are stored as recorded (AI-calculated, method `field-ai-2025
 
 - Text: `src/dictionaries/en.json`, `am.json`. A new language is a new file plus one line in `src/lib/i18n.ts`. `npm test` checks both files have the same keys, placeholders and list lengths, and that no Amharic string was left in English.
 - Voice input: browser speech recognition (`en-US`, `am-ET`), best in Chrome/Edge. Listening stops after a short silence (2 s English, 2.6 s Amharic); alternative transcripts help matching.
-- Spoken replies: device speech synthesis. Where a device has no Amharic voice, the recorded clips in `public/audio/am/` play (see step 4 above), but only clips whose words still match the record. The full answer is always written.
+- Spoken replies: a neural voice from Azure AI Speech (`am-ET-MekdesNeural`, `en-US-JennyNeural`) or Google Cloud Text-to-Speech, through `/api/tts` (signed links, cached by the CDN). Without a key, the device voice is used, then the recorded clips in `public/audio/am/`. The tap on Test or the microphone unlocks sound on phones. The full answer is always written.
 - Sign recognition (`src/lib/match.ts`): `translations.keywords` of both languages (edit them on each record in the research area). English matches at word starts; Amharic matches stems with spelling variants folded (ሐ/ኀ→ሀ, ሠ→ሰ, ዐ→አ, ፀ→ጸ). A longer keyword match wins.
 - The published library is cached for 60 seconds per server instance; an edit in the research area clears it on that instance at once.
 
@@ -164,6 +166,5 @@ tests/                    node:test suites
 
 ## Open items
 
-- Amharic texts are marked "needs review" until a native speaker checks them (record texts and interface strings).
 - CHIRPS extractor; village-level coordinates (current points are representative).
 - The 17 field scores have no data trail yet; re-run them with the test tool once the site is online (Open-Meteo is reachable from Vercel).

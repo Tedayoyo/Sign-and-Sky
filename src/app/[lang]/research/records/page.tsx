@@ -16,7 +16,6 @@ export default async function Records({ params, searchParams }: { params: Promis
   const user = await requireUser(lang);
   let rows = await allRecords();
   if (show === "unpublished") rows = rows.filter((x) => !x.is_published);
-  if (show === "review") rows = rows.filter((x) => Object.values(x.tr).some((t) => t.translation_status === "needs_review"));
   return (
     <main className="wrap">
       <ResearchNav lang={lang} d={d} user={user} current="records" />
@@ -24,7 +23,6 @@ export default async function Records({ params, searchParams }: { params: Promis
       <p className="inline-checks">
         <Link href={`/${lang}/research/records`}>{r.all}</Link>
         <Link href={`/${lang}/research/records?show=unpublished`}>{r.unpublishedCount.replace("{n} ", "")}</Link>
-        <Link href={`/${lang}/research/records?show=review`}>{d.signs.amReview}</Link>
       </p>
       <p className="small muted">{r.unpublishedNote}</p>
       <div className="table-scroll">
@@ -44,12 +42,6 @@ export default async function Records({ params, searchParams }: { params: Promis
                 <td>{x.record_number}</td>
                 <td>
                   <Link href={`/${lang}/research/records/${x.record_number}`}>{tr(x, lang).name}</Link>
-                  {Object.values(x.tr).some((t) => t.translation_status === "needs_review") && (
-                    <>
-                      {" "}
-                      <span className="flag">{d.signs.amReview}</span>
-                    </>
-                  )}
                 </td>
                 <td>{d.status[x.verification_status as keyof typeof d.status]}</td>
                 <td>{x.evaluations.map((e) => e.score).join(", ") || "—"}</td>

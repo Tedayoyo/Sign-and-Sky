@@ -21,7 +21,7 @@ export async function GET(req: Request) {
       version: 1,
       generated_at: new Date().toISOString(),
       languages: ["en", "am"],
-      trust_levels: { strong: "score >= 8", fair: "6 <= score < 8", weak: "score < 6" },
+      trust_levels: { very_strong: "score >= 9", strong: "8 <= score < 9", fair: "7 <= score < 8", weak: "score < 7" },
       scoring_method: METHOD_VERSION,
       locations,
       signs: signs.map((s) => ({

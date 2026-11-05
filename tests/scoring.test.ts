@@ -9,12 +9,16 @@ function series(from: string, to: string, f: (date: string) => number): Day[] {
   return out;
 }
 
-test("trust levels follow the simulator", () => {
-  assert.equal(trustLevel(9), "strong");
+test("trust levels: 9+ very strong, 8–8.5 strong, 7–7.5 fair, below 7 weak", () => {
+  assert.equal(trustLevel(10), "very_strong");
+  assert.equal(trustLevel(9), "very_strong");
+  assert.equal(trustLevel(8.5), "strong");
   assert.equal(trustLevel(8), "strong");
   assert.equal(trustLevel(7.9), "fair");
-  assert.equal(trustLevel(6), "fair");
-  assert.equal(trustLevel(5.9), "weak");
+  assert.equal(trustLevel(7.5), "fair");
+  assert.equal(trustLevel(7), "fair");
+  assert.equal(trustLevel(6.9), "weak");
+  assert.equal(trustLevel(6), "weak");
 });
 
 test("29 Feb shifts to 28 Feb in non-leap years", () => {
@@ -32,7 +36,7 @@ test("rain that came and was wetter than every earlier year scores 10", () => {
   assert.equal(r.happened, true);
   assert.equal(r.target.totalMm, 42);
   assert.equal(r.score, 10);
-  assert.equal(r.trust, "strong");
+  assert.equal(r.trust, "very_strong");
   assert.equal(r.referenceUsed, 10);
 });
 

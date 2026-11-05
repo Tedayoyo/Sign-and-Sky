@@ -18,10 +18,10 @@
     "am": "አማርኛ"
   },
   "home": {
-    "title": "What did the sky tell you today?",
+    "title": "What signs did nature show you today?",
     "intro": "Tell us a sign you saw in the sky, the trees or the animals. Sign & Sky checks how that sign has matched recorded rainfall and gives you advice you can hear.",
     "place": "Place",
-    "stats": "{tested} signs from Wolaita tested against recorded weather. {strong} of them are strong."
+    "stats": "{tested} signs from Wolaita tested against recorded weather. {strong} of them are strong or very strong."
   },
   "ask": {
     "label": "Your sign",
@@ -68,7 +68,6 @@
     "testedIn": "Tested in {place}",
     "notTested": "Not yet tested against recorded weather.",
     "gaugeLabel": "Trust score {score} of 10",
-    "amReview": "The Amharic text of this sign is waiting for review by a native speaker.",
     "openRecord": "See the full record",
     "playAgain": "Play again",
     "mute": "Mute",
@@ -79,7 +78,7 @@
     "nosr": "This browser cannot turn speech into text. Please type, or open this page in Chrome or Edge.",
     "nostart": "Could not start the microphone. Please type.",
     "network": "Speech recognition needs the internet in this browser. Please type, or try Chrome or Edge.",
-    "noVoice": "This device has no Amharic voice. Read the answer above.",
+    "noVoice": "This phone has no voice for this language. Read the answer above.",
     "someWritten": "Part of this answer is only written, not spoken.",
     "tapToHear": "Tap “Play again” to hear the answer.",
     "error": "Something went wrong. Please try again.",
@@ -92,10 +91,15 @@
     "question": "When should I sow my maize?",
     "examplesTitle": "Try one of the 17 Wolaita signs",
     "questionTitle": "Or ask",
-    "empty": "Say or type a sign first, or tap one of the 17 signs."
+    "empty": "Say or type a sign first, or tap one of the 17 signs.",
+    "stopVoice": "Stop voice",
+    "shareAnswer": "Share answer",
+    "copied": "Answer copied",
+    "shareTitle": "Sign & Sky answer"
   },
   "reply": {
     "thanks": "Thank you for sharing.",
+    "very_strong": "The sign and the recorded weather agree very strongly (score {score} out of 10).",
     "strong": "The sign and the recorded weather agree (score {score} out of 10).",
     "fair": "The sign is fairly reliable (score {score} out of 10).",
     "weak": "Be careful: this sign scored only {score} out of 10.",
@@ -104,6 +108,7 @@
     "unknown": "I have not heard that sign before. Thank you for sharing it. We will save it and test it against past rainfall. Can you tell me another sign, like birds, ants or frogs?"
   },
   "trust": {
+    "very_strong": "Very strong",
     "strong": "Strong",
     "fair": "Fair",
     "weak": "Weak",
@@ -179,7 +184,6 @@
     "count": "{n} signs",
     "none": "No sign matches this search. Try another word, or clear the filters.",
     "clear": "Clear filters",
-    "amReview": "Amharic needs review",
     "behaviour": "Behaviour as recorded",
     "description": "What farmers see",
     "interpretation": "What farmers say it means",
@@ -207,7 +211,7 @@
   "results": {
     "title": "Field results, Wolaita 2025",
     "intro": "17 indicators recorded with farmers in Wolaita, South Ethiopia. Each prediction was compared with historical recorded weather and scored out of 10.",
-    "summary": "{strong} strong, {fair} fair, {weak} weak.",
+    "summary": "{very_strong} very strong, {strong} strong, {fair} fair, {weak} weak.",
     "table": {
       "sign": "Indicator",
       "behaviour": "Behaviour or feature",
@@ -216,7 +220,7 @@
       "score": "Score",
       "trust": "Trust"
     },
-    "trustRule": "Strong is a score of 8 or more, fair is 6 to 7.9, weak is below 6.",
+    "trustRule": "Very strong is a score of 9 or more, strong is 8 to 8.9, fair is 7 to 7.9, and weak is below 7.",
     "methodTitle": "How a score is made",
     "methodField": "The 17 field scores were calculated by the Sign & Sky AI, which compared the farmers' prediction with historical recorded scientific weather data for Wolaita. They are stored as recorded and marked “field-ai-2025”.",
     "methodNew": "New tests use a published, repeatable method (sns-score-v1). A sign seen on day D predicts an outcome within W days. The tool takes daily rainfall for the W days after D, and for the same calendar window in each of the N earlier years (10 by default).",
@@ -288,8 +292,7 @@
     "promises": [
       "Every sign stays credited to the community it came from. Farmers' names and villages are never published.",
       "Every score shows how it was made: the data, the years compared and the calculation.",
-      "A weak score is said plainly. We never call a sign reliable when the data does not support it.",
-      "Amharic text is marked for review until a native speaker has checked it."
+      "A weak score is said plainly. We never call a sign reliable when the data does not support it."
     ],
     "howTitle": "How it works",
     "how": [
@@ -306,8 +309,104 @@
     "dataText": "Recorded weather comes from ERA5 reanalysis and, when connected, CHIRPS satellite rainfall.",
     "apiTitle": "Open data",
     "apiText": "The published library, in both languages with every test result, is open at {url} for apps such as the offline Sign & Sky Android app.",
-    "teamTitle": "Team",
-    "teamText": "Sign & Sky was created by a team that won the UN Hackathon on AI for Good with the idea of joining indigenous weather knowledge with satellite and reanalysis data."
+    "source": {
+      "title": "Where the knowledge comes from",
+      "lead": "All 17 signs come from one field record made with farmers in Wolaita, South Ethiopia, in 2025.",
+      "doc": "Traditional Knowledge Systems & Microclimate Indicators — Indigenous Weather Forecasting, Wolaita, South Ethiopia",
+      "steps": [
+        [
+          "Observed",
+          "Farmers in Wolaita noticed each sign in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
+        ],
+        [
+          "Recorded",
+          "Each sign was written into the field table with seven fields: the indicator, the behaviour seen, its meaning in local knowledge, the place, the date, whether it was tested with scientific data, and its score."
+        ],
+        [
+          "Tested",
+          "Each sign's prediction was compared with historical recorded weather for Wolaita: CHIRPS satellite rainfall and ERA5 reanalysis."
+        ],
+        [
+          "Scored",
+          "The Sign & Sky AI gave every sign a score from 0 to 10 for how well its prediction matched the weather that was recorded."
+        ],
+        [
+          "Returned",
+          "The result goes back to farmers as spoken and written advice in English and Amharic."
+        ]
+      ],
+      "facts": [
+        [
+          "17",
+          "signs recorded"
+        ],
+        [
+          "17 of 17",
+          "tested with scientific data"
+        ],
+        [
+          "Feb–Dec 2025",
+          "dates observed"
+        ],
+        [
+          "Wolaita",
+          "South Ethiopia"
+        ]
+      ],
+      "kindsTitle": "Kinds of signs",
+      "kinds": {
+        "animal": "Animals and birds",
+        "cloud_wind": "Wind and clouds",
+        "celestial": "Sun, moon and stars",
+        "atmospheric": "Mist and fog",
+        "plant": "Trees and plants"
+      },
+      "scaleTitle": "How to read a score",
+      "scale": [
+        [
+          "very_strong",
+          "9 and above"
+        ],
+        [
+          "strong",
+          "8 to 8.9"
+        ],
+        [
+          "fair",
+          "7 to 7.9"
+        ],
+        [
+          "weak",
+          "below 7"
+        ]
+      ],
+      "cta": "See every sign with its date and score"
+    },
+    "team": {
+      "title": "Meet our team",
+      "eyebrow": "The people behind Sign & Sky",
+      "lead": "Sign & Sky won the UN Hackathon on AI for Good with the idea of joining indigenous weather knowledge with satellite and reanalysis data. This is the team building it.",
+      "members": [
+        {
+          "name": "Tewodros Birhanu Lera",
+          "role": "Founder & Team Leader",
+          "meta": "Specialization: AI & Technical Architecture",
+          "bio": "Leads the vision, strategic direction, AI development, technical architecture, and technological integration of Sign & Sky."
+        },
+        {
+          "name": "Tesfaye Latebo",
+          "role": "Agricultural Technology & Climate Data Lead",
+          "meta": "Assistant Professor, Wachamo University",
+          "bio": "Contributes agricultural research expertise, indigenous knowledge documentation and data collection, and the integration and application of CHIRPS and ERA5 climate datasets."
+        },
+        {
+          "name": "Ermias Gosaye",
+          "role": "UI/UX & Product Design Lead",
+          "meta": "",
+          "bio": "Leads product design, user interface development, user experience, visual identity, and the overall design of the Sign & Sky platform."
+        }
+      ]
+    }
   },
   "footer": {
     "line": "Sign & Sky — indigenous weather knowledge, tested and returned to farmers.",

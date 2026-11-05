@@ -39,7 +39,6 @@ export default async function SignPage({ params }: { params: Promise<{ lang: str
           <p>{t.description}</p>
           <p style={{ display: "flex", gap: ".6rem", flexWrap: "wrap", alignItems: "center" }}>
             <TrustBadge level={level} text={d.trust[level]} />
-            {lang === "am" && t.translation_status === "needs_review" && <span className="flag">{d.signs.amReview}</span>}
             <Link href={`/${lang}?q=${encodeURIComponent(t.name)}`}>{d.signs.ask}</Link>
           </p>
         </div>
@@ -55,8 +54,7 @@ export default async function SignPage({ params }: { params: Promise<{ lang: str
           return (
             <section key={loc} lang={loc}>
               <h2>
-                {fmt(d.signs.inLanguage, { language: d.langName[loc] })}{" "}
-                {x.translation_status === "needs_review" && <span className="flag">{d.signs.amReview}</span>}
+                {fmt(d.signs.inLanguage, { language: d.langName[loc] })}
               </h2>
               <dl className="facts">
                 <dt>{d.signs.behaviour}</dt>
