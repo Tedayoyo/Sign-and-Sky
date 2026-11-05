@@ -3,6 +3,8 @@
 Farmers' weather signs, tested against recorded weather, and returned by voice in English and Amharic.
 Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIREMENTS.md`.
 
+**Live site:** https://sign-and-sky-wolaita.vercel.app · English `/en` · Amharic `/am` · open data `/api/v1/signs`
+
 ## What it does
 
 | Page | For | What happens |
@@ -68,8 +70,8 @@ Upload by **dragging the folders** from your computer into GitHub's *Add file �
 3. **Deploy**. Node.js 22 is used automatically (set in `package.json`). Then Project → Settings → Functions → Function Region: choose the region next to your Supabase project (for example Frankfurt `fra1` for an EU Central Supabase project, or Mumbai `bom1`), and redeploy.
    - Spoken Amharic replies (so every phone hears Amharic): `ADDIS_API_KEY` from Addis AI (addisassistant.com/apikeys). Optional: `ADDIS_TTS_VOICE_AM` (default `am-hamen`; e.g. `am-yohanes-calm` for a calm male voice). Addis AI bills 5 ETB per generated minute; each reply is made once and then served from Vercel's cache.
    - Optional, for a neural English voice too: `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `GOOGLE_TTS_API_KEY`. Without them English uses the phone's own voice.
-   - Optional: `NEXT_PUBLIC_SITE_URL` — the official address (for the sitemap and shared previews).
-4. Check: open `https://YOUR-SITE.vercel.app/api/health`. It should show `{"ok":true,"published":17,"admins":1,"session_secret":"set"}`. If not, it says what is missing: a wrong database password, a missing setting, or SQL files not yet run. Then open `/en`, `/am`, and sign in at `/en/research`.
+   - Optional: `NEXT_PUBLIC_SITE_URL` — the official address, `https://sign-and-sky-wolaita.vercel.app` (type **Config**, not Secret; used for the sitemap, shared answers and link previews).
+4. Check: open `https://sign-and-sky-wolaita.vercel.app/api/health`. It should show `{"ok":true,"published":17,"admins":1,"session_secret":"set"}`. If not, it says what is missing: a wrong database password, a missing setting, or SQL files not yet run. Then open `/en`, `/am`, and sign in at `/en/research`.
 5. Optional: Settings → Domains to use your own domain (for example `signandsky.org`).
 
 After changing an environment variable, redeploy: Deployments → ⋯ on the latest → **Redeploy**.
