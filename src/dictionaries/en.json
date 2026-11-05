@@ -313,16 +313,16 @@
     "apiText": "The published library, in both languages with every test result, is open at {url} for apps such as the offline Sign & Sky Android app.",
     "source": {
       "title": "Where the knowledge comes from",
-      "lead": "All 17 signs come from one field record made with farmers in Wolaita, South Ethiopia, in 2025.",
+      "lead": "All 17 signs were gathered from 150 farmers in Wolaita, South Ethiopia, in 2025. Many farmers named the same signs, so each sign was recorded once: this is knowledge the whole community shares.",
       "doc": "Traditional Knowledge Systems & Microclimate Indicators — Indigenous Weather Forecasting, Wolaita, South Ethiopia",
       "steps": [
         [
           "Observed",
-          "Farmers in Wolaita noticed each sign in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
+          "150 farmers in Wolaita described the signs they read in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
         ],
         [
           "Recorded",
-          "Each sign was written into the field table with seven fields: the indicator, the behaviour seen, its meaning in local knowledge, the place, the date, whether it was tested with scientific data, and its score."
+          "Signs named by many farmers were recorded once. Each sign was written into the field table with seven fields: the indicator, the behaviour seen, its meaning in local knowledge, the place, the date, whether it was tested with scientific data, and its score."
         ],
         [
           "Tested",
@@ -338,6 +338,10 @@
         ]
       ],
       "facts": [
+        [
+          "150",
+          "farmers shared their knowledge"
+        ],
         [
           "17",
           "signs recorded"
