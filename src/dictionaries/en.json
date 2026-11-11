@@ -306,19 +306,19 @@
     "seasonsTitle": "Seasons",
     "seasonsEthiopia": "Belg (short rains): March–May. Kiremt / Meher (main rains): June–September. Bega (dry season): October–February.",
     "placesTitle": "Where",
-    "placesText": "Every sign in Sign & Sky was recorded with farmers in Wolaita, South Ethiopia, and every score was calculated with recorded weather for Wolaita.",
+    "placesText": "Every sign in Sign & Sky was recorded with farmers in Offa Woreda, Wolaita Zone, South Ethiopia, and every score was calculated with recorded weather for Wolaita.",
     "dataTitle": "Data",
     "dataText": "Recorded weather comes from ERA5 reanalysis and, when connected, CHIRPS satellite rainfall.",
     "apiTitle": "Open data",
     "apiText": "The published library, in both languages with every test result, is open at {url} for apps such as the offline Sign & Sky Android app.",
     "source": {
       "title": "Where the knowledge comes from",
-      "lead": "All 17 signs were gathered from 150 farmers in Wolaita, South Ethiopia, in 2025. Many farmers named the same signs, so each sign was recorded once: this is knowledge the whole community shares.",
+      "lead": "All 17 signs were gathered in 2025 from a survey of 283 farming households in three kebeles of Offa Woreda, Wolaita Zone (W/Dekeya, Wareza and Yakima), with key informant interviews and focus group discussions. Many farmers named the same signs, so each sign was recorded once: this is knowledge the whole community shares.",
       "doc": "Traditional Knowledge Systems & Microclimate Indicators — Indigenous Weather Forecasting, Wolaita, South Ethiopia",
       "steps": [
         [
           "Observed",
-          "150 farmers in Wolaita described the signs they read in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
+          "283 farming households in Offa Woreda described the signs they read in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
         ],
         [
           "Recorded",
@@ -339,8 +339,8 @@
       ],
       "facts": [
         [
-          "150",
-          "farmers shared their knowledge"
+          "283",
+          "farming households interviewed"
         ],
         [
           "17",
@@ -355,8 +355,8 @@
           "dates observed"
         ],
         [
-          "Wolaita",
-          "South Ethiopia"
+          "Offa Woreda",
+          "Wolaita Zone, South Ethiopia"
         ]
       ],
       "kindsTitle": "Kinds of signs",
