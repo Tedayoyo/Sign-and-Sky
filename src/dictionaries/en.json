@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Sign & Sky",
-    "description": "Farmers' weather signs, tested against recorded rainfall, and returned by voice in English and Amharic."
+    "description": "Farmers' weather signs from Wolaita, Ethiopia, scored against recorded rainfall and returned by voice in English and Amharic."
   },
   "nav": {
     "ask": "Ask",
@@ -21,7 +21,7 @@
     "title": "What signs did nature show you today?",
     "intro": "Tell us a sign you saw in the sky, the trees or the animals. Sign & Sky checks how that sign has matched recorded rainfall and gives you advice you can hear.",
     "place": "Place",
-    "stats": "{tested} signs from Wolaita tested against recorded weather. {strong} of them are strong or very strong."
+    "stats": "{tested} signs from Wolaita with a preliminary score against recorded weather. {strong} of them are strong or very strong."
   },
   "ask": {
     "label": "Your sign",
@@ -119,7 +119,7 @@
   "places": {
     "wol": {
       "name": "Wolaita, South Ethiopia",
-      "label": "Wolaita, South Ethiopia (enset, maize, teff)",
+      "label": "Offa Woreda, Wolaita, South Ethiopia (enset, maize, teff)",
       "crops": "enset and maize",
       "rain": "Belg and Kiremt rains"
     }
@@ -176,7 +176,7 @@
   },
   "signs": {
     "title": "The sign library",
-    "intro": "Signs recorded with farmers in Wolaita in 2025, each tested against recorded weather and given a score out of 10.",
+    "intro": "Signs recorded with farmers in Offa Woreda, Wolaita, in 2025, each with a preliminary score out of 10.",
     "search": "Search signs",
     "searchPlaceholder": "ants, clouds, stars…",
     "allCategories": "All kinds",
@@ -212,7 +212,7 @@
   },
   "results": {
     "title": "Field results, Wolaita 2025",
-    "intro": "17 indicators recorded with farmers in Wolaita, South Ethiopia. Each prediction was compared with historical recorded weather and scored out of 10.",
+    "intro": "17 indicators recorded with farmers in Offa Woreda, Wolaita, South Ethiopia. Each prediction was compared with historical recorded weather and given a preliminary score out of 10.",
     "summary": "{very_strong} very strong, {strong} strong, {fair} fair, {weak} weak.",
     "table": {
       "sign": "Indicator",
@@ -224,7 +224,7 @@
     },
     "trustRule": "Very strong is a score of 9 or more, strong is 8 to 8.9, fair is 7 to 7.9, and weak is below 7.",
     "methodTitle": "How a score is made",
-    "methodField": "The 17 field scores were calculated by the Sign & Sky AI, which compared the farmers' prediction with historical recorded scientific weather data for Wolaita. They are stored as recorded and marked “field-ai-2025”.",
+    "methodField": "The 17 field scores are preliminary. The Sign & Sky AI compared each farmers' prediction with historical recorded weather for Wolaita, but the rainfall data behind these scores were not kept, so they cannot be checked yet. They are stored as recorded and marked “field-ai-2025”. A reproducible re-test with CHIRPS satellite rainfall and ERA5, with every prediction fixed in advance, is under way.",
     "methodNew": "New tests use a published, repeatable method (sns-score-v1). A sign seen on day D predicts an outcome within W days. The tool takes daily rainfall for the W days after D, and for the same calendar window in each of the N earlier years (10 by default).",
     "formula": "score = 10 × (0.5 × H + 0.5 × P)",
     "formulaH": "H is 1 if the predicted outcome happened in the window, otherwise 0.",
@@ -306,19 +306,19 @@
     "seasonsTitle": "Seasons",
     "seasonsEthiopia": "Belg (short rains): March–May. Kiremt / Meher (main rains): June–September. Bega (dry season): October–February.",
     "placesTitle": "Where",
-    "placesText": "Every sign in Sign & Sky was recorded with farmers in Wolaita, South Ethiopia, and every score was calculated with recorded weather for Wolaita.",
+    "placesText": "Every sign in Sign & Sky was recorded with farmers in Offa Woreda, Wolaita Zone, South Ethiopia, and every score refers to rainfall in Wolaita.",
     "dataTitle": "Data",
     "dataText": "Recorded weather comes from ERA5 reanalysis and, when connected, CHIRPS satellite rainfall.",
     "apiTitle": "Open data",
     "apiText": "The published library, in both languages with every test result, is open at {url} for apps such as the offline Sign & Sky Android app.",
     "source": {
       "title": "Where the knowledge comes from",
-      "lead": "All 17 signs were gathered from 150 farmers in Wolaita, South Ethiopia, in 2025. Many farmers named the same signs, so each sign was recorded once: this is knowledge the whole community shares.",
+      "lead": "The 17 signs come from a 2025 survey of 283 farming households in three kebeles of Offa Woreda, Wolaita, South Ethiopia, together with interviews of knowledgeable farmers and group discussions. Many farmers named the same signs, so each sign was recorded once: this is knowledge the whole community shares.",
       "doc": "Traditional Knowledge Systems & Microclimate Indicators — Indigenous Weather Forecasting, Wolaita, South Ethiopia",
       "steps": [
         [
           "Observed",
-          "150 farmers in Wolaita described the signs they read in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
+          "In 2025, 283 household heads in three randomly chosen kebeles of Offa Woreda were surveyed, and knowledgeable farmers took part in interviews and group discussions. They described the signs they read in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
         ],
         [
           "Recorded",
@@ -326,11 +326,11 @@
         ],
         [
           "Tested",
-          "Each sign's prediction was compared with historical recorded weather for Wolaita: CHIRPS satellite rainfall and ERA5 reanalysis."
+          "Each sign's prediction was compared with historical recorded rainfall for Wolaita by the Sign & Sky AI."
         ],
         [
           "Scored",
-          "The Sign & Sky AI gave every sign a score from 0 to 10 for how well its prediction matched the weather that was recorded."
+          "Every sign received a preliminary score from 0 to 10. A reproducible re-test with CHIRPS satellite rainfall and ERA5, with each prediction fixed in advance, is under way."
         ],
         [
           "Returned",
@@ -339,8 +339,8 @@
       ],
       "facts": [
         [
-          "150",
-          "farmers shared their knowledge"
+          "283",
+          "households surveyed"
         ],
         [
           "17",
@@ -348,15 +348,15 @@
         ],
         [
           "17 of 17",
-          "tested with scientific data"
+          "given a preliminary score"
         ],
         [
           "Feb–Dec 2025",
           "dates observed"
         ],
         [
-          "Wolaita",
-          "South Ethiopia"
+          "Offa Woreda",
+          "Wolaita, South Ethiopia"
         ]
       ],
       "kindsTitle": "Kinds of signs",

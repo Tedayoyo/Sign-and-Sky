@@ -1,4 +1,6 @@
-// The research area: Wolaita, South Ethiopia. All signs were recorded and scored here.
+// The research area: Offa Woreda, Wolaita Zone, South Ethiopia. The 2025 survey (283 households in the kebeles
+// W/Dekeya, Wareza and Yakima) took place here. Weather tests use the centre of Offa Woreda (6.75° N, 37.50° E),
+// the paper's primary analysis point; the earlier point was Wolaita Sodo (6.855, 37.761).
 // Seasons confirmed by the owner (3 Nov 2026):
 //   Belg = March–May; Kiremt / Meher = June–September; Bega (dry) = October–February.
 
@@ -6,7 +8,7 @@ export type PlaceSlug = "wol";
 export const PLACE_SLUGS: PlaceSlug[] = ["wol"];
 
 export const PLACES: Record<PlaceSlug, { country: "Ethiopia"; lat: number; lon: number; dbName: string }> = {
-  wol: { country: "Ethiopia", lat: 6.855, lon: 37.761, dbName: "Wolaita" },
+  wol: { country: "Ethiopia", lat: 6.75, lon: 37.5, dbName: "Wolaita" },
 };
 
 export type SeasonKey = "belg" | "kiremt" | "bega";

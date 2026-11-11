@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import "./globals.css";
 import { siteUrl } from "@/lib/site";
 
-const DESCRIPTION = "Indigenous weather signs from Wolaita, South Ethiopia, tested against CHIRPS and ERA5 recorded weather and returned to farmers by voice in English and Amharic.";
+const DESCRIPTION = "Indigenous weather signs from 283 farming households in Offa Woreda, Wolaita, South Ethiopia, scored against recorded rainfall and returned to farmers by voice in English and Amharic.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
