@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Z, mx, my, EXT, WOLAITA, OFFA } from "@/lib/mapgeo";
 
 // Rainfall map and charts for Wolaita, drawn only from /api/climate (ERA5 via Open-Meteo). Nothing is drawn for missing data.
 
@@ -63,18 +64,6 @@ export type EnvText = {
 const RAMP = ["#e3eef7", "#bcd6ec", "#8bb9df", "#5797ca", "#2f74ad", "#1a4f80"];
 const BINS = [25, 50, 100, 150, 200];
 const colorFor = (v: number | null) => (v === null ? null : RAMP[BINS.findIndex((b) => v < b) === -1 ? 5 : BINS.findIndex((b) => v < b)]);
-
-// Web Mercator at zoom 10 (256-px tiles) for the Sentinel-2 cloudless background.
-const Z = 10;
-const SCALE = 256 * 2 ** Z;
-const mx = (lon: number) => ((lon + 180) / 360) * SCALE;
-const my = (lat: number) => {
-  const r = (lat * Math.PI) / 180;
-  return ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * SCALE;
-};
-const EXT = { w: 37.28, e: 38.27, s: 6.3, n: 7.25 };
-const WOLAITA = { w: 37.4, e: 38.2, s: 6.5, n: 7.2 };
-const OFFA = { w: 37.4, e: 37.68, s: 6.61, n: 6.83 };
 
 export function EnvironmentExplorer({ t, observations, initialYear }: { t: EnvText; observations: ObsMarker[]; initialYear: number }) {
   const thisYear = new Date().getUTCFullYear();

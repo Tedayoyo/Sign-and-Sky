@@ -842,6 +842,25 @@
       "failed": "GI-AI4AFS did not answer right now.",
       "unreadable": "GI-AI4AFS answered, but its format could not be drawn yet.",
       "raw": "View the data (JSON)"
+    },
+    "kmap": {
+      "title": "Community knowledge map",
+      "help": "Every published sign, placed where it was documented. Filter by type of sign, season or month; choose an area to see its summary.",
+      "privacy": "Markers show the public study point of the area where signs were documented, never a farm, village or person. Signs that farmers share appear here only after researchers review and publish them.",
+      "group": "Type of sign",
+      "season": "Season",
+      "month": "Month",
+      "summary": "Area summary",
+      "signsCount": "signs",
+      "obsCount": "{n} dated observations",
+      "byGroup": "By type of sign",
+      "bySeason": "By season",
+      "details": "Observations",
+      "none": "No observations match these filters.",
+      "reset": "Clear filters",
+      "credit": "Background: Sentinel-2 cloudless 2016 by EOX (CC BY 4.0). Boxes: Wolaita Zone and Offa Woreda analysis areas.",
+      "offaLabel": "Offa Woreda, Wolaita",
+      "any": "Any"
     }
   },
   "calendar": {

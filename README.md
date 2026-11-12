@@ -150,12 +150,26 @@ Confirmed by the owner: Belg Mar–May, Kiremt/Meher Jun–Sep, Bega Oct–Feb. 
 ## Tests
 
 ```bash
-npm test                                            # 31 tests: scoring, matching, dictionaries, connection strings, and the full pipeline
+npm test                                            # 58 tests: scoring, matching, dictionaries, connection strings, climate, GI-AI4AFS, sharing, voice and the full pipeline
 npm run typecheck                                   # type-checks the website, scripts and tests
 TEST_DATABASE_URL=postgres://... npm test           # the same pipeline tests on a disposable Postgres (it is wiped)
 ```
 
 Without `TEST_DATABASE_URL` the pipeline tests run on an in-process Postgres (PGlite): migrations and seeds load, the 17 scores and trust counts match the field record, each of the 17 Ask-page examples (English and Amharic) finds its own sign, the built-in library equals the database, no text mentions India, reply wording, follow-ups, unknown signs, private submissions, a full weather test with its data trail, and RLS on every table.
+
+### End-to-end browser checks (`tests/e2e/`)
+
+Runs the real website against a throw-away local stack: an in-memory Postgres with the real migrations, seed and a test admin, plus local stand-ins for Open-Meteo and Addis AI. The stand-in rainfall is synthetic and only exercises the pages; it is never stored in a real database or shown publicly.
+
+```bash
+npm run build
+npx tsx tests/e2e/stack.ts &                        # writes the test env to /tmp/sns-e2e.env
+set -a; . /tmp/sns-e2e.env; set +a; PORT=3100 npm start &
+npm i --no-save axe-core@4.10.2                     # optional: accessibility checks
+NODE_PATH=$(npm root -g) node tests/e2e/run.cjs node_modules/axe-core/axe.min.js
+```
+
+It checks every public page in English and Amharic on desktop and phone (status, language, one heading, alt text, no sideways scrolling, no script errors), WCAG 2 A/AA rules with axe-core in light and dark themes, and the main journeys: theme switch, Ask in both languages with Amharic voice, signs explorer filters, score calculator, rainfall map and charts, community knowledge map, calendar, Science page, sharing a sign with a voice note online and offline, research sign-in and inbox, a researcher weather test and its data trail, and the public APIs.
 
 ## Project layout
 

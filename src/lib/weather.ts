@@ -3,6 +3,7 @@
 // CHIRPS via a small extractor you run yourself (see README): GET ?lat=&lon=&start=&end= → { dates: [...], precipitation: [...] }.
 import { tx } from "./db";
 import { giaiDailyRain, giaiRain } from "./giai";
+import { era5Url } from "./climate";
 import { addDays, scoreSign, shiftYears, windowFor, METHOD_VERSION, THRESHOLDS, type Day, type Outcome, TESTABLE } from "./scoring";
 
 export type Source = "era5" | "chirps" | "giai";
@@ -37,15 +38,7 @@ export async function fetchDaily(
     return { url: r.label, days: r.days };
   }
   if (source === "era5") {
-    const u = new URL("https://archive-api.open-meteo.com/v1/archive");
-    u.searchParams.set("latitude", lat.toFixed(4));
-    u.searchParams.set("longitude", lon.toFixed(4));
-    u.searchParams.set("start_date", start);
-    u.searchParams.set("end_date", end);
-    u.searchParams.set("daily", "precipitation_sum");
-    u.searchParams.set("models", "era5");
-    u.searchParams.set("timezone", "GMT");
-    url = u.toString();
+    url = era5Url([{ lat, lon }], start, end); // same request as the Environment page
   } else {
     const base = process.env.CHIRPS_ENDPOINT;
     if (!base) throw new Error("CHIRPS is not connected yet (CHIRPS_ENDPOINT is empty).");
