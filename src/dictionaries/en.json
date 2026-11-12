@@ -774,7 +774,7 @@
         "key": "era5",
         "name": "ERA5 reanalysis (via Open-Meteo)",
         "what": "Reanalysis rainfall, daily, about 25 km, since 1940 (Copernicus Climate Change Service).",
-        "use": "Runs the weather tests that researchers start from this website, and checks the CHIRPS results.",
+        "use": "Draws the rainfall map, the monthly and season charts and the calendar averages, runs the weather tests researchers start from this website, and checks the CHIRPS results.",
         "status": "connected",
         "link": "https://open-meteo.com/en/docs/historical-weather-api"
       },
@@ -793,8 +793,53 @@
       "Wolaita Zone: about 6.5–7.2° N, 37.4–38.2° E",
       "Seasons: Belg March–May, Kiremt June–September, Bega October–February"
     ],
-    "next": "Coming next on this page: an interactive rainfall map of Wolaita with a date slider and monthly and seasonal charts, drawn only from the sources above.",
-    "honesty": "Data are never invented: where a source is not yet connected, this page says so."
+    "honesty": "Data are never invented: where a source is not yet connected, this page says so.",
+    "explorer": {
+      "mapTitle": "Rainfall across Wolaita",
+      "mapHelp": "Monthly rainfall on the ERA5 grid over Wolaita Zone. Choose a year, move the slider or press Play to watch the rains move through the seasons.",
+      "year": "Year",
+      "month": "Month",
+      "play": "Play the year",
+      "pause": "Pause",
+      "loading": "Loading recorded rainfall…",
+      "failed": "Rainfall data could not be loaded right now. Nothing is shown rather than a guess; please try again later.",
+      "noData": "no data",
+      "legend": "Monthly rainfall (mm)",
+      "legendNoData": "no data (month not complete)",
+      "wolaitaBox": "Wolaita Zone (analysis box)",
+      "offaBox": "Offa Woreda (analysis box)",
+      "studyPoint": "Offa Woreda study point",
+      "signsSeen": "{n} signs seen this month in 2025",
+      "fieldRecord": "Seen this month in the 2025 field record",
+      "cellNote": "Each square is one ERA5 grid cell (0.25°, about 28 km). ERA5 is a reanalysis: it smooths rain over the whole cell, so a single farm can be wetter or drier. The boxes are the areas used in the research, not official boundaries.",
+      "monthlyTitle": "Monthly rainfall at Offa Woreda, {year}",
+      "monthlyHelp": "Bars: rainfall in each month of the chosen year. Dark ticks: the {period} average for that month.",
+      "normal": "1991–2020 average",
+      "seasonsTitle": "Season totals since 1991",
+      "seasonsHelp": "Each bar is one year's season total at Offa Woreda; {year} is highlighted. The dashed line is the 1991–2020 average.",
+      "seasonNames": {
+        "belg": "Belg (Mar–May)",
+        "kiremt": "Kiremt (Jun–Sep)",
+        "bega": "Bega (Oct–Feb)"
+      },
+      "table": "Month-by-month table",
+      "colMonth": "Month",
+      "colYear": "{year} (mm)",
+      "colNormal": "Average {period} (mm)",
+      "colPct": "% of average",
+      "sourceLabel": "Data",
+      "retrieved": "Retrieved",
+      "dataUntil": "data until",
+      "imagery": "Background imagery: Sentinel-2 cloudless – https://s2maps.eu by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016 & 2017), CC BY 4.0."
+    },
+    "vegetation": {
+      "title": "Vegetation over Offa Woreda (NDVI)",
+      "help": "Weekly vegetation index from Sentinel-2, through the GI-AI4AFS Spatio-Temporal API.",
+      "loading": "Loading vegetation data…",
+      "failed": "GI-AI4AFS did not answer right now.",
+      "unreadable": "GI-AI4AFS answered, but its format could not be drawn yet.",
+      "raw": "View the data (JSON)"
+    }
   },
   "calendar": {
     "eyebrow": "Belg and Meher",
@@ -836,7 +881,10 @@
     "observationsTitle": "Signs seen in 2025",
     "count": "{n} observations",
     "dayUnknown": "day not recorded",
-    "activitiesNote": "Farm activities for Offa Woreda will be added from the team's field notes."
+    "activitiesNote": "Farm activities for Offa Woreda will be added from the team's field notes.",
+    "rainTitle": "Average monthly rainfall at Offa Woreda",
+    "rainNote": "1991–2020, ERA5 reanalysis via Open-Meteo, mm",
+    "rainFailed": "Rainfall data could not be loaded right now."
   },
   "stories": {
     "eyebrow": "Farmer stories",

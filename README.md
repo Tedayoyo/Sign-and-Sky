@@ -181,3 +181,13 @@ Run `supabase/migrations/0003_voice_notes.sql` once in the Supabase SQL Editor. 
 `uploaded_media` to include voice notes (WebM, MP4/AAC, Ogg, MP3, up to 3 MB); nothing is deleted. Voice notes are private:
 only signed-in researchers can play them, on the submission page. Signs filled in while offline are kept on the phone
 (IndexedDB) and sent through `POST /api/share` when the phone is back online.
+
+## Environmental intelligence (12 Nov 2026)
+- `/[lang]/environment`: rainfall map of Wolaita (3 × 3 ERA5 grid, 0.25°) with a year selector and a month slider that can
+  play through the year; monthly rainfall at Offa Woreda against the 1991–2020 average; Belg, Kiremt and Bega totals since
+  1991; a month-by-month table; and the months of the 2025 field observations. Background imagery: Sentinel-2 cloudless
+  2016 (EOX, CC BY 4.0). The boxes are the research analysis areas, not official boundaries.
+- Data: `GET /api/climate/point` (Offa, 1991 to about a week ago) and `GET /api/climate/grid?year=YYYY`, both from ERA5 via the
+  Open-Meteo archive, cached by the CDN. A month or season with any missing day has no value; nothing is filled in.
+- `GET /api/giai/ndvi`: GI-AI4AFS vegetation index over Offa Woreda once the `GIAI_*` settings exist.
+- `OPEN_METEO_ARCHIVE_URL_TEST_ONLY` points the climate code at a local stand-in for testing; never set it on Vercel.

@@ -888,3 +888,79 @@ fieldset { border-radius: 16px; box-shadow: 0 8px 24px -22px rgba(16, 30, 60, 0.
 .page-head .ring__track { stroke: rgba(255, 255, 255, 0.18); }
 .page-head .status-pill { background: rgba(255, 255, 255, 0.14); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
 .ev-target-label, .ev-median-label { paint-order: stroke; stroke: var(--card); stroke-width: 3px; stroke-linejoin: round; }
+
+/* =====================================================================
+   Phase C (12 Nov 2026): environmental intelligence (ERA5 rainfall map and charts), calendar rainfall.
+   ===================================================================== */
+.envx { margin-bottom: 1rem; }
+.envx__map-wrap, .envx__panel { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.25rem 1.3rem; margin-bottom: 1.4rem; box-shadow: var(--shadow-s); }
+.envx__head { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+.envx__head h2, .envx__panel h2 { margin-top: 0; }
+.envx__controls { display: flex; gap: 0.6rem; align-items: flex-end; flex-wrap: wrap; }
+.envx__controls label { display: grid; gap: 0.2rem; font-size: 0.85rem; font-weight: 600; }
+.envx__controls select { min-height: 40px; border-radius: 999px; }
+.envx__slider { display: grid; gap: 0.35rem; margin: 0.6rem 0 0.9rem; }
+.envx__slider input { width: 100%; accent-color: var(--green); min-height: 32px; }
+.envx__ticks { display: grid; grid-template-columns: repeat(12, 1fr); font-size: 0.72rem; color: var(--muted); text-align: center; }
+.envx__map { position: relative; margin: 0; }
+.envx__map svg { display: block; width: 100%; height: auto; border-radius: 14px; overflow: hidden; background: #2a3b2e; }
+.envx__bg { fill: #33452f; }
+.envx__cell-fill { opacity: 0.74; stroke: rgba(255, 255, 255, 0.85); stroke-width: 1.5; transition: fill 0.7s var(--ease), opacity 0.3s; }
+.envx__cell.is-hot .envx__cell-fill { opacity: 0.92; stroke-width: 3; }
+.envx__cell-label { font-size: 17px; font-weight: 800; fill: #0f1a2e; paint-order: stroke; stroke: rgba(255, 255, 255, 0.85); stroke-width: 3px; pointer-events: none; }
+.envx__cell-label.on-dark { fill: #fff; stroke: rgba(15, 26, 46, 0.7); }
+.envx__box { fill: none; stroke-width: 2.5; pointer-events: none; }
+.envx__box--zone { stroke: #f1cf8e; stroke-dasharray: 10 6; }
+.envx__box--offa { stroke: #fff; }
+.envx__point { fill: var(--gold); stroke: #fff; stroke-width: 3; }
+.envx__label { font-size: 15px; font-weight: 700; fill: #fff; paint-order: stroke; stroke: rgba(10, 20, 38, 0.85); stroke-width: 4px; }
+.envx__label--obs { fill: #ffe2a6; }
+.envx__obs circle { fill: none; stroke: #ffe2a6; stroke-width: 2.5; animation: ping 2.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes ping { from { transform: scale(0.6); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.envx__state { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: #fff; background: rgba(10, 20, 38, 0.45); border-radius: 14px; font-weight: 600; text-align: center; padding: 1rem; }
+.envx__state.static { position: static; background: color-mix(in srgb, var(--line) 35%, transparent); color: var(--muted); padding: 1.2rem; border-radius: 12px; }
+.envx__state.is-error { background: color-mix(in srgb, var(--fair) 14%, var(--card)); color: var(--ink); }
+.envx__map .envx__state.is-error { background: rgba(60, 40, 10, 0.6); color: #fff; }
+.envx__legend { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; align-items: center; margin-top: 0.7rem; font-size: 0.85rem; color: var(--muted); }
+.envx__legend-title { font-weight: 700; color: var(--ink); }
+.envx__key { display: inline-flex; gap: 0.35rem; align-items: center; }
+.envx__key i { display: inline-block; width: 16px; height: 12px; border-radius: 3px; border: 1px solid var(--line); }
+.envx__key-nodata { background: repeating-linear-gradient(45deg, rgba(120, 130, 140, 0.45) 0 3px, transparent 3px 6px); }
+.envx__key-box { width: 18px !important; height: 12px; background: transparent; border-width: 2px !important; }
+.envx__key-box--zone { border: 2px dashed #c8902e !important; }
+.envx__key-box--offa { border: 2px solid var(--ink) !important; }
+.envx__chart { margin: 0; }
+.envx__chart svg { width: 100%; height: auto; display: block; }
+.envx__normal { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.envx__key-normal { display: inline-block; width: 16px; height: 3px; background: var(--ink); border-radius: 2px; vertical-align: middle; }
+.envx__seasons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.envx__season { margin: 0; }
+.envx__season figcaption { display: grid; gap: 0.1rem; margin-bottom: 0.3rem; }
+.envx__season svg { width: 100%; height: auto; display: block; }
+.envx__sbar { fill: var(--ev-ref); }
+.ev-bar--target .envx__sbar { fill: var(--ev-target); }
+.envx__table { margin: 0 0 1rem; }
+.envx__table summary { cursor: pointer; font-weight: 600; color: var(--rain); }
+.envx__table tr.is-target td { font-weight: 700; background: color-mix(in srgb, var(--ev-target) 12%, transparent); }
+.envx__source { margin-bottom: 2rem; }
+.envx__ndvi { fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linejoin: round; }
+.envx__ndvi-dot { fill: var(--card); stroke: var(--green); stroke-width: 2; }
+@media (max-width: 820px) { .envx__seasons { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .envx__cell-label { font-size: 40px; stroke-width: 6px; } .envx__label { font-size: 32px; stroke-width: 7px; } .envx__point { stroke-width: 5; } .envx__ticks span:nth-child(even) { visibility: hidden; } }
+
+/* calendar: average rainfall bars aligned with the months */
+.cal__rain { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 0.9rem 1rem 0.7rem; margin: -0.4rem 0 1.4rem; }
+.cal__rain figcaption { margin-bottom: 0.5rem; }
+.cal__rain-bars { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; align-items: end; height: 130px; }
+.cal__rain-col { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; transition: opacity 0.3s; }
+.cal__rain-col.is-dim { opacity: 0.3; }
+.cal__rain-val { font-size: 0.72rem; color: var(--muted); margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+.cal__rain-bar { width: 70%; min-height: 2px; border-radius: 4px 4px 0 0; animation: grow-up 1s var(--ease) both; transform-origin: bottom; }
+@keyframes grow-up { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.cal__rain-col--belg .cal__rain-bar { background: var(--belg, var(--skyblue)); }
+.cal__rain-col--kiremt .cal__rain-bar { background: var(--kiremt, var(--green)); }
+.cal__rain-col--bega .cal__rain-bar { background: var(--bega, var(--gold)); }
+@media (prefers-reduced-motion: reduce) {
+  .envx__obs circle, .cal__rain-bar { animation: none !important; }
+  .envx__cell-fill { transition: none; }
+}

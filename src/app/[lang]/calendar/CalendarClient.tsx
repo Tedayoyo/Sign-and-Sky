@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import type { SeasonKey } from "@/lib/places";
 
@@ -23,6 +23,9 @@ type T = {
   observationsTitle: string;
   count: string;
   dayUnknown: string;
+  rainTitle: string;
+  rainNote: string;
+  rainFailed: string;
 };
 
 // Season bands as fractions of the year: Bega Jan–Feb, Belg Mar–May, Kiremt Jun–Sep, Bega Oct–Dec.
@@ -38,6 +41,16 @@ export function CalendarClient({ lang, items, t, categories }: { lang: string; i
   const [season, setSeason] = useState<SeasonKey | "all">("all");
   const [hover, setHover] = useState<string | null>(null);
   const shown = items.filter((i) => season === "all" || i.season === season);
+  // 1991–2020 average monthly rainfall at the study point (ERA5), from /api/climate/point.
+  const [normal, setNormal] = useState<(number | null)[] | null>(null);
+  const [rainState, setRainState] = useState<"loading" | "ok" | "error">("loading");
+  useEffect(() => {
+    fetch("/api/climate/point")
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((j) => (setNormal(j.normal), setRainState("ok")))
+      .catch(() => setRainState("error"));
+  }, []);
+  const maxN = Math.max(1, ...(normal ?? []).map((v) => v ?? 0));
   const when = (i: CalendarItem) => (i.day ? `${i.day} ${t.months[i.month - 1]}` : `${t.months[i.month - 1]} (${t.dayUnknown})`);
 
   return (
@@ -83,6 +96,28 @@ export function CalendarClient({ lang, items, t, categories }: { lang: string; i
           ))}
         </div>
       </div>
+
+      <figure className="cal__rain">
+        <figcaption>
+          <strong>{t.rainTitle}</strong> <span className="muted small">{t.rainNote}</span>
+        </figcaption>
+        {rainState === "ok" && normal ? (
+          <div className="cal__rain-bars" role="img" aria-label={`${t.rainTitle}: ${normal.map((v, i) => `${t.months[i]} ${v ?? "–"} mm`).join(", ")}`}>
+            {normal.map((v, i) => {
+              const m = i + 1;
+              const s: SeasonKey = m >= 3 && m <= 5 ? "belg" : m >= 6 && m <= 9 ? "kiremt" : "bega";
+              return (
+                <span key={i} className={`cal__rain-col cal__rain-col--${s}${season !== "all" && season !== s ? " is-dim" : ""}`} title={`${t.months[i]}: ${v ?? "–"} mm`}>
+                  <span className="cal__rain-val">{v === null ? "–" : Math.round(v)}</span>
+                  <span className="cal__rain-bar" style={{ height: `${((v ?? 0) / maxN) * 100}%` }} />
+                </span>
+              );
+            })}
+          </div>
+        ) : (
+          <p className={`envx__state static${rainState === "error" ? " is-error" : ""}`}>{rainState === "loading" ? "…" : t.rainFailed}</p>
+        )}
+      </figure>
 
       <h2>{t.observationsTitle}</h2>
       <p className="muted">{t.count.replace("{n}", String(shown.length))}</p>

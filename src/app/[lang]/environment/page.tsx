@@ -3,6 +3,12 @@ import { dict } from "@/lib/i18n";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { giaiConfigured } from "@/lib/giai";
+import { publishedSigns, tr } from "@/lib/records";
+import { parseObservations } from "@/lib/observations";
+import { EnvironmentExplorer, type ObsMarker } from "./EnvironmentExplorer";
+import { VegetationPanel } from "./VegetationPanel";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -15,11 +21,19 @@ export default async function Environment({ params }: { params: Promise<{ lang: 
   const d = dict(lang);
   const e = d.environment;
   // GI-AI4AFS shows "Connected" only once its access settings exist on the server.
+  const signs = await publishedSigns();
+  const observations: ObsMarker[] = signs.flatMap((sg) =>
+    parseObservations(sg.observation_period || "")
+      .filter((o) => o.year === 2025)
+      .map((o) => ({ month: o.month, name: tr(sg, lang).name })),
+  );
   const status = (key: string, s: string) => (key === "giai" && giaiConfigured() ? "connected" : s) as keyof typeof e.status;
   return (
     <main>
       <PageHero image="environment" alt={d.media.environment} eyebrow={e.eyebrow} title={e.title} lead={e.lead} illustrativeLabel={d.media.illustrative} />
       <div className="wrap">
+        <EnvironmentExplorer t={{ ...e.explorer, months: d.calendar.months }} observations={observations} initialYear={2025} />
+        <VegetationPanel t={e.vegetation} />
         <h2>{e.sourcesTitle}</h2>
         <ul className="source-cards">
           {e.sources.map((s, i) => {
@@ -52,7 +66,6 @@ export default async function Environment({ params }: { params: Promise<{ lang: 
             ))}
           </ul>
         </section>
-        <p className="notice">{e.next}</p>
         <p className="muted small">{e.honesty}</p>
       </div>
     </main>
