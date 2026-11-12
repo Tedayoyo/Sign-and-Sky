@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageHero } from "@/components/PageHero";
 import { dict, fmt } from "@/lib/i18n";
 import { publishedSigns, evaluationFor, tr } from "@/lib/records";
 import { normalize } from "@/lib/match";
@@ -43,11 +44,9 @@ export default async function Signs({ params, searchParams }: { params: Promise<
   const filtered = !!(sp.q || sp.cat || sp.type || sp.trust);
 
   return (
-    <main className="wrap">
-      <header className="page-head">
-        <h1>{d.signs.title}</h1>
-        <p>{d.signs.intro}</p>
-      </header>
+    <main>
+      <PageHero image="signs" alt={d.media.signs} eyebrow={d.pageHeads.signsEyebrow} title={d.signs.title} lead={d.signs.intro} />
+      <div className="wrap">
       <form className="filters" method="get" role="search">
         <div className="q">
           <label htmlFor="q">{d.signs.search}</label>
@@ -120,6 +119,7 @@ export default async function Signs({ params, searchParams }: { params: Promise<
           })}
         </ul>
       )}
+      </div>
     </main>
   );
 }

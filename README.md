@@ -3,7 +3,9 @@
 Farmers' weather signs, tested against recorded weather, and returned by voice in English and Amharic.
 Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIREMENTS.md`.
 
-**Live site:** https://sign-and-sky-wolaita.vercel.app · English `/en` · Amharic `/am` · open data `/api/v1/signs`
+**Live site:** https://sign-and-sky-wolaita.vercel.app
+
+Public pages: Ask (home), Signs, Environment, Calendar, Results, Share a sign, About, Team, Farmer stories; researchers sign in under Research. Photographs supplied by the team are in `public/media` (resized only; catalogue in `src/lib/media.ts`). Light and dark themes follow the device unless the visitor uses the switch in the header. · English `/en` · Amharic `/am` · open data `/api/v1/signs`
 
 ## What it does
 
@@ -70,6 +72,7 @@ Upload by **dragging the folders** from your computer into GitHub's *Add file �
 3. **Deploy**. Node.js 22 is used automatically (set in `package.json`). Then Project → Settings → Functions → Function Region: choose the region next to your Supabase project (for example Frankfurt `fra1` for an EU Central Supabase project, or Mumbai `bom1`), and redeploy.
    - Spoken Amharic replies (so every phone hears Amharic): `ADDIS_API_KEY` from Addis AI (addisassistant.com/apikeys). Optional: `ADDIS_TTS_VOICE_AM` (default `am-hamen`; e.g. `am-yohanes-calm` for a calm male voice). Addis AI bills 5 ETB per generated minute; each reply is made once and then served from Vercel's cache.
    - Optional, for a neural English voice too: `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `GOOGLE_TTS_API_KEY`. Without them English uses the phone's own voice.
+   - Optional, GI-AI4AFS Spatio-Temporal API (Sentinel-2 indices; see `src/lib/giai.ts`): `GIAI_TOKEN_URL`, `GIAI_CLIENT_ID`, `GIAI_CLIENT_SECRET`, `GIAI_API_URL`, `GIAI_COLLECTION`. Until all five are set, the Environment page shows it as "Awaiting access".
    - Optional: `NEXT_PUBLIC_SITE_URL` — the official address, `https://sign-and-sky-wolaita.vercel.app` (type **Config**, not Secret; used for the sitemap, shared answers and link previews).
 4. Check: open `https://sign-and-sky-wolaita.vercel.app/api/health`. It should show `{"ok":true,"published":17,"admins":1,"session_secret":"set"}`. If not, it says what is missing: a wrong database password, a missing setting, or SQL files not yet run. Then open `/en`, `/am`, and sign in at `/en/research`.
 5. Optional: Settings → Domains to use your own domain (for example `signandsky.org`).

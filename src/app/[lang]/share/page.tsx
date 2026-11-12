@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { dict } from "@/lib/i18n";
 import ShareForm from "./ShareForm";
+import { PageHero } from "@/components/PageHero";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -9,14 +10,21 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 export default async function Share({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const d = dict(lang).share;
+  const all = dict(lang);
+  const d = all.share;
   return (
-    <main className="wrap narrow">
-      <header className="page-head">
-        <h1>{d.title}</h1>
-        <p>{d.intro}</p>
-      </header>
-      <ShareForm lang={lang} d={d} />
+    <main>
+      <PageHero
+        image="community"
+        alt={all.media.community}
+        eyebrow={all.pageHeads.shareEyebrow}
+        title={d.title}
+        lead={d.intro}
+        illustrativeLabel={all.media.illustrative}
+      />
+      <div className="wrap narrow">
+        <ShareForm lang={lang} d={d} />
+      </div>
     </main>
   );
 }

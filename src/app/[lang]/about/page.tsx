@@ -4,8 +4,10 @@ import { dict } from "@/lib/i18n";
 import builtin from "@/data/library.json";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { TrustBadge } from "@/components/Gauge";
+import { Photo } from "@/components/Photo";
+import { Reveal } from "@/components/Reveal";
 
-// Portraits in the order the team asked for. Files are the supplied photographs, only resized.
+// Team portraits (supplied photographs, only resized), shown small on the link to the team page.
 const PHOTOS = ["tewodros-birhanu-lera", "tesfaye-latebo", "ermias-gosaye"];
 type Level = "very_strong" | "strong" | "fair" | "weak";
 
@@ -19,7 +21,6 @@ export default async function About({ params }: { params: Promise<{ lang: string
   const d = dict(lang);
   const a = d.about;
   const src = a.source;
-  const team = a.team;
   const kinds = new Map<string, number>();
   for (const r of builtin.signs) kinds.set(r.category, (kinds.get(r.category) ?? 0) + 1);
   const parts = a.apiText.split("{url}");
@@ -30,6 +31,21 @@ export default async function About({ params }: { params: Promise<{ lang: string
         <h1>{a.title}</h1>
         <p>{a.lead}</p>
       </header>
+    </div>
+
+      <section className="wrap mission" aria-labelledby="mission-title">
+        <h2 id="mission-title">{d.mission.title}</h2>
+        <ul className="mission__grid">
+          {d.mission.items.map(([key, title, text], i) => (
+            <Reveal as="li" key={key} delay={(i % 4) * 80} className={`mission__item mission__item--${key}`}>
+              <h3 id={key}>{title}</h3>
+              <p>{text}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
+
+    <div className="wrap narrow about-body">
       <h2>{a.howTitle}</h2>
       <ol>
         {a.how.map((x) => (
@@ -121,37 +137,20 @@ export default async function About({ params }: { params: Promise<{ lang: string
         </p>
       </section>
 
-      <section className="team-section" aria-labelledby="team-title">
-        <div className="wrap">
-          <p className="team-eyebrow">{team.eyebrow}</p>
-          <h2 id="team-title">{team.title}</h2>
-          <p className="team-lead">{team.lead}</p>
-          <ul className="team-grid">
-            {team.members.map((m, i) => (
-              <li key={PHOTOS[i]} className="team-card">
-                <picture>
-                  <source type="image/webp" srcSet={`/team/${PHOTOS[i]}-480.webp 480w, /team/${PHOTOS[i]}-800.webp 800w`} sizes="(max-width: 700px) 92vw, 360px" />
-                  <img
-                    src={`/team/${PHOTOS[i]}-480.jpg`}
-                    srcSet={`/team/${PHOTOS[i]}-480.jpg 480w, /team/${PHOTOS[i]}-800.jpg 800w`}
-                    sizes="(max-width: 700px) 92vw, 360px"
-                    width={480}
-                    height={600}
-                    alt={m.name}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-                <div className="team-info">
-                  <h3>{m.name}</h3>
-                  <p className="team-role">{m.role}</p>
-                  {m.meta && <p className="team-meta">{m.meta}</p>}
-                  <p className="team-bio">{m.bio}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section className="wrap team-teaser" aria-labelledby="team-teaser-title">
+        <Link href={`/${lang}/team`} className="team-teaser__card">
+          <Photo name="team" alt={d.media.team} className="team-teaser__bg" sizes="(max-width: 1080px) 100vw, 1080px" />
+          <span className="team-teaser__body">
+            <span className="eyebrow">{d.team.eyebrow}</span>
+            <strong id="team-teaser-title">{d.team.title}</strong>
+            <span>{d.mission.teamTeaser}</span>
+            <span className="team-teaser__faces" aria-hidden="true">
+              {PHOTOS.map((p) => (
+                <img key={p} src={`/team/${p}-480.webp`} alt="" width={48} height={60} loading="lazy" />
+              ))}
+            </span>
+          </span>
+        </Link>
       </section>
     </main>
   );

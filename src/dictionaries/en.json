@@ -11,7 +11,12 @@
     "about": "About",
     "research": "Research",
     "menu": "Menu",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "environment": "Environment",
+    "calendar": "Calendar",
+    "stories": "Farmer stories",
+    "team": "Team",
+    "more": "More"
   },
   "langName": {
     "en": "English",
@@ -387,31 +392,6 @@
         ]
       ],
       "cta": "See every sign with its date and score"
-    },
-    "team": {
-      "title": "Meet our team",
-      "eyebrow": "The people behind Sign & Sky",
-      "lead": "Sign & Sky won the UN Hackathon on AI for Good with the idea of joining indigenous weather knowledge with satellite and reanalysis data. This is the team building it.",
-      "members": [
-        {
-          "name": "Tewodros Birhanu Lera",
-          "role": "Founder & Team Leader",
-          "meta": "Specialization: AI & Technical Architecture",
-          "bio": "Leads the vision, strategic direction, AI development, technical architecture, and technological integration of Sign & Sky."
-        },
-        {
-          "name": "Tesfaye Latebo",
-          "role": "Agricultural Technology & Climate Data Lead",
-          "meta": "Assistant Professor, Wachamo University",
-          "bio": "Contributes agricultural research expertise, indigenous knowledge documentation and data collection, and the integration and application of CHIRPS and ERA5 climate datasets."
-        },
-        {
-          "name": "Ermias Gosaye",
-          "role": "UI/UX & Product Design Lead",
-          "meta": "",
-          "bio": "Leads product design, user interface development, user experience, visual identity, and the overall design of the Sign & Sky platform."
-        }
-      ]
     }
   },
   "footer": {
@@ -574,5 +554,277 @@
     "title": "This page could not load.",
     "text": "Please try again. If it keeps happening, the website's settings need attention.",
     "retry": "Try again"
+  },
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "media": {
+    "illustrative": "Illustrative photo",
+    "hero": "Morning mist over green hills and farm fields",
+    "signs": "An ant carrying its egg",
+    "environment": "Satellite rainfall map of Africa",
+    "community": "Farmers looking at a phone together in a wheat field",
+    "calendar": "Storm clouds and sunlight over a green field",
+    "team": "Green and gold light",
+    "stories": "A farmer smiling in her wheat field at sunrise"
+  },
+  "landing": {
+    "tagline": "Nature Has Its Own Language. We Help You Understand It.",
+    "taglineText": "Connecting indigenous weather knowledge with satellite observations and climate intelligence to support agricultural decisions.",
+    "cta": {
+      "knowledge": "Explore Indigenous Knowledge",
+      "data": "Explore Environmental Data",
+      "research": "Discover Our Research"
+    },
+    "how": {
+      "eyebrow": "How Sign & Sky works",
+      "title": "From a sign in nature to advice you can use",
+      "steps": [
+        [
+          "Farmers observe",
+          "Farmers notice signs in nature: ants, birds, wind, clouds, the sun, moon and stars."
+        ],
+        [
+          "Knowledge is documented",
+          "Each sign is recorded with its meaning, place and date, in the farmers' own words."
+        ],
+        [
+          "Data are joined",
+          "Satellite and climate records for the same place and dates are brought in: CHIRPS, ERA5 and GI-AI4AFS."
+        ],
+        [
+          "The sign is tested",
+          "The prediction is compared with what the weather actually did, and with what chance alone would give."
+        ],
+        [
+          "Evidence returns",
+          "The result goes back to farmers as a score and spoken advice in their language, weak signs included."
+        ]
+      ]
+    },
+    "explore": {
+      "title": "Explore Sign & Sky",
+      "signs": [
+        "Indigenous signs",
+        "17 nature indicators from Wolaita, each with its meaning and score."
+      ],
+      "environment": [
+        "Environmental intelligence",
+        "The satellite and climate data behind every test."
+      ],
+      "community": [
+        "Community",
+        "Share a sign you saw. Your knowledge joins the record."
+      ],
+      "calendar": [
+        "Seasonal calendar",
+        "Belg, Kiremt and Bega, with every dated observation."
+      ],
+      "team": [
+        "Meet our team",
+        "The people building Sign & Sky."
+      ],
+      "stories": [
+        "Wisdom written in nature",
+        "How farmers in Wolaita read the coming season."
+      ]
+    }
+  },
+  "team": {
+    "eyebrow": "The people behind Sign & Sky",
+    "title": "Meet our team",
+    "lead": "Sign & Sky won the UN Hackathon on AI for Good with the idea of joining indigenous weather knowledge with satellite and reanalysis data. This is the team building it.",
+    "expertise": "Expertise",
+    "contribution": "Contribution",
+    "members": [
+      {
+        "name": "Tewodros Birhanu Lera",
+        "role": "Founder & Project Lead",
+        "meta": "",
+        "expertise": [
+          "AI and machine learning",
+          "Technical architecture",
+          "Product vision",
+          "Research coordination"
+        ],
+        "bio": "Leads the vision, research coordination, AI development and technical architecture of Sign & Sky, and brings its parts together into one platform."
+      },
+      {
+        "name": "Tesfaye Latebo",
+        "role": "Agricultural Technology & Climate Data Lead",
+        "meta": "Assistant Professor, Wachamo University",
+        "expertise": [
+          "Agricultural research",
+          "Indigenous knowledge documentation",
+          "Field data collection",
+          "CHIRPS and ERA5 climate data"
+        ],
+        "bio": "Contributes agricultural research expertise, indigenous knowledge documentation and data collection, and the integration and application of CHIRPS and ERA5 climate datasets."
+      },
+      {
+        "name": "Ermias Gosaye",
+        "role": "UI/UX & Product Design Lead",
+        "meta": "",
+        "expertise": [
+          "Product design",
+          "User interface",
+          "User experience",
+          "Visual identity"
+        ],
+        "bio": "Leads product design, user interface development, user experience, visual identity, and the overall design of the Sign & Sky platform."
+      }
+    ]
+  },
+  "mission": {
+    "title": "Our mission and approach",
+    "items": [
+      [
+        "mission",
+        "Mission",
+        "Give farmers trustworthy weather advice in their own language by testing the signs they already read against satellite and climate data."
+      ],
+      [
+        "vision",
+        "Vision",
+        "A living, open record of indigenous weather knowledge across Ethiopia, where every sign has an honest track record and farmers and scientists learn from each other."
+      ],
+      [
+        "why",
+        "Why indigenous knowledge matters",
+        "Farmers decide when to prepare land, plant and protect their harvest partly from signs in nature. National forecasts cover wide areas and often arrive late; local knowledge is immediate, but rarely tested."
+      ],
+      [
+        "data",
+        "Environmental data",
+        "Each sign is checked against CHIRPS satellite rainfall (since 1981), ERA5 reanalysis and, once access is granted, Sentinel-2 vegetation data from the GI-AI4AFS spatio-temporal API."
+      ],
+      [
+        "ai",
+        "The role of AI",
+        "AI understands what farmers say in English and Amharic, extracts the matching satellite and climate data for the place and dates, joins it with the stored indigenous record, runs the test and speaks the answer back. People review every new sign before it is published."
+      ],
+      [
+        "research",
+        "Research approach",
+        "Predictions are fixed in writing before the data are seen, scores are compared with what a sign with no skill would earn, and every number can be reproduced from open code and public data. The 2025 scores are preliminary until the re-test is published."
+      ],
+      [
+        "focus",
+        "Geographic focus",
+        "Offa Woreda in Wolaita Zone, South Ethiopia: two rainy seasons (Belg and Kiremt) and smallholder farms built around enset, maize and other crops."
+      ],
+      [
+        "goals",
+        "Long-term goals",
+        "Add Wolaytta, release the offline Android app, build multi-season track records for each sign, extend to other zones, and combine proven signs with official seasonal forecasts."
+      ]
+    ],
+    "teamTeaser": "The farmers' knowledge is at the centre; the team builds the tools around it."
+  },
+  "environment": {
+    "eyebrow": "Satellite and climate data",
+    "title": "Environmental intelligence",
+    "lead": "Every Sign & Sky test joins a farmer's sign with the satellite and climate record for the same place and dates. These are the sources, and where each one stands today.",
+    "sourcesTitle": "Data sources",
+    "status": {
+      "connected": "Connected",
+      "research": "Used in the research re-test",
+      "pending": "Awaiting access"
+    },
+    "whatLabel": "What it is",
+    "useLabel": "How Sign & Sky uses it",
+    "sourceLink": "Official documentation",
+    "sources": [
+      {
+        "key": "chirps",
+        "name": "CHIRPS v2.0",
+        "what": "Satellite and rain-gauge rainfall, daily, about 5 km, since 1981 (Climate Hazards Center).",
+        "use": "The primary rainfall record for the research re-test of the 17 signs.",
+        "status": "research",
+        "link": "https://www.chc.ucsb.edu/data/chirps"
+      },
+      {
+        "key": "era5",
+        "name": "ERA5 reanalysis (via Open-Meteo)",
+        "what": "Reanalysis rainfall, daily, about 25 km, since 1940 (Copernicus Climate Change Service).",
+        "use": "Runs the weather tests that researchers start from this website, and checks the CHIRPS results.",
+        "status": "connected",
+        "link": "https://open-meteo.com/en/docs/historical-weather-api"
+      },
+      {
+        "key": "giai",
+        "name": "GI-AI4AFS Spatio-Temporal API",
+        "what": "Sentinel-2 imagery and vegetation indices (NDVI, NDMI, EVI) as map tiles and time series (STAC and OGC standards).",
+        "use": "AI will extract the vegetation and land data for each observation's place and dates and join it with the indigenous record.",
+        "status": "pending",
+        "link": "https://nalamki.github.io/docs/concepts/apis/spatio-temporal-api"
+      }
+    ],
+    "studyTitle": "Study area",
+    "study": [
+      "Offa Woreda centre: 6.75° N, 37.50° E (primary test point)",
+      "Wolaita Zone: about 6.5–7.2° N, 37.4–38.2° E",
+      "Seasons: Belg March–May, Kiremt June–September, Bega October–February"
+    ],
+    "next": "Coming next on this page: an interactive rainfall map of Wolaita with a date slider and monthly and seasonal charts, drawn only from the sources above.",
+    "honesty": "Data are never invented: where a source is not yet connected, this page says so."
+  },
+  "calendar": {
+    "eyebrow": "Belg and Meher",
+    "title": "Seasonal calendar",
+    "lead": "Wolaita has two rainy seasons. The short Belg rains start the planting, the long Kiremt rains carry the main Meher cropping season, and Bega is the dry season. Each marker is a sign farmers saw on that date in 2025.",
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "seasons": {
+      "belg": [
+        "Belg",
+        "March–May",
+        "Short rains: land preparation and early planting."
+      ],
+      "kiremt": [
+        "Kiremt (Meher)",
+        "June–September",
+        "Main rains: the main cropping season."
+      ],
+      "bega": [
+        "Bega",
+        "October–February",
+        "Dry season: harvest, drying and storage."
+      ]
+    },
+    "all": "All seasons",
+    "filterLabel": "Show observations from",
+    "observationsTitle": "Signs seen in 2025",
+    "count": "{n} observations",
+    "dayUnknown": "day not recorded",
+    "activitiesNote": "Farm activities for Offa Woreda will be added from the team's field notes."
+  },
+  "stories": {
+    "eyebrow": "Farmer stories",
+    "title": "Wisdom Written in Nature",
+    "lead": "For generations, farmers in Wolaita have read the coming season in ants, birds, winds and stars. This is what they shared in 2025, with the meanings they gave.",
+    "bySeason": "By season",
+    "meaning": "What farmers say it means",
+    "seen": "Seen",
+    "consentTitle": "Farmers' own stories and voices",
+    "consentText": "We publish farmers' own stories, photos and recordings only with their consent and in their own words. If you farm in Wolaita and want to share a sign or a story, use Share a sign.",
+    "shareCta": "Share a sign"
+  },
+  "pageHeads": {
+    "signsEyebrow": "Indigenous signs",
+    "shareEyebrow": "Community"
   }
 }

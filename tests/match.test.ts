@@ -60,3 +60,12 @@ test("English heard slightly wrong still finds the sign, ordinary words do not",
   assert.equal(findSign("I must sow from tomorrow", items), null);
   assert.equal(findSign("what kind of storm is it", items), null);
 });
+
+test("observation dates are read from the field record text", async () => {
+  const { parseObservations } = await import("../src/lib/observations");
+  assert.deepEqual(
+    parseObservations("5 June 2025 and 3 November 2025").map((o) => [o.day, o.month, o.year, o.season]),
+    [[5, 6, 2025, "kiremt"], [3, 11, 2025, "bega"]],
+  );
+  assert.deepEqual(parseObservations("February 2025 (month recorded; exact day not recorded)").map((o) => [o.day, o.month]), [[null, 2]]);
+});

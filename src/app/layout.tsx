@@ -10,8 +10,16 @@ export const metadata: Metadata = {
   title: { default: "Sign & Sky", template: "%s · Sign & Sky" },
   description: DESCRIPTION,
   applicationName: "Sign & Sky",
-  openGraph: { type: "website", siteName: "Sign & Sky", title: "Sign & Sky", description: DESCRIPTION, locale: "en_US", alternateLocale: ["am_ET"] },
-  twitter: { card: "summary", title: "Sign & Sky", description: DESCRIPTION },
+  openGraph: {
+    type: "website",
+    siteName: "Sign & Sky",
+    title: "Sign & Sky",
+    description: DESCRIPTION,
+    locale: "en_US",
+    alternateLocale: ["am_ET"],
+    images: [{ url: "/media/hero-landscape-1106.jpg", width: 1106, height: 736 }],
+  },
+  twitter: { card: "summary_large_image", title: "Sign & Sky", description: DESCRIPTION, images: ["/media/hero-landscape-1106.jpg"] },
   icons: { icon: "/icon.svg" },
   manifest: "/manifest.webmanifest",
 };
@@ -25,11 +33,15 @@ export const viewport: Viewport = {
   ],
 };
 
+// Applies the visitor's saved light/dark choice before the first paint, so the page never flashes.
+const THEME_SCRIPT = `try{var t=localStorage.getItem("sns-theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const lang = (await headers()).get("x-sns-lang") === "am" ? "am" : "en";
   return (
-    <html lang={lang}>
+    <html lang={lang} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
