@@ -16,8 +16,16 @@
 //   GIAI_CLIENT_ID, GIAI_CLIENT_SECRET
 //   GIAI_API_URL         the Spatio-Temporal API base address given with the credentials
 //   GIAI_COLLECTION      the collection that covers Wolaita (e.g. Sentinel-2 indices)
+//   GIAI_RAIN_COLLECTION the collection holding daily rainfall for Wolaita (e.g. CHIRPS or ERA5 as served by GI-AI4AFS)
+//   GIAI_RAIN_LAYER      its rainfall layer name (default "precipitation")
+// Design (Sign & Sky team): the AI extracts all secondary data — rainfall, satellite and vegetation — for each
+// observation's place and dates from GI-AI4AFS through this API, joins it with the stored indigenous record and tests it.
+// Until the rainfall collection is configured (or if it does not answer), the site falls back to ERA5 via Open-Meteo
+// and always names the source actually used.
 // The docs do not publish a production address, response schemas or Ethiopian coverage, so nothing is assumed:
 // every answer is passed on as received, and the website says "awaiting access" until the settings exist.
+
+import { parseTimeSeries } from "./series";
 
 export type GiaiSettings = { tokenUrl: string; clientId: string; clientSecret: string; apiUrl: string; collection: string };
 
@@ -30,6 +38,13 @@ export function giaiSettings(env: Record<string, string | undefined> = process.e
     collection: (env.GIAI_COLLECTION || "").trim(),
   };
   return Object.values(s).every(Boolean) ? s : null;
+}
+
+export function giaiRain(env: Record<string, string | undefined> = process.env) {
+  const s = giaiSettings(env);
+  const collection = (env.GIAI_RAIN_COLLECTION || "").trim();
+  if (!s || !collection) return null;
+  return { s, collection, layer: (env.GIAI_RAIN_LAYER || "").trim() || "precipitation" };
 }
 
 export function giaiConfigured(): boolean {
@@ -86,12 +101,12 @@ export function giaiCapabilities(s: GiaiSettings, fetchImpl?: typeof fetch) {
  */
 export function giaiTimeSeries(
   s: GiaiSettings,
-  q: { bbox: [number, number, number, number]; start: string; end: string; layer: string; aggregation?: string; resolution?: "P1D" | "P1W" | "P1M" },
+  q: { bbox: [number, number, number, number]; start: string; end: string; layer: string; aggregation?: string; resolution?: "P1D" | "P1W" | "P1M"; collection?: string },
   fetchImpl?: typeof fetch,
 ) {
   return get(
     s,
-    `/api/v2/collections/${encodeURIComponent(s.collection)}/aggregate/time-series`,
+    `/api/v2/collections/${encodeURIComponent(q.collection ?? s.collection)}/aggregate/time-series`,
     {
       bbox: q.bbox.join(","),
       datetime: `${q.start}/${q.end}`,
@@ -108,3 +123,23 @@ export const BOXES = {
   offa: [37.4, 6.61, 37.68, 6.83] as [number, number, number, number],
   wolaita: [37.4, 6.5, 38.2, 7.2] as [number, number, number, number],
 };
+
+/**
+ * Daily rainfall at a point from the GI-AI4AFS rainfall collection: the mean over a 0.1° box around the point, one value
+ * per day. Days the API does not return stay null (missing), never filled in.
+ */
+export async function giaiDailyRain(lat: number, lon: number, start: string, end: string, fetchImpl?: typeof fetch) {
+  const cfg = giaiRain();
+  if (!cfg) throw new GiaiError("The GI-AI4AFS rainfall collection is not configured", 0);
+  const bbox: [number, number, number, number] = [lon - 0.05, lat - 0.05, lon + 0.05, lat + 0.05];
+  const raw = await giaiTimeSeries(cfg.s, { bbox, start: `${start}T00:00:00Z`, end: `${end}T23:59:59Z`, layer: cfg.layer, aggregation: "mean", resolution: "P1D", collection: cfg.collection }, fetchImpl);
+  const byDate = new Map(parseTimeSeries(raw).map((p) => [p.d, p.v]));
+  if (!byDate.size) throw new GiaiError("GI-AI4AFS answered, but no daily rainfall could be read from the answer", 502);
+  const days: { date: string; mm: number | null }[] = [];
+  for (let t = Date.parse(start + "T00:00:00Z"); t <= Date.parse(end + "T00:00:00Z"); t += 864e5) {
+    const d = new Date(t).toISOString().slice(0, 10);
+    const v = byDate.get(d);
+    days.push({ date: d, mm: v === undefined ? null : Math.max(0, v) });
+  }
+  return { label: `GI-AI4AFS Spatio-Temporal API (collection ${cfg.collection}, layer ${cfg.layer})`, days };
+}

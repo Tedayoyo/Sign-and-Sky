@@ -2,17 +2,23 @@
 // ERA5 via the Open-Meteo Historical Weather API (free, no key, about 6 days behind real time).
 // CHIRPS via a small extractor you run yourself (see README): GET ?lat=&lon=&start=&end= → { dates: [...], precipitation: [...] }.
 import { tx } from "./db";
+import { giaiDailyRain, giaiRain } from "./giai";
 import { addDays, scoreSign, shiftYears, windowFor, METHOD_VERSION, THRESHOLDS, type Day, type Outcome, TESTABLE } from "./scoring";
 
-export type Source = "era5" | "chirps";
+export type Source = "era5" | "chirps" | "giai";
 
 export const SOURCE_LABEL: Record<Source, string> = {
   era5: "ERA5 reanalysis (ECMWF) via the Open-Meteo Historical Weather API",
   chirps: "CHIRPS v2.0 daily rainfall (UCSB Climate Hazards Center) via the Sign & Sky CHIRPS extractor",
+  giai: "Rainfall extracted by Sign & Sky's AI from the GI-AI4AFS Spatio-Temporal API",
 };
 
 export function availableSources(): Source[] {
-  return process.env.CHIRPS_ENDPOINT ? ["era5", "chirps"] : ["era5"];
+  const list: Source[] = [];
+  if (giaiRain()) list.push("giai");
+  list.push("era5");
+  if (process.env.CHIRPS_ENDPOINT) list.push("chirps");
+  return list;
 }
 
 type FetchLike = (url: string) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>;
@@ -26,6 +32,10 @@ export async function fetchDaily(
   fetchImpl: FetchLike = fetch as unknown as FetchLike,
 ): Promise<{ url: string; days: Day[] }> {
   let url: string;
+  if (source === "giai") {
+    const r = await giaiDailyRain(lat, lon, start, end);
+    return { url: r.label, days: r.days };
+  }
   if (source === "era5") {
     const u = new URL("https://archive-api.open-meteo.com/v1/archive");
     u.searchParams.set("latitude", lat.toFixed(4));
@@ -92,7 +102,7 @@ export async function runWeatherTest(input: TestInput, fetchImpl?: FetchLike) {
   if (!(refYears >= THRESHOLDS.minReferenceYears && refYears <= 30)) throw new Error("Reference years must be between 5 and 30.");
   const w = windowFor(input.observationDate, input.windowDays);
   const today = input.today ?? new Date().toISOString().slice(0, 10);
-  const lag = input.source === "era5" ? 6 : 1;
+  const lag = input.source === "chirps" ? 1 : 6;
   if (w.end > addDays(today, -lag))
     throw new Error(`The prediction window ends on ${w.end}; recorded data is only available up to about ${addDays(today, -lag)}. Try again after that date.`);
   const start = shiftYears(w.start, -refYears);

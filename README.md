@@ -72,7 +72,7 @@ Upload by **dragging the folders** from your computer into GitHub's *Add file �
 3. **Deploy**. Node.js 22 is used automatically (set in `package.json`). Then Project → Settings → Functions → Function Region: choose the region next to your Supabase project (for example Frankfurt `fra1` for an EU Central Supabase project, or Mumbai `bom1`), and redeploy.
    - Spoken Amharic replies (so every phone hears Amharic): `ADDIS_API_KEY` from Addis AI (addisassistant.com/apikeys). Optional: `ADDIS_TTS_VOICE_AM` (default `am-hamen`; e.g. `am-yohanes-calm` for a calm male voice). Addis AI bills 5 ETB per generated minute; each reply is made once and then served from Vercel's cache.
    - Optional, for a neural English voice too: `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION`, or `GOOGLE_TTS_API_KEY`. Without them English uses the phone's own voice.
-   - Optional, GI-AI4AFS Spatio-Temporal API (Sentinel-2 indices; see `src/lib/giai.ts`): `GIAI_TOKEN_URL`, `GIAI_CLIENT_ID`, `GIAI_CLIENT_SECRET`, `GIAI_API_URL`, `GIAI_COLLECTION`. Until all five are set, the Environment page shows it as "Awaiting access".
+   - Optional, GI-AI4AFS Spatio-Temporal API (Sentinel-2 indices; see `src/lib/giai.ts`): `GIAI_TOKEN_URL`, `GIAI_CLIENT_ID`, `GIAI_CLIENT_SECRET`, `GIAI_API_URL`, `GIAI_COLLECTION` (vegetation), `GIAI_RAIN_COLLECTION` and optional `GIAI_RAIN_LAYER` (rainfall). Until all five are set, the Environment page shows it as "Awaiting access".
    - Optional: `NEXT_PUBLIC_SITE_URL` — the official address, `https://sign-and-sky-wolaita.vercel.app` (type **Config**, not Secret; used for the sitemap, shared answers and link previews).
 4. Check: open `https://sign-and-sky-wolaita.vercel.app/api/health`. It should show `{"ok":true,"published":17,"admins":1,"session_secret":"set"}`. If not, it says what is missing: a wrong database password, a missing setting, or SQL files not yet run. Then open `/en`, `/am`, and sign in at `/en/research`.
 5. Optional: Settings → Domains to use your own domain (for example `signandsky.org`).
@@ -189,5 +189,9 @@ only signed-in researchers can play them, on the submission page. Signs filled i
   2016 (EOX, CC BY 4.0). The boxes are the research analysis areas, not official boundaries.
 - Data: `GET /api/climate/point` (Offa, 1991 to about a week ago) and `GET /api/climate/grid?year=YYYY`, both from ERA5 via the
   Open-Meteo archive, cached by the CDN. A month or season with any missing day has no value; nothing is filled in.
+- **Data design (team, 12 Nov 2026):** Sign & Sky's AI extracts all secondary data (rainfall, satellite, vegetation) automatically
+  from GI-AI4AFS through its spatio-temporal API. With `GIAI_*` set and `GIAI_RAIN_COLLECTION` (+ optional `GIAI_RAIN_LAYER`,
+  default `precipitation`), the map, charts, calendar and researchers' weather tests use GI-AI4AFS; ERA5 via Open-Meteo is the
+  fallback when it is not configured or does not answer, and every response names the source actually used (`source`, `fallback`).
 - `GET /api/giai/ndvi`: GI-AI4AFS vegetation index over Offa Woreda once the `GIAI_*` settings exist.
 - `OPEN_METEO_ARCHIVE_URL_TEST_ONLY` points the climate code at a local stand-in for testing; never set it on Vercel.

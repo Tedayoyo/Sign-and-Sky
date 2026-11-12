@@ -1,7 +1,7 @@
 // Rainfall at the study point (centre of Offa Woreda) from 1991 to about a week ago, as monthly and seasonal totals
 // with the 1991–2020 normal. Cached by the CDN for a week; the data change only by a few days at the end.
 import { NextResponse } from "next/server";
-import { ERA5_CREDIT, ERA5_LABEL, NORMAL, OFFA, fetchEra5, isoDaysAgo, monthlyNormal, monthlyTotals, seasonNormal, seasonTotals } from "@/lib/climate";
+import { ERA5_CREDIT, ERA5_LABEL, NORMAL, OFFA, fetchRain, isoDaysAgo, monthlyNormal, monthlyTotals, seasonNormal, seasonTotals } from "@/lib/climate";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -14,13 +14,14 @@ export async function GET() {
   if (hit && Date.now() - hit.at < 12 * 3600e3) return respond(hit.body);
   try {
     const end = isoDaysAgo(6);
-    const { url, series } = await fetchEra5([OFFA], `${NORMAL.from}-01-01`, end);
+    const { source, request, series, fallback } = await fetchRain([OFFA], `${NORMAL.from}-01-01`, end);
     const years = monthlyTotals(series[0]);
     const seasons = seasonTotals(years);
     const body = {
-      source: ERA5_LABEL,
-      credit: ERA5_CREDIT,
-      request: url,
+      source,
+      credit: source === ERA5_LABEL ? ERA5_CREDIT : "Extracted by Sign & Sky's AI through the GI-AI4AFS Spatio-Temporal API.",
+      request,
+      fallback,
       retrieved_at: new Date().toISOString(),
       point: OFFA,
       resolution: "0.25° (about 28 km)",

@@ -18,6 +18,7 @@ type Point = {
   credit: string;
   retrieved_at: string;
   resolution: string;
+  fallback?: string | null;
 };
 export type ObsMarker = { month: number; name: string };
 
@@ -51,6 +52,7 @@ export type EnvText = {
   colNormal: string;
   colPct: string;
   sourceLabel: string;
+  fallback: string;
   retrieved: string;
   dataUntil: string;
   imagery: string;
@@ -306,6 +308,7 @@ export function EnvironmentExplorer({ t, observations, initialYear }: { t: EnvTe
         </details>
       )}
 
+      {point?.fallback && <p className="notice small">{t.fallback}</p>}
       {(point || grid) && (
         <p className="small muted envx__source">
           {t.sourceLabel}: {(point ?? grid)!.source}. {(point ?? grid)!.credit} {t.retrieved} {((point ?? grid)!.retrieved_at ?? "").slice(0, 10)}

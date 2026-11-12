@@ -257,7 +257,7 @@ export async function runTest(f: FormData) {
       predicted,
       windowDays: Number(s(f, "window_days")),
       referenceYears: Number(s(f, "reference_years") || 10),
-      source: (s(f, "source") === "chirps" ? "chirps" : "era5") as Source,
+      source: (["chirps", "giai"].includes(s(f, "source")) ? s(f, "source") : "era5") as Source,
       userId: user.id,
       notes: s(f, "notes").slice(0, 2000) || undefined,
     });

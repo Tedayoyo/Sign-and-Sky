@@ -616,8 +616,8 @@
           "Each sign is recorded with its meaning, place and date, in the farmers' own words."
         ],
         [
-          "Data are joined",
-          "Satellite and climate records for the same place and dates are brought in: CHIRPS, ERA5 and GI-AI4AFS."
+          "Data are extracted",
+          "Sign & Sky's AI automatically extracts the secondary data for the same place and dates (rainfall, satellite and vegetation) from GI-AI4AFS through its spatio-temporal API."
         ],
         [
           "The sign is tested",
@@ -723,12 +723,12 @@
       [
         "data",
         "Environmental data",
-        "Each sign is checked against CHIRPS satellite rainfall (since 1981), ERA5 reanalysis and, once access is granted, Sentinel-2 vegetation data from the GI-AI4AFS spatio-temporal API."
+        "Sign & Sky's AI extracts the secondary data automatically from GI-AI4AFS through its spatio-temporal API: rainfall (such as CHIRPS and ERA5), Sentinel-2 satellite imagery and vegetation indices. While that link is being set up, rainfall comes directly from ERA5."
       ],
       [
         "ai",
         "The role of AI",
-        "AI understands what farmers say in English and Amharic, extracts the matching satellite and climate data for the place and dates, joins it with the stored indigenous record, runs the test and speaks the answer back. People review every new sign before it is published."
+        "AI understands what farmers say in English and Amharic, automatically extracts the matching secondary data for the place and dates from GI-AI4AFS, joins it with the stored indigenous record, runs the test and speaks the answer back. People review every new sign before it is published."
       ],
       [
         "research",
@@ -751,7 +751,7 @@
   "environment": {
     "eyebrow": "Satellite and climate data",
     "title": "Environmental intelligence",
-    "lead": "Every Sign & Sky test joins a farmer's sign with the satellite and climate record for the same place and dates. These are the sources, and where each one stands today.",
+    "lead": "Sign & Sky's AI automatically extracts the secondary data for each sign's place and dates from GI-AI4AFS through its spatio-temporal API, joins it with the indigenous record and tests it. These are the sources, and where each one stands today.",
     "sourcesTitle": "Data sources",
     "status": {
       "connected": "Connected",
@@ -763,6 +763,14 @@
     "sourceLink": "Official documentation",
     "sources": [
       {
+        "key": "giai",
+        "name": "GI-AI4AFS Spatio-Temporal API (main source)",
+        "what": "The data platform Sign & Sky's AI extracts all secondary data from: rainfall, Sentinel-2 imagery and vegetation indices (NDVI, NDMI, EVI), as time series and map tiles (STAC and OGC standards).",
+        "use": "For every observation, the AI requests the rainfall and vegetation for its place and dates, joins them with the indigenous record and runs the test. The map and charts on this page switch to it as soon as access is set up.",
+        "status": "pending",
+        "link": "https://nalamki.github.io/docs/concepts/apis/spatio-temporal-api"
+      },
+      {
         "key": "chirps",
         "name": "CHIRPS v2.0",
         "what": "Satellite and rain-gauge rainfall, daily, about 5 km, since 1981 (Climate Hazards Center).",
@@ -772,19 +780,11 @@
       },
       {
         "key": "era5",
-        "name": "ERA5 reanalysis (via Open-Meteo)",
+        "name": "ERA5 reanalysis via Open-Meteo (fallback)",
         "what": "Reanalysis rainfall, daily, about 25 km, since 1940 (Copernicus Climate Change Service).",
-        "use": "Draws the rainfall map, the monthly and season charts and the calendar averages, runs the weather tests researchers start from this website, and checks the CHIRPS results.",
+        "use": "Used directly while the GI-AI4AFS link is being set up, or if it does not answer: today it draws the rainfall map, the charts and the calendar averages, and runs researchers' weather tests. Every chart names the source actually used.",
         "status": "connected",
         "link": "https://open-meteo.com/en/docs/historical-weather-api"
-      },
-      {
-        "key": "giai",
-        "name": "GI-AI4AFS Spatio-Temporal API",
-        "what": "Sentinel-2 imagery and vegetation indices (NDVI, NDMI, EVI) as map tiles and time series (STAC and OGC standards).",
-        "use": "AI will extract the vegetation and land data for each observation's place and dates and join it with the indigenous record.",
-        "status": "pending",
-        "link": "https://nalamki.github.io/docs/concepts/apis/spatio-temporal-api"
       }
     ],
     "studyTitle": "Study area",
@@ -827,10 +827,11 @@
       "colYear": "{year} (mm)",
       "colNormal": "Average {period} (mm)",
       "colPct": "% of average",
-      "sourceLabel": "Data",
+      "sourceLabel": "Source used",
       "retrieved": "Retrieved",
       "dataUntil": "data until",
-      "imagery": "Background imagery: Sentinel-2 cloudless – https://s2maps.eu by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016 & 2017), CC BY 4.0."
+      "imagery": "Background imagery: Sentinel-2 cloudless – https://s2maps.eu by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016 & 2017), CC BY 4.0.",
+      "fallback": "GI-AI4AFS did not supply this rainfall, so ERA5 is shown instead."
     },
     "vegetation": {
       "title": "Vegetation over Offa Woreda (NDVI)",

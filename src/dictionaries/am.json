@@ -616,8 +616,8 @@
           "እያንዳንዱ ምልክት ከትርጉሙ፣ ከቦታውና ከቀኑ ጋር በአርሶ አደሮቹ ቃል ይመዘገባል።"
         ],
         [
-          "መረጃዎች ይቀናጃሉ",
-          "ለዚያው ቦታና ቀን የሳተላይትና የአየር ንብረት መዛግብት ይቀናጃሉ፤ CHIRPS፣ ERA5 እና GI-AI4AFS።"
+          "መረጃዎች ይወጣሉ",
+          "የSign & Sky AI ለዚያው ቦታና ቀን ሁለተኛ ደረጃ መረጃዎችን (ዝናብ፣ የሳተላይትና የዕፅዋት መረጃ) ከGI-AI4AFS በspatio-temporal API በኩል በራሱ ያወጣል።"
         ],
         [
           "ምልክቱ ይፈተናል",
@@ -723,12 +723,12 @@
       [
         "data",
         "የአካባቢ መረጃ",
-        "እያንዳንዱ ምልክት ከCHIRPS የሳተላይት የዝናብ መረጃ (ከ1981 ጀምሮ)፣ ከERA5 መረጃ እና ፈቃድ ሲገኝ ከGI-AI4AFS የSentinel-2 የዕፅዋት መረጃ ጋር ይነጻጸራል።"
+        "የSign & Sky AI ሁለተኛ ደረጃ መረጃዎችን ከGI-AI4AFS በspatio-temporal API በኩል በራሱ ያወጣል፤ ዝናብ (እንደ CHIRPS እና ERA5)፣ የSentinel-2 የሳተላይት ምስሎችና የዕፅዋት መለኪያዎች። ይህ ግንኙነት እስኪዘጋጅ ድረስ የዝናብ መረጃ በቀጥታ ከERA5 ይወሰዳል።"
       ],
       [
         "ai",
         "የAI ሚና",
-        "AI አርሶ አደሮች በአማርኛና በእንግሊዝኛ የሚናገሩትን ይረዳል፣ ለቦታውና ለቀኑ የሚመጥነውን የሳተላይትና የአየር ንብረት መረጃ ያወጣል፣ ከተመዘገበው አገር በቀል ዕውቀት ጋር ያቀናጃል፣ ፍተሻውን ያካሂዳል፣ መልሱንም በድምፅ ይመልሳል። እያንዳንዱ አዲስ ምልክት ከመታተሙ በፊት በሰዎች ይገመገማል።"
+        "AI አርሶ አደሮች በአማርኛና በእንግሊዝኛ የሚናገሩትን ይረዳል፣ ለቦታውና ለቀኑ የሚመጥነውን ሁለተኛ ደረጃ መረጃ ከGI-AI4AFS በራሱ ያወጣል፣ ከተመዘገበው አገር በቀል ዕውቀት ጋር ያቀናጃል፣ ፍተሻውን ያካሂዳል፣ መልሱንም በድምፅ ይመልሳል። እያንዳንዱ አዲስ ምልክት ከመታተሙ በፊት በሰዎች ይገመገማል።"
       ],
       [
         "research",
@@ -751,7 +751,7 @@
   "environment": {
     "eyebrow": "የሳተላይትና የአየር ንብረት መረጃ",
     "title": "የአካባቢ መረጃ",
-    "lead": "እያንዳንዱ የSign & Sky ፍተሻ የአርሶ አደርን ምልክት ለዚያው ቦታና ቀን ከተመዘገበው የሳተላይትና የአየር ንብረት መረጃ ጋር ያቀናጃል። ምንጮቹና እያንዳንዳቸው ዛሬ ያሉበት ደረጃ እነሆ።",
+    "lead": "የSign & Sky AI ለእያንዳንዱ ምልክት ቦታና ቀን ሁለተኛ ደረጃ መረጃዎችን ከGI-AI4AFS በspatio-temporal API በኩል በራሱ ያወጣል፣ ከአገር በቀል መዝገቡ ጋር ያቀናጃል፣ ይፈትሻልም። ምንጮቹና እያንዳንዳቸው ዛሬ ያሉበት ደረጃ እነሆ።",
     "sourcesTitle": "የመረጃ ምንጮች",
     "status": {
       "connected": "ተገናኝቷል",
@@ -763,6 +763,14 @@
     "sourceLink": "ይፋዊ ሰነድ",
     "sources": [
       {
+        "key": "giai",
+        "name": "GI-AI4AFS Spatio-Temporal API (ዋና ምንጭ)",
+        "what": "የSign & Sky AI ሁሉንም ሁለተኛ ደረጃ መረጃዎች የሚያወጣበት የመረጃ መድረክ፤ ዝናብ፣ የSentinel-2 ምስሎችና የዕፅዋት መለኪያዎች (NDVI፣ NDMI፣ EVI) በጊዜ ተከታታይ መረጃና በካርታ ንጣፎች (በSTAC እና OGC ደረጃዎች)።",
+        "use": "ለእያንዳንዱ ምልከታ AI የቦታውንና የቀኑን የዝናብና የዕፅዋት መረጃ ጠይቆ ከአገር በቀል መዝገቡ ጋር ያቀናጃል፤ ፍተሻውንም ያካሂዳል። ፈቃዱ እንደተዘጋጀ በዚህ ገጽ ያሉት ካርታና ገበታዎች ወደ እሱ ይቀየራሉ።",
+        "status": "pending",
+        "link": "https://nalamki.github.io/docs/concepts/apis/spatio-temporal-api"
+      },
+      {
         "key": "chirps",
         "name": "CHIRPS v2.0",
         "what": "የሳተላይትና የዝናብ መለኪያ ጣቢያዎች የዝናብ መረጃ፤ በየቀኑ፣ በግምት 5 ኪ.ሜ.፣ ከ1981 ጀምሮ (Climate Hazards Center)።",
@@ -772,19 +780,11 @@
       },
       {
         "key": "era5",
-        "name": "ERA5 (በOpen-Meteo በኩል)",
+        "name": "ERA5 በOpen-Meteo በኩል (ተተኪ)",
         "what": "የERA5 የዝናብ መረጃ፤ በየቀኑ፣ በግምት 25 ኪ.ሜ.፣ ከ1940 ጀምሮ (Copernicus Climate Change Service)።",
-        "use": "የዝናብ ካርታውን፣ ወርሃዊና የወቅት ገበታዎቹንና የቀን መቁጠሪያውን አማካዮች ያሳያል፤ ተመራማሪዎች ከዚህ ድረ-ገጽ የሚጀምሯቸውን የአየር ሁኔታ ፍተሻዎች ያካሂዳል፤ የCHIRPS ውጤቶችንም ያረጋግጣል።",
+        "use": "የGI-AI4AFS ግንኙነት እስኪዘጋጅ ወይም ምላሽ ካልሰጠ በቀጥታ ጥቅም ላይ ይውላል፤ ዛሬ የዝናብ ካርታውን፣ ገበታዎቹንና የቀን መቁጠሪያውን አማካዮች ያሳያል፣ የተመራማሪዎችን የአየር ሁኔታ ፍተሻዎችም ያካሂዳል። እያንዳንዱ ገበታ በእርግጥ ጥቅም ላይ የዋለውን ምንጭ ይጠቅሳል።",
         "status": "connected",
         "link": "https://open-meteo.com/en/docs/historical-weather-api"
-      },
-      {
-        "key": "giai",
-        "name": "GI-AI4AFS Spatio-Temporal API",
-        "what": "የSentinel-2 ምስሎችና የዕፅዋት መለኪያዎች (NDVI፣ NDMI፣ EVI) በካርታ ንጣፎችና በጊዜ ተከታታይ መረጃ (በSTAC እና OGC ደረጃዎች)።",
-        "use": "AI ለእያንዳንዱ ምልከታ ቦታና ቀን የዕፅዋትና የመሬት መረጃን አውጥቶ ከአገር በቀል መዝገቡ ጋር ያቀናጃል።",
-        "status": "pending",
-        "link": "https://nalamki.github.io/docs/concepts/apis/spatio-temporal-api"
       }
     ],
     "studyTitle": "የጥናት ቦታ",
@@ -827,10 +827,11 @@
       "colYear": "{year} (ሚ.ሜ.)",
       "colNormal": "አማካይ {period} (ሚ.ሜ.)",
       "colPct": "ከአማካዩ %",
-      "sourceLabel": "መረጃ",
+      "sourceLabel": "ጥቅም ላይ የዋለው ምንጭ",
       "retrieved": "የተወሰደበት",
       "dataUntil": "መረጃው እስከ",
-      "imagery": "የጀርባ ምስል፦ Sentinel-2 cloudless – https://s2maps.eu በEOX IT Services GmbH (የተሻሻለ የCopernicus Sentinel መረጃ 2016 እና 2017 ይዟል)፣ CC BY 4.0።"
+      "imagery": "የጀርባ ምስል፦ Sentinel-2 cloudless – https://s2maps.eu በEOX IT Services GmbH (የተሻሻለ የCopernicus Sentinel መረጃ 2016 እና 2017 ይዟል)፣ CC BY 4.0።",
+      "fallback": "GI-AI4AFS ይህንን የዝናብ መረጃ ስላላቀረበ በምትኩ ERA5 ይታያል።"
     },
     "vegetation": {
       "title": "በኦፋ ወረዳ ያለው የዕፅዋት ሽፋን (NDVI)",

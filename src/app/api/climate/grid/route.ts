@@ -1,6 +1,6 @@
 // Monthly rainfall for one year on the 3 × 3 ERA5 grid (0.25°) covering Wolaita Zone, for the rainfall map.
 import { NextResponse } from "next/server";
-import { CELL, ERA5_CREDIT, ERA5_LABEL, GRID_LATS, GRID_LONS, fetchEra5, isoDaysAgo, monthlyTotals } from "@/lib/climate";
+import { CELL, ERA5_CREDIT, ERA5_LABEL, GRID_LATS, GRID_LONS, fetchRain, isoDaysAgo, monthlyTotals } from "@/lib/climate";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -18,11 +18,12 @@ export async function GET(req: Request) {
   try {
     const points = GRID_LATS.flatMap((lat) => GRID_LONS.map((lon) => ({ lat, lon })));
     const end = current ? isoDaysAgo(6, now) : `${year}-12-31`;
-    const { url, series } = await fetchEra5(points, `${year}-01-01`, end);
+    const { source, request, series, fallback } = await fetchRain(points, `${year}-01-01`, end);
     const body = {
-      source: ERA5_LABEL,
-      credit: ERA5_CREDIT,
-      request: url,
+      source,
+      credit: source === ERA5_LABEL ? ERA5_CREDIT : "Extracted by Sign & Sky's AI through the GI-AI4AFS Spatio-Temporal API.",
+      request,
+      fallback,
       retrieved_at: new Date().toISOString(),
       year,
       cell_degrees: CELL,

@@ -5,6 +5,7 @@
 //   Acknowledgement: "Generated using Copernicus Climate Change Service information".
 // Nothing is estimated: a month or season with any missing day is reported as null (no value), never filled in.
 import type { Day } from "./scoring";
+import { giaiDailyRain, giaiRain } from "./giai";
 
 export const ERA5_LABEL = "ERA5 reanalysis (ECMWF / Copernicus Climate Change Service) via the Open-Meteo Historical Weather API";
 export const ERA5_CREDIT = "Generated using Copernicus Climate Change Service information. Open-Meteo.com (Zippenfenig, 2023).";
@@ -118,4 +119,25 @@ export function seasonNormal(rows: SeasonRow[], from = NORMAL.from, to = NORMAL.
 export function isoDaysAgo(n: number, now = new Date()) {
   const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - n));
   return d.toISOString().slice(0, 10);
+}
+
+/**
+ * Rainfall for several points: from GI-AI4AFS when its rainfall collection is configured (the team's design), otherwise
+ * from ERA5 via Open-Meteo. If GI-AI4AFS fails or returns too little, ERA5 is used and the reason is reported.
+ */
+export async function fetchRain(points: { lat: number; lon: number }[], start: string, end: string) {
+  let fallback: string | null = null;
+  if (giaiRain()) {
+    try {
+      const out = await Promise.all(points.map((p) => giaiDailyRain(p.lat, p.lon, start, end)));
+      const total = out.reduce((a, o) => a + o.days.length, 0);
+      const have = out.reduce((a, o) => a + o.days.filter((d) => d.mm !== null).length, 0);
+      if (total && have / total >= 0.8) return { source: out[0].label, request: "GI-AI4AFS aggregate/time-series", series: out.map((o) => o.days), fallback };
+      fallback = `GI-AI4AFS returned values for only ${Math.round((have / Math.max(1, total)) * 100)}% of days`;
+    } catch (e) {
+      fallback = `GI-AI4AFS: ${(e as Error).message}`;
+    }
+  }
+  const { url, series } = await fetchEra5(points, start, end);
+  return { source: ERA5_LABEL, request: url, series, fallback };
 }

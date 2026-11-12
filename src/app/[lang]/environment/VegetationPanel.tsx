@@ -1,32 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { parseTimeSeries as points } from "@/lib/series";
 
 // NDVI over Offa Woreda from GI-AI4AFS. Its response format is not published, so the panel looks for a list of
 // {date, value} pairs and draws them; if it cannot find one, it says data arrived and links the raw answer.
 type T = { title: string; help: string; loading: string; failed: string; unreadable: string; raw: string };
-
-function points(x: unknown): { d: string; v: number }[] {
-  const lists: unknown[] = [];
-  const walk = (o: unknown, depth: number) => {
-    if (depth > 4 || !o) return;
-    if (Array.isArray(o)) lists.push(o);
-    else if (typeof o === "object") for (const v of Object.values(o as Record<string, unknown>)) walk(v, depth + 1);
-  };
-  walk(x, 0);
-  for (const l of lists as unknown[][]) {
-    const pts = l
-      .map((it) => {
-        if (!it || typeof it !== "object") return null;
-        const o = it as Record<string, unknown>;
-        const d = [o.datetime, o.time, o.date, o.t].find((v) => typeof v === "string") as string | undefined;
-        const v = [o.value, o.mean, o.NDVI, o.ndvi].find((v) => typeof v === "number") as number | undefined;
-        return d && v !== undefined && Number.isFinite(v) ? { d: d.slice(0, 10), v } : null;
-      })
-      .filter((p): p is { d: string; v: number } => p !== null);
-    if (pts.length >= 2) return pts.sort((a, b) => a.d.localeCompare(b.d));
-  }
-  return [];
-}
 
 export function VegetationPanel({ t }: { t: T }) {
   const [state, setState] = useState<"loading" | "off" | "ok" | "error">("loading");
