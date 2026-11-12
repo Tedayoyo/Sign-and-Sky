@@ -27,7 +27,7 @@ export async function startDb() {
   const p = pool();
   const root = path.join(__dirname, "..", "supabase");
   if (process.env.TEST_DATABASE_URL) await p.query("drop schema public cascade; create schema public;");
-  for (const f of ["migrations/0001_schema.sql", "migrations/0002_voice_and_testing.sql", "seed/0001_initial_records.sql", "seed/0002_voice_and_locations.sql"])
+  for (const f of ["migrations/0001_schema.sql", "migrations/0002_voice_and_testing.sql", "migrations/0003_voice_notes.sql", "seed/0001_initial_records.sql", "seed/0002_voice_and_locations.sql"])
     await p.query(fs.readFileSync(path.join(root, f), "utf8"));
   return p;
 }

@@ -114,7 +114,7 @@ export async function reviewSubmission(f: FormData) {
       );
     }
     await c.query(
-      `update knowledge_records set cover_media_id = (select id from uploaded_media where submission_id = $2 order by created_at limit 1) where id = $1`,
+      `update knowledge_records set cover_media_id = (select id from uploaded_media where submission_id = $2 and mime_type like 'image/%' order by created_at limit 1) where id = $1`,
       [rec.id, id],
     );
     await c.query(

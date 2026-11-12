@@ -5,7 +5,7 @@ Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIR
 
 **Live site:** https://sign-and-sky-wolaita.vercel.app
 
-Public pages: Ask (home), Signs, Environment, Calendar, Results, Share a sign, About, Team, Farmer stories; researchers sign in under Research. Photographs supplied by the team are in `public/media` (resized only; catalogue in `src/lib/media.ts`). Light and dark themes follow the device unless the visitor uses the switch in the header. · English `/en` · Amharic `/am` · open data `/api/v1/signs`
+Public pages: Ask (home), Signs (explorer with groups, search and per-sign evidence), Environment, Calendar, Results (dashboard with an H/P calculator), Share a sign (voice notes, offline drafts and sending), About, Team, Farmer stories; researchers sign in under Research. Photographs supplied by the team are in `public/media` (resized only; catalogue in `src/lib/media.ts`). Light and dark themes follow the device unless the visitor uses the switch in the header. · English `/en` · Amharic `/am` · open data `/api/v1/signs`
 
 ## What it does
 
@@ -174,3 +174,10 @@ tests/                    node:test suites
 
 - CHIRPS extractor; village-level coordinates (current points are representative).
 - The 17 field scores have no data trail yet; re-run them with the test tool once the site is online (Open-Meteo is reachable from Vercel).
+
+
+## Voice notes on shared signs (database step, 12 Nov 2026)
+Run `supabase/migrations/0003_voice_notes.sql` once in the Supabase SQL Editor. It only widens the allowed file types of
+`uploaded_media` to include voice notes (WebM, MP4/AAC, Ogg, MP3, up to 3 MB); nothing is deleted. Voice notes are private:
+only signed-in researchers can play them, on the submission page. Signs filled in while offline are kept on the phone
+(IndexedDB) and sent through `POST /api/share` when the phone is back online.

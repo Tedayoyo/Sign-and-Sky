@@ -25,7 +25,7 @@ export default async function SubmissionPage({ params, searchParams }: { params:
   );
   if (!s) notFound();
   const [photos, notes] = await Promise.all([
-    query<{ id: string }>("select id from uploaded_media where submission_id = $1 order by created_at", [id]),
+    query<{ id: string; mime_type: string }>("select id, mime_type from uploaded_media where submission_id = $1 order by created_at", [id]),
     query<{ body: string; created_at: string; full_name: string | null }>(
       "select n.body, n.created_at, p.full_name from research_notes n left join profiles p on p.id = n.author_id where n.submission_id = $1 order by n.created_at",
       [id],
@@ -81,9 +81,13 @@ export default async function SubmissionPage({ params, searchParams }: { params:
           {photos.length > 0 && (
             <>
               <h3>{r.photos}</h3>
-              {photos.map((p) => (
-                <img key={p.id} src={`/api/media/${p.id}`} alt="" style={{ borderRadius: 8, marginBottom: 8 }} />
-              ))}
+              {photos.map((p) =>
+                p.mime_type.startsWith("audio/") ? (
+                  <audio key={p.id} controls preload="none" src={`/api/media/${p.id}`} style={{ width: "100%", marginBottom: 8 }} />
+                ) : (
+                  <img key={p.id} src={`/api/media/${p.id}`} alt="" style={{ borderRadius: 8, marginBottom: 8 }} />
+                ),
+              )}
             </>
           )}
         </section>

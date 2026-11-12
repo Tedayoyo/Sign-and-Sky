@@ -289,7 +289,33 @@
       "consent": "Please tick the consent box to send the sign.",
       "photo": "The photo must be a JPEG, PNG or WebP image of 3 MB or less.",
       "date": "Please enter a valid date that is not in the future.",
-      "server": "The sign could not be saved. Please try again later."
+      "server": "The sign could not be saved. Please try again later.",
+      "voice": "The recording could not be read. Please record it again (up to 2 minutes)."
+    },
+    "voice": {
+      "title": "Record your voice (optional)",
+      "help": "Describe the sign in your own words, in any language. Up to 2 minutes.",
+      "start": "Start recording",
+      "stop": "Stop recording",
+      "again": "Record again",
+      "remove": "Remove",
+      "recording": "Recording… {t}",
+      "notSupported": "Voice recording is not available in this browser. You can still type your sign.",
+      "denied": "The microphone was not allowed. You can still type your sign, or allow the microphone and try again."
+    },
+    "offline": {
+      "online": "Online",
+      "offline": "Offline: you can still fill in the form. Your sign will be saved on this phone and sent when you are back online.",
+      "draftSaved": "Draft saved on this phone",
+      "draftRestored": "We restored the sign you had not finished.",
+      "discard": "Start again",
+      "queuedTitle": "Saved on this phone",
+      "queued": "Your sign is saved on this phone and will be sent automatically as soon as you are online. You will see its reference code here.",
+      "waiting": "{n} waiting to send",
+      "sending": "Sending {n}…",
+      "sendNow": "Send now",
+      "sent": "Sent · reference {code}",
+      "tooLarge": "The photo and the recording together are too large to send. Record a shorter message or choose a smaller photo."
     }
   },
   "about": {
@@ -826,5 +852,107 @@
   "pageHeads": {
     "signsEyebrow": "Indigenous signs",
     "shareEyebrow": "Community"
+  },
+  "explorer": {
+    "all": "All signs",
+    "groups": {
+      "sky": "Clouds and sky",
+      "animals": "Birds and animals",
+      "insects": "Insects and ants",
+      "wind": "Wind",
+      "plants": "Trees and flowering"
+    },
+    "status": {
+      "preliminary": "Preliminary field score",
+      "retested": "Re-tested with data",
+      "untested": "Not yet tested"
+    }
+  },
+  "evidence": {
+    "where": "Where",
+    "studyPoint": "Study point",
+    "observed": "Observed",
+    "forecastWindow": "Forecast window",
+    "statusTitle": "Scientific evaluation status",
+    "steps": {
+      "preliminary": "Preliminary field score",
+      "retested": "Re-tested with stored data",
+      "validated": "Validated over several seasons"
+    },
+    "statusText": {
+      "preliminary": "This score comes from the 2025 field record. The rainfall data behind it were not kept, so it cannot be checked yet. A reproducible re-test with CHIRPS and ERA5, with the prediction fixed in advance, is under way.",
+      "retested": "This sign has been re-tested with stored rainfall data. Each test below shows its data, so anyone can check it. One season is evidence about one event, not proof of long-run skill.",
+      "untested": "This sign has not been tested yet."
+    },
+    "validatedNote": "No sign is validated yet: that needs repeated tests over several seasons.",
+    "history": "Observation history",
+    "histObserved": "Sign observed",
+    "histField": "Preliminary field score recorded",
+    "histTest": "Weather test with stored data",
+    "chart": {
+      "title": "Weather test",
+      "h": "Did it happen? (H)",
+      "hYes": "Yes, the predicted weather happened",
+      "hNo": "No, it did not happen",
+      "p": "How unusual in the predicted direction? (P)",
+      "pHelp": "0 = least, 1 = most",
+      "window": "Forecast window",
+      "observed": "Sign seen",
+      "chartTitle": "This window compared with the same dates in earlier years",
+      "chartHelp": "Point at a bar to see the year and the amount.",
+      "metric": {
+        "total": "Total rainfall (mm)",
+        "maxDay": "Wettest day (mm)",
+        "max3": "Wettest 3 days (mm)"
+      },
+      "median": "Median",
+      "thisYear": "Year of the sign",
+      "refYears": "Reference years ({n})",
+      "table": "Year-by-year table",
+      "year": "Year",
+      "source": "Data",
+      "retrieved": "retrieved",
+      "download": "Download the data (JSON)"
+    }
+  },
+  "dashboard": {
+    "cards": {
+      "preliminary": [
+        "Preliminary field scores",
+        "From the 2025 field record. Indicative only: the data behind them were not kept."
+      ],
+      "retested": [
+        "Re-tested with stored data",
+        "Tests run with the published method, each with its rainfall data attached."
+      ],
+      "validated": [
+        "Validated signs",
+        "Needs repeated tests over several seasons. None yet."
+      ]
+    },
+    "overview": "Score overview",
+    "average": "Average preliminary score",
+    "averageNote": "Of the 17 field scores (not yet reproducible)",
+    "distribution": "Signs by trust band",
+    "perSign": "Score of each sign",
+    "calc": {
+      "title": "Try the formula",
+      "intro": "Move the controls to see how the two parts make a score. This is the published SNS-Score v1 formula, unchanged.",
+      "h": "Did the predicted weather happen?",
+      "yes": "Yes",
+      "no": "No",
+      "p": "How unusual was the window in the predicted direction (P)",
+      "pLow": "ordinary",
+      "pHigh": "most unusual in 10–30 years",
+      "result": "Resulting score and trust band",
+      "note": "A prediction that comes true in an ordinary way scores about 7.5; one that comes true in an unusual way approaches 10; one that does not come true scores 5 or less."
+    },
+    "retestedTitle": "Signs re-tested with stored data",
+    "retestedEmpty": "No sign has been re-tested with stored data yet. The research re-test with CHIRPS and ERA5 is under way, and researchers can run tests from the Research area; each one will appear here with its data.",
+    "cols": {
+      "date": "Tested on",
+      "window": "Forecast window",
+      "source": "Data source"
+    }
   }
 }

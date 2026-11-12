@@ -17,6 +17,8 @@ export const TIMINGS = ["within_1_week", "within_3_weeks", "within_1_month", "ot
 export const ACTIVITIES = ["land_preparation", "sowing", "crop_protection", "irrigation", "harvesting", "drying", "other"] as const;
 export const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 export const MAX_IMAGE = 3 * 1024 * 1024;
+export const AUDIO_TYPES = ["audio/webm", "audio/ogg", "audio/mp4", "audio/mpeg"];
+export const MAX_AUDIO = 3 * 1024 * 1024;
 
 export type NewSubmission = {
   farmer_name?: string | null;
@@ -35,7 +37,17 @@ export type NewSubmission = {
   notes?: string | null;
   submitted_locale: string;
   photo?: { type: string; bytes: Buffer; name: string } | null;
+  audio?: { type: string; bytes: Buffer; name: string } | null;
 };
+
+/** Voice-note types, checked from the first bytes: WebM (Chrome, Android), MP4/AAC (Safari, iPhone), Ogg, MP3. */
+export function sniffAudio(b: Buffer): string | null {
+  if (b.length > 4 && b[0] === 0x1a && b[1] === 0x45 && b[2] === 0xdf && b[3] === 0xa3) return "audio/webm";
+  if (b.length > 4 && b.subarray(0, 4).toString("latin1") === "OggS") return "audio/ogg";
+  if (b.length > 12 && b.subarray(4, 8).toString("latin1") === "ftyp") return "audio/mp4";
+  if (b.length > 3 && (b.subarray(0, 3).toString("latin1") === "ID3" || (b[0] === 0xff && (b[1] & 0xe0) === 0xe0))) return "audio/mpeg";
+  return null;
+}
 
 const clip = (s: string | null | undefined, n: number) => (s ? s.trim().slice(0, n) || null : null);
 
@@ -78,6 +90,12 @@ export async function createSubmission(s: NewSubmission): Promise<string> {
       await c.query(
         `insert into uploaded_media (submission_id, mime_type, byte_size, data, original_name, is_public) values ($1,$2,$3,$4,$5,false)`,
         [r.rows[0].id, s.photo.type, s.photo.bytes.length, s.photo.bytes, clip(s.photo.name, 200)],
+      );
+    }
+    if (s.audio) {
+      await c.query(
+        `insert into uploaded_media (submission_id, mime_type, byte_size, data, original_name, is_public) values ($1,$2,$3,$4,$5,false)`,
+        [r.rows[0].id, s.audio.type, s.audio.bytes.length, s.audio.bytes, clip(s.audio.name, 200)],
       );
     }
   });
