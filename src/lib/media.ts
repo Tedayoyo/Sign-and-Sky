@@ -2,7 +2,7 @@
 // home hero, signs explorer, environmental intelligence, community, seasonal calendar, team, farmer stories.
 // Each file exists at 640 px and at its original width, as WebP and JPEG (public/media).
 
-export type MediaKey = "hero" | "signs" | "environment" | "community" | "calendar" | "team" | "stories";
+export type MediaKey = "hero" | "signs" | "environment" | "community" | "calendar" | "team" | "stories" | "science";
 
 export const MEDIA: Record<MediaKey, { file: string; width: number; height: number; illustrative: boolean }> = {
   hero: { file: "hero-landscape", width: 1106, height: 736, illustrative: false },
@@ -12,6 +12,7 @@ export const MEDIA: Record<MediaKey, { file: string; width: number; height: numb
   calendar: { file: "calendar-storm", width: 1306, height: 741, illustrative: false },
   team: { file: "team-particles", width: 1107, height: 737, illustrative: false },
   stories: { file: "stories-farmer", width: 1632, height: 671, illustrative: true },
+  science: { file: "science-landscape", width: 1316, height: 727, illustrative: false }, // supplied 13 Nov 2026 for the Science page
 };
 
 export function srcSet(key: MediaKey, ext: "webp" | "jpg") {

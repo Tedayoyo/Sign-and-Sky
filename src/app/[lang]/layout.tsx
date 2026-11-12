@@ -19,6 +19,7 @@ export default async function LangLayout({ children, params }: { children: React
   ];
   const more = [
     { href: `/${lang}/about`, label: d.nav.about },
+    { href: `/${lang}/science`, label: d.nav.science },
     { href: `/${lang}/team`, label: d.nav.team },
     { href: `/${lang}/stories`, label: d.nav.stories },
     { href: `/${lang}/research`, label: d.nav.research },

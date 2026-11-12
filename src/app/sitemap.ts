@@ -4,7 +4,7 @@ import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteUrl();
-  const pages = ["", "/signs", "/results", "/share", "/about", ...builtin.signs.map((s) => `/signs/${s.record_number}`)];
+  const pages = ["", "/signs", "/results", "/share", "/about", "/environment", "/calendar", "/science", "/team", "/stories", ...builtin.signs.map((s) => `/signs/${s.record_number}`)];
   return pages.flatMap((p) =>
     (["en", "am"] as const).map((lang) => ({
       url: `${base}/${lang}${p}`,

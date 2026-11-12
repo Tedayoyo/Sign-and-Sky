@@ -144,7 +144,7 @@ export default async function Results({ params }: { params: Promise<{ lang: stri
         </table>
       </div>
 
-      <section className="narrow" style={{ marginLeft: 0 }}>
+      <section id="method" className="narrow" style={{ marginLeft: 0 }}>
         <h2>{d.results.methodTitle}</h2>
         <p>{d.results.methodField}</p>
         <p>{d.results.methodNew}</p>

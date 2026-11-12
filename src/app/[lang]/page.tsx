@@ -81,7 +81,7 @@ export default async function Home({ params, searchParams }: { params: Promise<{
             <Link className="btn cta cta--glass" href={`/${lang}/environment`}>
               {L.cta.data}
             </Link>
-            <Link className="btn cta cta--glass" href={`/${lang}/about#research`}>
+            <Link className="btn cta cta--glass" href={`/${lang}/science`}>
               {L.cta.research}
             </Link>
           </div>

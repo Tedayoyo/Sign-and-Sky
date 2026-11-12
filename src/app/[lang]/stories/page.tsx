@@ -35,6 +35,21 @@ export default async function Stories({ params }: { params: Promise<{ lang: stri
     <main className="stories">
       <PageHero image="stories" alt={d.media.stories} eyebrow={s.eyebrow} title={s.title} lead={s.lead} illustrativeLabel={d.media.illustrative} />
       <div className="wrap">
+        <Reveal as="section" className="story-method">
+          <h2 id="documented-title">{s.documentedTitle}</h2>
+          <ul className="story-method__facts">
+            {s.documented.map(([n, text]) => (
+              <li key={n}>
+                <strong>{n}</strong>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="muted">{s.documentedText}</p>
+          <p>
+            <Link href={`/${lang}/science#methodology`}>{s.scienceLink}</Link>
+          </p>
+        </Reveal>
         {ORDER.map((k) => {
           const list = bySeason.get(k) ?? [];
           if (!list.length) return null;

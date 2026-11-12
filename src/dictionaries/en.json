@@ -16,7 +16,8 @@
     "calendar": "Calendar",
     "stories": "Farmer stories",
     "team": "Team",
-    "more": "More"
+    "more": "More",
+    "science": "Science"
   },
   "langName": {
     "en": "English",
@@ -593,7 +594,8 @@
     "community": "Farmers looking at a phone together in a wheat field",
     "calendar": "Storm clouds and sunlight over a green field",
     "team": "Green and gold light",
-    "stories": "A farmer smiling in her wheat field at sunrise"
+    "stories": "A farmer smiling in her wheat field at sunrise",
+    "science": "Terraced green hills and farm fields"
   },
   "landing": {
     "tagline": "Nature Has Its Own Language. We Help You Understand It.",
@@ -896,7 +898,24 @@
     "seen": "Seen",
     "consentTitle": "Farmers' own stories and voices",
     "consentText": "We publish farmers' own stories, photos and recordings only with their consent and in their own words. If you farm in Wolaita and want to share a sign or a story, use Share a sign.",
-    "shareCta": "Share a sign"
+    "shareCta": "Share a sign",
+    "documentedTitle": "How this knowledge was documented",
+    "documented": [
+      [
+        "283",
+        "household heads interviewed (246 male-headed, 37 female-headed)"
+      ],
+      [
+        "3",
+        "randomly chosen kebeles of Offa Woreda: W/Dekeya, Wareza and Yakima"
+      ],
+      [
+        "17",
+        "distinct signs, each recorded once because many farmers named the same ones"
+      ]
+    ],
+    "documentedText": "The 2025 survey combined household interviews with key informant interviews, focus group discussions and field observation. The knowledge belongs to the community, so no names or villages are published.",
+    "scienceLink": "How each sign is tested →"
   },
   "pageHeads": {
     "signsEyebrow": "Indigenous signs",
@@ -1002,6 +1021,277 @@
       "date": "Tested on",
       "window": "Forecast window",
       "source": "Data source"
+    }
+  },
+  "science": {
+    "eyebrow": "Research & publication centre",
+    "title": "The science behind Sign & Sky",
+    "lead": "How farmers' signs are recorded, turned into testable predictions and checked against four decades of satellite and reanalysis rainfall, with every step open to review.",
+    "navLabel": "Sections of this page",
+    "nav": {
+      "publications": "Publications",
+      "methodology": "Methodology",
+      "score": "SNS-Score",
+      "datasets": "Datasets",
+      "validation": "Validation",
+      "projects": "Projects",
+      "collaborations": "Acknowledgements"
+    },
+    "pub": {
+      "status": "Manuscript in preparation · not yet peer reviewed",
+      "title": "Integrating Indigenous Weather Forecasting Knowledge and Climate Data for Agricultural Decision Support: An AI-Enabled Digital Framework for Sign & Sky in Wolaita, Ethiopia",
+      "authors": "Tewodros Birhanu Lera, Tesfaye Latebo, Ermias Gosaye",
+      "abstractLabel": "Abstract",
+      "abstract": "Smallholder farmers in Ethiopia read the coming rains from ants, birds, winds, clouds and stars, yet these indicators are rarely tested, and results seldom return to the community. Sign & Sky is an AI-enabled framework that integrates indigenous weather knowledge with satellite and reanalysis rainfall and returns the verdict to farmers in their language, by voice or text. Researchers collect only the primary data; the AI system listens to a farmer's sign, matches it to recorded indigenous knowledge, extracts rainfall for the relevant place and window through data APIs, tests the prediction against climatology and replies in Amharic or English. Seventeen indicators were documented in 2025 in a survey of 283 households in Offa Woreda, Wolaita Zone. Each farmer interpretation is translated by written rules into one testable event, fixed before any 2025 rainfall was examined, and verified with the Heidke skill score and an exact Poisson-binomial test over 30 reference years. SNS-Score communicates each result on a 0–10 scale; a sign with no skill would earn 3.63 for drought and up to 7.5 for rain in the rainy season. Preliminary field scores (mean 7.41, range 6–9) exceed these benchmarks but lack a data trail and are treated as indicative.",
+      "keywordsLabel": "Keywords",
+      "keywords": "Indigenous knowledge; artificial intelligence; forecast verification; CHIRPS; climate services; Ethiopia",
+      "doi": "Will be added when the paper is published",
+      "pdf": "Will be shared after peer review",
+      "note": "No publication has been issued yet. This page will list the journal, DOI and PDF only once they exist."
+    },
+    "method": {
+      "intro": "The research team collects the primary data. Every later step is done automatically by the AI system and can be recomputed by anyone.",
+      "steps": [
+        [
+          "Record",
+          "283 household heads in three kebeles of Offa Woreda described 17 signs, with the date seen and what they expected to follow."
+        ],
+        [
+          "Translate",
+          "Written rules turn each meaning into one testable event and time window, fixed on 6 November 2026 before any 2025 rainfall was examined."
+        ],
+        [
+          "Test",
+          "The AI system extracts daily rainfall for the place and window through data APIs and compares it with the same window in earlier years."
+        ],
+        [
+          "Return",
+          "The result, its trust band and practical advice go back to farmers by voice and text, in Amharic or English."
+        ]
+      ],
+      "rulesTitle": "Pre-registered translation rules",
+      "rulesIntro": "These rules stop anyone from choosing a window or threshold after seeing the rain.",
+      "rules": [
+        [
+          "R1",
+          "Short-lead events (\"rain is coming\"): a window from the day after the sign, as long as farmers said (hours or days → 3 days; a few weeks → 21 days), otherwise 7 days."
+        ],
+        [
+          "R2",
+          "Season character (normal, poor, drought): the rest of the current rainy season, or the next Belg if the sign was seen in the dry season."
+        ],
+        [
+          "R3",
+          "Seasonal transition (trees flowering before Belg): rain onset in the first month of Belg."
+        ],
+        [
+          "R4",
+          "Two-way signs (\"rain or drought\"): every branch is written down, but the sign waits until the reading farmers gave on the day is recorded."
+        ]
+      ],
+      "measuresTitle": "Standard verification measures",
+      "measures": "PC is the share of predictions that came true and E the share expected by chance, from how often each event happened in the same window in earlier years. The Heidke skill score (HSS) is 1 for perfect forecasts, 0 for no better than chance. An exact Poisson-binomial test gives the probability of so many hits by chance; checked on 20,000 simulated no-skill sets, it gave p ≤ 0.05 in 2.7% of them, so it is slightly conservative.",
+      "levelsTitle": "Five levels of evidence",
+      "levels": [
+        [
+          "1 · Documented",
+          "Reached: 17 signs, 283 households, 19 dated observations."
+        ],
+        [
+          "2 · Demonstrated",
+          "Reached: the public platform, voice in and out, open API and tested code."
+        ],
+        [
+          "3 · Indicative",
+          "Reached: preliminary field scores, mean 7.41. Not reproducible, so not used as proof."
+        ],
+        [
+          "4 · Verified for a season",
+          "Next: the pre-registered test against CHIRPS and ERA5 rainfall. Protocol fixed, results not yet published."
+        ],
+        [
+          "5 · Validated skill",
+          "Not yet reached: needs repeated observations over several seasons and places."
+        ]
+      ]
+    },
+    "score": {
+      "intro": "H is 1 if the predicted outcome happened in the window and 0 if not. P (0 to 1) shows how far the window lay in the predicted direction compared with the same window in earlier years. Being right and being informative count equally.",
+      "colOutcome": "Predicted outcome",
+      "colH": "Counts as happened (H = 1) when",
+      "rows": [
+        [
+          "rain",
+          "window total ≥ 10 mm",
+          "percentile of the total"
+        ],
+        [
+          "heavy_rain",
+          "at least one day ≥ 20 mm",
+          "percentile of the wettest day"
+        ],
+        [
+          "rain_onset",
+          "a 3-day total ≥ 20 mm with ≥ 2 wet days",
+          "percentile of the wettest such 3-day total"
+        ],
+        [
+          "normal_rain",
+          "percentile between 0.25 and 0.75",
+          "1 − 2·|p − 0.5|"
+        ],
+        [
+          "dry",
+          "total < 5 mm, or under half the usual median",
+          "1 − p"
+        ],
+        [
+          "drought",
+          "percentile ≤ 0.20, or total < 5 mm",
+          "1 − p"
+        ],
+        [
+          "below_normal",
+          "percentile ≤ 1/3",
+          "1 − p"
+        ],
+        [
+          "above_normal",
+          "percentile ≥ 2/3",
+          "p"
+        ],
+        [
+          "not_below_normal",
+          "percentile > 1/3",
+          "p"
+        ]
+      ],
+      "bandsTitle": "Trust bands",
+      "benchTitle": "What a sign with no skill would score",
+      "benchIntro": "A score only means something next to what chance would give. These exact values hold for any place and any rainfall record.",
+      "colChance": "Chance it happens anyway (N = 30)",
+      "rainGroup": "Rain, heavy rain, rain onset",
+      "limits": "Limits: SNS-Score judges one prediction at one place over one window. It does not measure long-run reliability, which needs many observations. The 10 mm and 20 mm thresholds suit Wolaita's climate and may need changing elsewhere.",
+      "calcLink": "Try the score calculator",
+      "codeLink": "Read the scoring code"
+    },
+    "outcomes": {
+      "heavy_rain": "Heavy rain",
+      "rain": "Rain",
+      "rain_onset": "Rain onset",
+      "normal_rain": "Normal rainfall",
+      "dry": "Dry spell",
+      "drought": "Drought",
+      "below_normal": "Below normal",
+      "above_normal": "Above normal",
+      "not_below_normal": "Not below normal"
+    },
+    "data": {
+      "intro": "No rainfall is downloaded or edited by hand. The AI system extracts each series from the provider for the exact place and dates a sign needs, and stores the request with the result.",
+      "items": [
+        {
+          "name": "GI-AI4AFS Spatio-Temporal API",
+          "role": "Live platform · first source",
+          "what": "Rainfall and vegetation through the Global Initiative on AI for Agri-Food Systems data service. Used first as soon as access is granted; until then the platform uses ERA5.",
+          "link": "https://nalamki.github.io/docs/sdk/overview",
+          "linkText": "Developer documentation"
+        },
+        {
+          "name": "CHIRPS v2.0 daily",
+          "role": "Research · primary",
+          "what": "Satellite and station blend, 0.05°, from 1981. Climate Hazards Center.",
+          "link": "https://www.chc.ucsb.edu/data/chirps",
+          "linkText": "Climate Hazards Center"
+        },
+        {
+          "name": "CHIRPS v3.0",
+          "role": "Research · sensitivity",
+          "what": "The newer CHIRPS version, used to check that results do not depend on one product.",
+          "link": "https://www.chc.ucsb.edu/data/chirps3",
+          "linkText": "Climate Hazards Center"
+        },
+        {
+          "name": "ERA5",
+          "role": "Live platform · research",
+          "what": "ECMWF reanalysis, 0.25°, hourly. Read on the platform through the Open-Meteo archive API.",
+          "link": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels",
+          "linkText": "Copernicus Climate Data Store"
+        },
+        {
+          "name": "ERA5-Land",
+          "role": "Research · sensitivity",
+          "what": "Land reanalysis, 0.1°, daily totals.",
+          "link": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land",
+          "linkText": "Copernicus Climate Data Store"
+        }
+      ],
+      "envLink": "See the rainfall data on the Environment page →"
+    },
+    "val": {
+      "intro": "Each of the 17 signs has one pre-registered test. Ten are confirmed, four wait for the exact timing from field notes, and three wait for the direction farmers read on the day.",
+      "status": {
+        "confirmed": "Confirmed",
+        "timing": "Timing provisional",
+        "direction": "Direction needed"
+      },
+      "statusHelp": {
+        "confirmed": "Ready to test as written",
+        "timing": "Window to be confirmed from field notes",
+        "direction": "Excluded until farmers' reading is recorded"
+      },
+      "colSign": "Sign",
+      "colOutcome": "Tested outcome",
+      "colWindow": "Target window",
+      "colRule": "Rule",
+      "colStatus": "Status",
+      "colResult": "Result",
+      "kiremtBelg": "Kiremt 2025; Belg 2026",
+      "pending": "Not yet published",
+      "note": "Results will appear here from the archived run once it is complete. The preliminary field scores shown elsewhere on this site are a separate, indicative measure."
+    },
+    "projects": [
+      [
+        "Wolaita pilot",
+        "2025–2026 · in progress",
+        "17 signs documented in Offa Woreda, published in English and Amharic with voice answers."
+      ],
+      [
+        "Wolaytta language",
+        "Translation under way",
+        "About 600 texts prepared for translation so farmers can ask and hear answers in Wolaytta."
+      ],
+      [
+        "Offline Android app",
+        "In development",
+        "The same library and advice on a phone, without a connection."
+      ],
+      [
+        "Multi-season validation",
+        "Planned",
+        "Repeated observations each season so every sign builds its own track record."
+      ],
+      [
+        "GI-AI4AFS data integration",
+        "Awaiting access",
+        "Connected in code; rainfall and vegetation will come from the spatio-temporal API once access is granted."
+      ]
+    ],
+    "collab": {
+      "items": [
+        [
+          "Farming communities of Offa Woreda",
+          "The farmers of W/Dekeya, Wareza and Yakima kebeles who shared their knowledge."
+        ],
+        [
+          "Hackathon on AI for Agri-Food Systems",
+          "Sign & Sky was developed for the hackathon organised under the Global Initiative on AI for Agri-Food Systems (GI-AI4AFS)."
+        ],
+        [
+          "Data and service providers",
+          "Climate Hazards Center (CHIRPS), Copernicus and ECMWF (ERA5), Open-Meteo, EOX (Sentinel-2 map) and Addis AI (Amharic voice). We credit their data and services; they are not project partners."
+        ]
+      ],
+      "note": "Formal research partnerships will be listed here once they are agreed in writing."
     }
   }
 }
