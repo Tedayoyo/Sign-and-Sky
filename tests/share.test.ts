@@ -41,7 +41,7 @@ function form(extra: Record<string, string | Blob> = {}) {
 
 test("a shared sign with a voice note is stored privately for researchers", async () => {
   const r = await handleShare(form({ voice: new Blob([webm], { type: "audio/webm" }) }));
-  assert.equal(r.ok, true, r.error);
+  assert.equal(r.ok, true, r.error ?? "not stored");
   const rows = await query<{ mime_type: string; is_public: boolean; original_language: string }>(
     `select m.mime_type, m.is_public, s.original_language from uploaded_media m join farmer_submissions s on s.id = m.submission_id
      where s.reference_code = $1`,
