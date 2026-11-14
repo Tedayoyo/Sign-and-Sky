@@ -1,0 +1,47 @@
+# Builds an installable Android test app (APK) from mobile/ and attaches it to the workflow run.
+# The APK is signed with a test key: it installs on any Android phone for testing, but it is not
+# the file to upload to Google Play (that build needs the team's own signing key; see mobile/README.md).
+name: Android app (test build)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, feature/mobile-app]
+    paths:
+      - "mobile/**"
+      - "src/lib/**"
+      - "src/data/**"
+      - "src/dictionaries/**"
+      - ".github/workflows/android-apk.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: npm ci
+      - name: Checks (types, shared files match the website, answers for all 17 signs)
+        run: npm run typecheck && npm test
+      - name: Generate the Android project
+        run: npx expo prebuild --platform android --no-install
+      - name: Build the APK
+        working-directory: mobile/android
+        run: ./gradlew assembleRelease --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sign-and-sky-android-test
+          path: mobile/android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error

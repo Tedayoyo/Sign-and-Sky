@@ -1,0 +1,75 @@
+{
+  "expo": {
+    "name": "Sign & Sky",
+    "slug": "sign-and-sky",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "signandsky",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "bundleIdentifier": "org.signandsky.app",
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "org.signandsky.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#0F1A2E",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0F1A2E",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 120
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Sign & Sky uses the microphone when you tap Speak or record a voice note about a sign.",
+          "enableBackgroundPlayback": false
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Sign & Sky uses the microphone when you tap Speak or record a voice note about a sign.",
+          "speechRecognitionPermission": "Sign & Sky turns what you say into text so it can recognise the sign.",
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox",
+            "com.google.android.as",
+            "com.google.android.tts"
+          ]
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Sign & Sky lets you attach a photo of a sign you want to share.",
+          "cameraPermission": "Sign & Sky uses the camera when you take a photo of a sign you want to share."
+        }
+      ]
+    ],
+    "extra": {
+      "apiBase": "https://sign-and-sky-wolaita.vercel.app"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

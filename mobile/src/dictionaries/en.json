@@ -1,0 +1,1316 @@
+{
+  "meta": {
+    "title": "Sign & Sky",
+    "description": "Farmers' weather signs from Wolaita, Ethiopia, scored against recorded rainfall and returned by voice in English and Amharic."
+  },
+  "nav": {
+    "ask": "Ask",
+    "signs": "Signs",
+    "results": "Results",
+    "share": "Share a sign",
+    "about": "About",
+    "research": "Research",
+    "menu": "Menu",
+    "skip": "Skip to content",
+    "environment": "Environment",
+    "calendar": "Calendar",
+    "stories": "Farmer stories",
+    "team": "Team",
+    "more": "More",
+    "science": "Science"
+  },
+  "langName": {
+    "en": "English",
+    "am": "አማርኛ"
+  },
+  "home": {
+    "title": "What signs did nature show you today?",
+    "intro": "Tell us a sign you saw in the sky, the trees or the animals. Sign & Sky checks how that sign has matched recorded rainfall and gives you advice you can hear.",
+    "place": "Place",
+    "stats": "{tested} signs from Wolaita with a preliminary score against recorded weather. {strong} of them are strong or very strong."
+  },
+  "ask": {
+    "label": "Your sign",
+    "placeholder": "Speak or type: “Ants are carrying their eggs uphill”",
+    "go": "Test",
+    "mic": "Speak",
+    "micStop": "Stop listening",
+    "hint": "Tap the microphone and speak, or type. You can also tap an example.",
+    "examples": [
+      "Ants are carrying their eggs uphill",
+      "The birds' feathers look greyish this year",
+      "The wind has changed its direction and strength",
+      "Specific stars have appeared in the night sky",
+      "I saw a ring around the moon",
+      "Thick mist and fog covered the fields this morning",
+      "The ants are marching in a straight line",
+      "The stars and the moon are aligned",
+      "Ground squirrels are digging in the field",
+      "Ants are scattered everywhere, searching for food",
+      "A slow breeze is raising dust from the ground",
+      "A strong wind is blowing from east to west",
+      "The sun was red at sunrise",
+      "The trees are flowering",
+      "Frogs are croaking every night",
+      "Migrating birds arrived from far away",
+      "Dark clouds are moving toward the farm"
+    ],
+    "steps": {
+      "listen": "Listen",
+      "understand": "Understand",
+      "test": "Test",
+      "advice": "Voice advice"
+    },
+    "kv": {
+      "sign": "Sign",
+      "place": "Place",
+      "season": "Season",
+      "predicts": "It predicts",
+      "delay": "Usual delay"
+    },
+    "notRecognised": "Not recognised yet",
+    "unknownTest": "This sign is not in the library yet. If you save it, researchers will test it against past rainfall.",
+    "scoreLabel": "Score {score} out of 10",
+    "testedIn": "Tested in {place}",
+    "notTested": "Not yet tested against recorded weather.",
+    "gaugeLabel": "Trust score {score} of 10",
+    "openRecord": "See the full record",
+    "playAgain": "Play again",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "listening": "Listening… speak, then tap the microphone when you finish.",
+    "blocked": "The microphone is blocked here. Please type your sign instead.",
+    "nohear": "I could not hear you. Try again or type.",
+    "nosr": "This browser cannot turn speech into text. Please type, or open this page in Chrome or Edge.",
+    "nostart": "Could not start the microphone. Please type.",
+    "network": "Speech recognition needs the internet in this browser. Please type, or try Chrome or Edge.",
+    "noVoice": "This phone has no voice for this language. Read the answer above.",
+    "someWritten": "Part of this answer is only written, not spoken.",
+    "tapToHear": "Tap “Play again” to hear the answer.",
+    "error": "Something went wrong. Please try again.",
+    "saveTitle": "Save this sign for researchers?",
+    "saveConsent": "I agree that Sign & Sky keeps this sign so researchers can test it. My name is not needed.",
+    "saveButton": "Save the sign",
+    "saving": "Saving…",
+    "saved": "Saved. Your reference is {code}.",
+    "saveFailed": "The sign could not be saved. Please try again later.",
+    "question": "When should I sow my maize?",
+    "examplesTitle": "Try one of the 17 Wolaita signs",
+    "questionTitle": "Or ask",
+    "empty": "Say or type a sign first, or tap one of the 17 signs.",
+    "stopVoice": "Stop voice",
+    "shareAnswer": "Share answer",
+    "copied": "Answer copied",
+    "shareTitle": "Sign & Sky answer",
+    "preparingVoice": "Preparing the voice…",
+    "voiceFallback": "The natural voice is not available right now, so your phone's voice is reading the answer."
+  },
+  "reply": {
+    "thanks": "Thank you for sharing.",
+    "very_strong": "The sign and the recorded weather agree very strongly (score {score} out of 10).",
+    "strong": "The sign and the recorded weather agree (score {score} out of 10).",
+    "fair": "The sign is fairly reliable (score {score} out of 10).",
+    "weak": "Be careful: this sign scored only {score} out of 10.",
+    "untested": "This sign has not been tested against recorded weather yet.",
+    "follow": "Based on the last sign you told me, {name}, {advice} Your {rain} and {crops} depend on good timing, so check again in three days.",
+    "unknown": "I have not heard that sign before. Thank you for sharing it. We will save it and test it against past rainfall. Can you tell me another sign, like birds, ants or frogs?"
+  },
+  "trust": {
+    "very_strong": "Very strong",
+    "strong": "Strong",
+    "fair": "Fair",
+    "weak": "Weak",
+    "untested": "Not yet tested"
+  },
+  "places": {
+    "wol": {
+      "name": "Wolaita, South Ethiopia",
+      "label": "Offa Woreda, Wolaita, South Ethiopia (enset, maize, teff)",
+      "crops": "enset and maize",
+      "rain": "Belg and Kiremt rains"
+    }
+  },
+  "seasons": {
+    "belg": "Belg (short rains, March–May)",
+    "kiremt": "Kiremt / Meher (main rains, June–September)",
+    "bega": "Bega (dry season, October–February)"
+  },
+  "categories": {
+    "animal": "Animals",
+    "plant": "Plants",
+    "cloud_wind": "Clouds and wind",
+    "atmospheric": "Mist and air",
+    "celestial": "Sun, moon and stars",
+    "soil_temperature": "Soil and heat",
+    "other": "Other"
+  },
+  "types": {
+    "rainfall": "Rainfall",
+    "dry": "Dry spell",
+    "seasonal": "Season"
+  },
+  "outcomes": {
+    "rain": "Rain",
+    "heavy_rain": "Heavy rain",
+    "normal_rain": "Normal rain",
+    "dry": "Dry",
+    "drought": "Drought",
+    "rain_onset": "Start of the rains",
+    "seasonal_change": "Change of season",
+    "other": "Other",
+    "unknown": "Not stated"
+  },
+  "timing": {
+    "within_1_week": "Within a week",
+    "within_3_weeks": "Within three weeks",
+    "within_1_month": "Within a month",
+    "season": "The coming season",
+    "other_unknown": "Not stated"
+  },
+  "status": {
+    "needs_field_validation": "Needs field validation",
+    "needs_farmer_confirmation": "Needs farmer confirmation",
+    "awaiting_documentation": "Awaiting documentation",
+    "tested": "Tested",
+    "awaiting_outcome": "Awaiting outcome",
+    "outcome_recorded": "Outcome recorded",
+    "partially_matched": "Partially matched",
+    "matched": "Matched",
+    "not_matched": "Not matched",
+    "inconclusive": "Inconclusive",
+    "requires_further_research": "Requires further research"
+  },
+  "signs": {
+    "title": "The sign library",
+    "intro": "Signs recorded with farmers in Offa Woreda, Wolaita, in 2025, each with a preliminary score out of 10.",
+    "search": "Search signs",
+    "searchPlaceholder": "ants, clouds, stars…",
+    "allCategories": "All kinds",
+    "allTypes": "All predictions",
+    "allTrust": "Any trust level",
+    "apply": "Show",
+    "count": "{n} signs",
+    "none": "No sign matches this search. Try another word, or clear the filters.",
+    "clear": "Clear filters",
+    "behaviour": "Behaviour as recorded",
+    "description": "What farmers see",
+    "interpretation": "What farmers say it means",
+    "prediction": "Prediction",
+    "delay": "Usual delay",
+    "relevance": "Farm decisions it helps",
+    "advice": "Spoken advice",
+    "recorded": "Recorded",
+    "place": "Place",
+    "source": "Source",
+    "tests": "Tests",
+    "noTests": "No test yet.",
+    "testOf": "Test of {date}",
+    "method": "Method",
+    "window": "Prediction window",
+    "predictedOutcome": "Outcome tested",
+    "data": "Data",
+    "noData": "Underlying data not attached. This score was recorded in the 2025 field table (AI-calculated). It will show its data once a researcher re-runs it with the test tool.",
+    "viewData": "Download the daily data and calculation (JSON)",
+    "inLanguage": "In {language}",
+    "back": "All signs",
+    "notFound": "This sign is not in the published library.",
+    "ask": "Ask about this sign"
+  },
+  "results": {
+    "title": "Field results, Wolaita 2025",
+    "intro": "17 indicators recorded with farmers in Offa Woreda, Wolaita, South Ethiopia. Each prediction was compared with historical recorded weather and given a preliminary score out of 10.",
+    "summary": "{very_strong} very strong, {strong} strong, {fair} fair, {weak} weak.",
+    "table": {
+      "sign": "Indicator",
+      "behaviour": "Behaviour or feature",
+      "meaning": "Farmers' interpretation",
+      "date": "Date recorded",
+      "score": "Score",
+      "trust": "Trust"
+    },
+    "trustRule": "Very strong is a score of 9 or more, strong is 8 to 8.9, fair is 7 to 7.9, and weak is below 7.",
+    "methodTitle": "How a score is made",
+    "methodField": "The 17 field scores are preliminary. The Sign & Sky AI compared each farmers' prediction with historical recorded weather for Wolaita, but the rainfall data behind these scores were not kept, so they cannot be checked yet. They are stored as recorded and marked “field-ai-2025”. A reproducible re-test with CHIRPS satellite rainfall and ERA5, with every prediction fixed in advance, is under way.",
+    "methodNew": "New tests use a published, repeatable method (sns-score-v1). A sign seen on day D predicts an outcome within W days. The tool takes daily rainfall for the W days after D, and for the same calendar window in each of the N earlier years (10 by default).",
+    "formula": "score = 10 × (0.5 × H + 0.5 × P)",
+    "formulaH": "H is 1 if the predicted outcome happened in the window, otherwise 0.",
+    "formulaP": "P is where this year's window ranks among the earlier years (0 to 1), turned toward the prediction: wetter counts for rain signs, drier for dry signs.",
+    "datasets": "Data: ERA5 reanalysis through the Open-Meteo Historical Weather API, and CHIRPS daily rainfall once its extractor is connected. Every test keeps the request, the daily values, the thresholds and the calculation.",
+    "thresholds": "Rain happened: at least 10 mm in the window. Heavy rain: one day of 20 mm or more. Start of the rains: 3 days totalling 20 mm with at least 2 wet days. Normal: between the 25th and 75th percentile. Dry: under 5 mm or under half the usual amount. Drought: at or below the 20th percentile."
+  },
+  "share": {
+    "title": "Share a sign",
+    "intro": "Tell us a sign you or your elders use to read the weather. Researchers will review it and test it against recorded rainfall.",
+    "privacy": "Your name and village stay private. Only signed-in researchers can see them.",
+    "farmerName": "Your name (optional)",
+    "region": "Region or state",
+    "location": "Town, kebele or district",
+    "village": "Village (optional)",
+    "date": "When did you see the sign?",
+    "indicator": "The sign, in a few words",
+    "description": "What did you see or hear?",
+    "language": "Language you are writing in",
+    "languages": {
+      "am": "Amharic",
+      "en": "English",
+      "wal": "Wolaytta",
+      "om": "Afaan Oromo",
+      "ti": "Tigrinya",
+      "other": "Other"
+    },
+    "interpretation": "What does it tell you about the weather? (optional)",
+    "expected": "What weather do you expect? (optional)",
+    "timing": "How soon?",
+    "timings": {
+      "within_1_week": "Within a week",
+      "within_3_weeks": "Within three weeks",
+      "within_1_month": "Within a month",
+      "other_unknown": "Not sure"
+    },
+    "activity": "What farm work does it guide?",
+    "activities": {
+      "land_preparation": "Land preparation",
+      "sowing": "Sowing",
+      "crop_protection": "Crop protection",
+      "irrigation": "Irrigation",
+      "harvesting": "Harvesting",
+      "drying": "Drying the harvest",
+      "other": "Other"
+    },
+    "crop": "Crop (optional)",
+    "notes": "Anything else (optional)",
+    "photo": "Photo (optional, JPEG, PNG or WebP, up to 3 MB)",
+    "consent": "I agree that Sign & Sky keeps this sign so researchers can test it and, once reviewed, publish it without my name.",
+    "submit": "Send the sign",
+    "successTitle": "Thank you. Your sign has been received.",
+    "success": "Your reference is {code}. Keep it if you want to ask about your sign later.",
+    "another": "Share another sign",
+    "errors": {
+      "required": "Please fill in: {fields}.",
+      "consent": "Please tick the consent box to send the sign.",
+      "photo": "The photo must be a JPEG, PNG or WebP image of 3 MB or less.",
+      "date": "Please enter a valid date that is not in the future.",
+      "server": "The sign could not be saved. Please try again later.",
+      "voice": "The recording could not be read. Please record it again (up to 2 minutes)."
+    },
+    "voice": {
+      "title": "Record your voice (optional)",
+      "help": "Describe the sign in your own words, in any language. Up to 2 minutes.",
+      "start": "Start recording",
+      "stop": "Stop recording",
+      "again": "Record again",
+      "remove": "Remove",
+      "recording": "Recording… {t}",
+      "notSupported": "Voice recording is not available in this browser. You can still type your sign.",
+      "denied": "The microphone was not allowed. You can still type your sign, or allow the microphone and try again."
+    },
+    "offline": {
+      "online": "Online",
+      "offline": "Offline: you can still fill in the form. Your sign will be saved on this phone and sent when you are back online.",
+      "draftSaved": "Draft saved on this phone",
+      "draftRestored": "We restored the sign you had not finished.",
+      "discard": "Start again",
+      "queuedTitle": "Saved on this phone",
+      "queued": "Your sign is saved on this phone and will be sent automatically as soon as you are online. You will see its reference code here.",
+      "waiting": "{n} waiting to send",
+      "sending": "Sending {n}…",
+      "sendNow": "Send now",
+      "sent": "Sent · reference {code}",
+      "tooLarge": "The photo and the recording together are too large to send. Record a shorter message or choose a smaller photo."
+    }
+  },
+  "about": {
+    "title": "About Sign & Sky",
+    "lead": "Farmers have read the sky, the trees and the animals for generations. Sign & Sky records those signs, tests each one against recorded weather, and gives the result back to farmers in their own language.",
+    "promisesTitle": "What we promise",
+    "promises": [
+      "Every sign stays credited to the community it came from. Farmers' names and villages are never published.",
+      "Every score shows how it was made: the data, the years compared and the calculation.",
+      "A weak score is said plainly. We never call a sign reliable when the data does not support it."
+    ],
+    "howTitle": "How it works",
+    "how": [
+      "Listen: the farmer speaks or types a sign.",
+      "Understand: Sign & Sky recognises the sign and reads the place and season.",
+      "Test: the sign's score against recorded weather is looked up, or the sign is saved for testing.",
+      "Voice advice: the answer is spoken and written."
+    ],
+    "seasonsTitle": "Seasons",
+    "seasonsEthiopia": "Belg (short rains): March–May. Kiremt / Meher (main rains): June–September. Bega (dry season): October–February.",
+    "placesTitle": "Where",
+    "placesText": "Every sign in Sign & Sky was recorded with farmers in Offa Woreda, Wolaita Zone, South Ethiopia, and every score refers to rainfall in Wolaita.",
+    "dataTitle": "Data",
+    "dataText": "Recorded weather comes from ERA5 reanalysis and, when connected, CHIRPS satellite rainfall.",
+    "apiTitle": "Open data",
+    "apiText": "The published library, in both languages with every test result, is open at {url} for apps such as the offline Sign & Sky Android app.",
+    "source": {
+      "title": "Where the knowledge comes from",
+      "lead": "The 17 signs come from a 2025 survey of 283 farming households in three kebeles of Offa Woreda, Wolaita, South Ethiopia, together with interviews of knowledgeable farmers and group discussions. Many farmers named the same signs, so each sign was recorded once: this is knowledge the whole community shares.",
+      "doc": "Traditional Knowledge Systems & Microclimate Indicators — Indigenous Weather Forecasting, Wolaita, South Ethiopia",
+      "steps": [
+        [
+          "Observed",
+          "In 2025, 283 household heads in three randomly chosen kebeles of Offa Woreda were surveyed, and knowledgeable farmers took part in interviews and group discussions. They described the signs they read in nature: ants, birds, squirrels and frogs, the wind, the sun, moon and stars, clouds, mist and flowering trees."
+        ],
+        [
+          "Recorded",
+          "Signs named by many farmers were recorded once. Each sign was written into the field table with seven fields: the indicator, the behaviour seen, its meaning in local knowledge, the place, the date, whether it was tested with scientific data, and its score."
+        ],
+        [
+          "Tested",
+          "Each sign's prediction was compared with historical recorded rainfall for Wolaita by the Sign & Sky AI."
+        ],
+        [
+          "Scored",
+          "Every sign received a preliminary score from 0 to 10. A reproducible re-test with CHIRPS satellite rainfall and ERA5, with each prediction fixed in advance, is under way."
+        ],
+        [
+          "Returned",
+          "The result goes back to farmers as spoken and written advice in English and Amharic."
+        ]
+      ],
+      "facts": [
+        [
+          "283",
+          "households surveyed"
+        ],
+        [
+          "17",
+          "signs recorded"
+        ],
+        [
+          "17 of 17",
+          "given a preliminary score"
+        ],
+        [
+          "Feb–Dec 2025",
+          "dates observed"
+        ],
+        [
+          "Offa Woreda",
+          "Wolaita, South Ethiopia"
+        ]
+      ],
+      "kindsTitle": "Kinds of signs",
+      "kinds": {
+        "animal": "Animals and birds",
+        "cloud_wind": "Wind and clouds",
+        "celestial": "Sun, moon and stars",
+        "atmospheric": "Mist and fog",
+        "plant": "Trees and plants"
+      },
+      "scaleTitle": "How to read a score",
+      "scale": [
+        [
+          "very_strong",
+          "9 and above"
+        ],
+        [
+          "strong",
+          "8 to 8.9"
+        ],
+        [
+          "fair",
+          "7 to 7.9"
+        ],
+        [
+          "weak",
+          "below 7"
+        ]
+      ],
+      "cta": "See every sign with its date and score"
+    }
+  },
+  "footer": {
+    "line": "Sign & Sky — indigenous weather knowledge, tested and returned to farmers.",
+    "note": "Advice here supports, and does not replace, official forecasts and local extension officers."
+  },
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading…",
+    "error": "Something went wrong. Please try again.",
+    "notFound": "This page does not exist.",
+    "home": "Go to the start page"
+  },
+  "research": {
+    "title": "Research area",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "badLogin": "The email or password is not right.",
+    "locked": "Too many tries. Wait 15 minutes and try again.",
+    "hello": "Signed in as {name}",
+    "dashboard": "Overview",
+    "submissions": "Farmer submissions",
+    "records": "Records",
+    "team": "Team",
+    "account": "My account",
+    "pending": "{n} waiting for review",
+    "publishedCount": "{n} published",
+    "unpublishedCount": "{n} unpublished",
+    "testsCount": "{n} tests",
+    "submissionStatus": {
+      "pending": "Waiting for review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "needs_info": "Asked for more information"
+    },
+    "noSubmissions": "No submissions here.",
+    "filterAll": "All",
+    "farmer": "Farmer",
+    "submitted": "Submitted",
+    "private": "Private — visible to researchers only",
+    "photos": "Photos",
+    "approve": "Approve and create a record",
+    "approveHelp": "Creates an unpublished record from this submission. You can then translate it, test it and publish it.",
+    "reject": "Reject",
+    "askInfo": "Ask for more information",
+    "message": "Message (kept with the submission)",
+    "converted": "Became record {n}",
+    "notes": "Research notes",
+    "addNote": "Add note",
+    "notePlaceholder": "What did you check, and what is still open?",
+    "noNotes": "No notes yet.",
+    "editRecord": "Edit record {n}",
+    "core": "Record",
+    "category": "Kind of sign",
+    "types": "Predicts",
+    "expectedOutcome": "Expected outcome",
+    "expectedTiming": "How soon",
+    "observationDate": "Observation date",
+    "precision": "Date precision",
+    "precisions": {
+      "day": "Day",
+      "month": "Month",
+      "year": "Year"
+    },
+    "observationPeriod": "Observation period (as recorded)",
+    "status": "Verification status",
+    "published": "Published",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "location": "Place",
+    "originalText": "Original text",
+    "source": "Source",
+    "translation": "{language} text",
+    "name": "Name",
+    "trDescription": "Description",
+    "observationText": "Behaviour or feature",
+    "interpretation": "Interpretation",
+    "expectedWeather": "Prediction",
+    "expectedTimingText": "Usual delay",
+    "relevance": "Farm decisions",
+    "keywords": "Voice keywords (comma separated)",
+    "voiceAdvice": "Spoken advice (up to 400 characters)",
+    "trStatus": "Translation status",
+    "trStatuses": {
+      "original": "Original",
+      "reviewed": "Reviewed",
+      "needs_review": "Needs review"
+    },
+    "saved": "Saved.",
+    "runTest": "Run a weather test",
+    "runTestHelp": "Fetches daily rainfall for the prediction window and the same window in earlier years, then scores the sign with sns-score-v1. The data and calculation are kept with the result.",
+    "predicted": "Outcome the sign predicts",
+    "windowDays": "Window (days)",
+    "referenceYears": "Earlier years to compare",
+    "dataSource": "Data source",
+    "run": "Run the test",
+    "testDone": "Test finished: score {score} out of 10.",
+    "testFailed": "The test could not run: {reason}",
+    "seasonalNote": "This sign predicts a change of season. Choose the outcome the farmers meant before testing.",
+    "recordOutcome": "Record what happened",
+    "actualOutcome": "What happened",
+    "actualOutcomes": {
+      "rain": "Rain",
+      "heavy_rain": "Heavy rain",
+      "light_rain": "Light rain",
+      "dry": "Dry",
+      "mixed": "Mixed",
+      "unknown": "Unknown"
+    },
+    "sourceType": "Reported by",
+    "sourceTypes": {
+      "farmer_reported": "Farmer",
+      "researcher_observed": "Researcher",
+      "external_dataset": "Dataset"
+    },
+    "rainfall": "Rainfall (mm, optional)",
+    "periodStart": "From",
+    "periodEnd": "To",
+    "conditions": "Conditions",
+    "outcomes": "Recorded outcomes",
+    "noOutcomes": "No outcomes recorded yet.",
+    "evaluations": "Scores",
+    "teamHelp": "Researchers can review and edit. Admins can also manage the team.",
+    "newMember": "Add a team member",
+    "fullName": "Full name",
+    "role": "Role",
+    "roles": {
+      "admin": "Admin",
+      "researcher": "Researcher"
+    },
+    "create": "Create account",
+    "created": "Account created. Give this one-time password to {email} privately: {password}",
+    "active": "Active",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "lastLogin": "Last sign-in",
+    "never": "Never",
+    "changePassword": "Change my password",
+    "currentPassword": "Current password",
+    "newPassword": "New password (at least 10 characters)",
+    "passwordChanged": "Password changed. Please sign in again.",
+    "passwordWrong": "The current password is not right.",
+    "passwordRules": "The new password must have at least 10 characters.",
+    "exists": "An account with this email already exists.",
+    "invalid": "Some fields are missing or not valid.",
+    "view": "Open",
+    "all": "All records",
+    "unpublishedNote": "Unpublished records are not in the library, the assistant or the open API.",
+    "dbDown": "The research area cannot reach the database right now. The public pages still work. Reason:"
+  },
+  "errorPage": {
+    "title": "This page could not load.",
+    "text": "Please try again. If it keeps happening, the website's settings need attention.",
+    "retry": "Try again"
+  },
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "media": {
+    "illustrative": "Illustrative photo",
+    "hero": "Morning mist over green hills and farm fields",
+    "signs": "An ant carrying its egg",
+    "environment": "Satellite rainfall map of Africa",
+    "community": "Farmers looking at a phone together in a wheat field",
+    "calendar": "Storm clouds and sunlight over a green field",
+    "team": "Green and gold light",
+    "stories": "A farmer smiling in her wheat field at sunrise",
+    "science": "Terraced green hills and farm fields"
+  },
+  "landing": {
+    "tagline": "Nature Has Its Own Language. We Help You Understand It.",
+    "taglineText": "Connecting indigenous weather knowledge with satellite observations and climate intelligence to support agricultural decisions.",
+    "cta": {
+      "knowledge": "Explore Indigenous Knowledge",
+      "data": "Explore Environmental Data",
+      "research": "Discover Our Research"
+    },
+    "how": {
+      "eyebrow": "How Sign & Sky works",
+      "title": "From a sign in nature to advice you can use",
+      "steps": [
+        [
+          "Farmers observe",
+          "Farmers notice signs in nature: ants, birds, wind, clouds, the sun, moon and stars."
+        ],
+        [
+          "Knowledge is documented",
+          "Each sign is recorded with its meaning, place and date, in the farmers' own words."
+        ],
+        [
+          "Data are extracted",
+          "Sign & Sky's AI automatically extracts the secondary data for the same place and dates (rainfall, satellite and vegetation) from GI-AI4AFS through its spatio-temporal API."
+        ],
+        [
+          "The sign is tested",
+          "The prediction is compared with what the weather actually did, and with what chance alone would give."
+        ],
+        [
+          "Evidence returns",
+          "The result goes back to farmers as a score and spoken advice in their language, weak signs included."
+        ]
+      ]
+    },
+    "explore": {
+      "title": "Explore Sign & Sky",
+      "signs": [
+        "Indigenous signs",
+        "17 nature indicators from Wolaita, each with its meaning and score."
+      ],
+      "environment": [
+        "Environmental intelligence",
+        "The satellite and climate data behind every test."
+      ],
+      "community": [
+        "Community",
+        "Share a sign you saw. Your knowledge joins the record."
+      ],
+      "calendar": [
+        "Seasonal calendar",
+        "Belg, Kiremt and Bega, with every dated observation."
+      ],
+      "team": [
+        "Meet our team",
+        "The people building Sign & Sky."
+      ],
+      "stories": [
+        "Wisdom written in nature",
+        "How farmers in Wolaita read the coming season."
+      ]
+    }
+  },
+  "team": {
+    "eyebrow": "The people behind Sign & Sky",
+    "title": "Meet our team",
+    "lead": "Sign & Sky won the UN Hackathon on AI for Good with the idea of joining indigenous weather knowledge with satellite and reanalysis data. This is the team building it.",
+    "expertise": "Expertise",
+    "contribution": "Contribution",
+    "members": [
+      {
+        "name": "Tewodros Birhanu Lera",
+        "role": "Founder & Project Lead",
+        "meta": "",
+        "expertise": [
+          "AI and machine learning",
+          "Technical architecture",
+          "Product vision",
+          "Research coordination"
+        ],
+        "bio": "Leads the vision, research coordination, AI development and technical architecture of Sign & Sky, and brings its parts together into one platform."
+      },
+      {
+        "name": "Tesfaye Latebo",
+        "role": "Agricultural Technology & Climate Data Lead",
+        "meta": "Assistant Professor, Wachamo University",
+        "expertise": [
+          "Agricultural research",
+          "Indigenous knowledge documentation",
+          "Field data collection",
+          "CHIRPS and ERA5 climate data"
+        ],
+        "bio": "Contributes agricultural research expertise, indigenous knowledge documentation and data collection, and the integration and application of CHIRPS and ERA5 climate datasets."
+      },
+      {
+        "name": "Ermias Gosaye",
+        "role": "UI/UX & Product Design Lead",
+        "meta": "",
+        "expertise": [
+          "Product design",
+          "User interface",
+          "User experience",
+          "Visual identity"
+        ],
+        "bio": "Leads product design, user interface development, user experience, visual identity, and the overall design of the Sign & Sky platform."
+      }
+    ]
+  },
+  "mission": {
+    "title": "Our mission and approach",
+    "items": [
+      [
+        "mission",
+        "Mission",
+        "Give farmers trustworthy weather advice in their own language by testing the signs they already read against satellite and climate data."
+      ],
+      [
+        "vision",
+        "Vision",
+        "A living, open record of indigenous weather knowledge across Ethiopia, where every sign has an honest track record and farmers and scientists learn from each other."
+      ],
+      [
+        "why",
+        "Why indigenous knowledge matters",
+        "Farmers decide when to prepare land, plant and protect their harvest partly from signs in nature. National forecasts cover wide areas and often arrive late; local knowledge is immediate, but rarely tested."
+      ],
+      [
+        "data",
+        "Environmental data",
+        "Sign & Sky's AI extracts the secondary data automatically from GI-AI4AFS through its spatio-temporal API: rainfall (such as CHIRPS and ERA5), Sentinel-2 satellite imagery and vegetation indices. While that link is being set up, rainfall comes directly from ERA5."
+      ],
+      [
+        "ai",
+        "The role of AI",
+        "AI understands what farmers say in English and Amharic, automatically extracts the matching secondary data for the place and dates from GI-AI4AFS, joins it with the stored indigenous record, runs the test and speaks the answer back. People review every new sign before it is published."
+      ],
+      [
+        "research",
+        "Research approach",
+        "Predictions are fixed in writing before the data are seen, scores are compared with what a sign with no skill would earn, and every number can be reproduced from open code and public data. The 2025 scores are preliminary until the re-test is published."
+      ],
+      [
+        "focus",
+        "Geographic focus",
+        "Offa Woreda in Wolaita Zone, South Ethiopia: two rainy seasons (Belg and Kiremt) and smallholder farms built around enset, maize and other crops."
+      ],
+      [
+        "goals",
+        "Long-term goals",
+        "Add Wolaytta, release the offline Android app, build multi-season track records for each sign, extend to other zones, and combine proven signs with official seasonal forecasts."
+      ]
+    ],
+    "teamTeaser": "The farmers' knowledge is at the centre; the team builds the tools around it."
+  },
+  "environment": {
+    "eyebrow": "Satellite and climate data",
+    "title": "Environmental intelligence",
+    "lead": "Sign & Sky's AI automatically extracts the secondary data for each sign's place and dates from GI-AI4AFS through its spatio-temporal API, joins it with the indigenous record and tests it. These are the sources, and where each one stands today.",
+    "sourcesTitle": "Data sources",
+    "status": {
+      "connected": "Connected",
+      "research": "Used in the research re-test",
+      "pending": "Awaiting access"
+    },
+    "whatLabel": "What it is",
+    "useLabel": "How Sign & Sky uses it",
+    "sourceLink": "Official documentation",
+    "sources": [
+      {
+        "key": "giai",
+        "name": "GI-AI4AFS Spatio-Temporal API (main source)",
+        "what": "The data platform Sign & Sky's AI extracts all secondary data from: rainfall, Sentinel-2 imagery and vegetation indices (NDVI, NDMI, EVI), as time series and map tiles (STAC and OGC standards).",
+        "use": "For every observation, the AI requests the rainfall and vegetation for its place and dates, joins them with the indigenous record and runs the test. The map and charts on this page switch to it as soon as access is set up.",
+        "status": "pending",
+        "link": "https://nalamki.github.io/docs/concepts/apis/spatio-temporal-api"
+      },
+      {
+        "key": "chirps",
+        "name": "CHIRPS v2.0",
+        "what": "Satellite and rain-gauge rainfall, daily, about 5 km, since 1981 (Climate Hazards Center).",
+        "use": "The primary rainfall record for the research re-test of the 17 signs.",
+        "status": "research",
+        "link": "https://www.chc.ucsb.edu/data/chirps"
+      },
+      {
+        "key": "era5",
+        "name": "ERA5 reanalysis via Open-Meteo (fallback)",
+        "what": "Reanalysis rainfall, daily, about 25 km, since 1940 (Copernicus Climate Change Service).",
+        "use": "Used directly while the GI-AI4AFS link is being set up, or if it does not answer: today it draws the rainfall map, the charts and the calendar averages, and runs researchers' weather tests. Every chart names the source actually used.",
+        "status": "connected",
+        "link": "https://open-meteo.com/en/docs/historical-weather-api"
+      }
+    ],
+    "studyTitle": "Study area",
+    "study": [
+      "Offa Woreda centre: 6.75° N, 37.50° E (primary test point)",
+      "Wolaita Zone: about 6.5–7.2° N, 37.4–38.2° E",
+      "Seasons: Belg March–May, Kiremt June–September, Bega October–February"
+    ],
+    "honesty": "Data are never invented: where a source is not yet connected, this page says so.",
+    "explorer": {
+      "mapTitle": "Rainfall across Wolaita",
+      "mapHelp": "Monthly rainfall on the ERA5 grid over Wolaita Zone. Choose a year, move the slider or press Play to watch the rains move through the seasons.",
+      "year": "Year",
+      "month": "Month",
+      "play": "Play the year",
+      "pause": "Pause",
+      "loading": "Loading recorded rainfall…",
+      "failed": "Rainfall data could not be loaded right now. Nothing is shown rather than a guess; please try again later.",
+      "noData": "no data",
+      "legend": "Monthly rainfall (mm)",
+      "legendNoData": "no data (month not complete)",
+      "wolaitaBox": "Wolaita Zone (analysis box)",
+      "offaBox": "Offa Woreda (analysis box)",
+      "studyPoint": "Offa Woreda study point",
+      "signsSeen": "{n} signs seen this month in 2025",
+      "fieldRecord": "Seen this month in the 2025 field record",
+      "cellNote": "Each square is one ERA5 grid cell (0.25°, about 28 km). ERA5 is a reanalysis: it smooths rain over the whole cell, so a single farm can be wetter or drier. The boxes are the areas used in the research, not official boundaries.",
+      "monthlyTitle": "Monthly rainfall at Offa Woreda, {year}",
+      "monthlyHelp": "Bars: rainfall in each month of the chosen year. Dark ticks: the {period} average for that month.",
+      "normal": "1991–2020 average",
+      "seasonsTitle": "Season totals since 1991",
+      "seasonsHelp": "Each bar is one year's season total at Offa Woreda; {year} is highlighted. The dashed line is the 1991–2020 average.",
+      "seasonNames": {
+        "belg": "Belg (Mar–May)",
+        "kiremt": "Kiremt (Jun–Sep)",
+        "bega": "Bega (Oct–Feb)"
+      },
+      "table": "Month-by-month table",
+      "colMonth": "Month",
+      "colYear": "{year} (mm)",
+      "colNormal": "Average {period} (mm)",
+      "colPct": "% of average",
+      "sourceLabel": "Source used",
+      "retrieved": "Retrieved",
+      "dataUntil": "data until",
+      "imagery": "Background imagery: Sentinel-2 cloudless – https://s2maps.eu by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016 & 2017), CC BY 4.0.",
+      "fallback": "GI-AI4AFS did not supply this rainfall, so ERA5 is shown instead."
+    },
+    "vegetation": {
+      "title": "Vegetation over Offa Woreda (NDVI)",
+      "help": "Weekly vegetation index from Sentinel-2, through the GI-AI4AFS Spatio-Temporal API.",
+      "loading": "Loading vegetation data…",
+      "failed": "GI-AI4AFS did not answer right now.",
+      "unreadable": "GI-AI4AFS answered, but its format could not be drawn yet.",
+      "raw": "View the data (JSON)"
+    },
+    "kmap": {
+      "title": "Community knowledge map",
+      "help": "Every published sign, placed where it was documented. Filter by type of sign, season or month; choose an area to see its summary.",
+      "privacy": "Markers show the public study point of the area where signs were documented, never a farm, village or person. Signs that farmers share appear here only after researchers review and publish them.",
+      "group": "Type of sign",
+      "season": "Season",
+      "month": "Month",
+      "summary": "Area summary",
+      "signsCount": "signs",
+      "obsCount": "{n} dated observations",
+      "byGroup": "By type of sign",
+      "bySeason": "By season",
+      "details": "Observations",
+      "none": "No observations match these filters.",
+      "reset": "Clear filters",
+      "credit": "Background: Sentinel-2 cloudless 2016 by EOX (CC BY 4.0). Boxes: Wolaita Zone and Offa Woreda analysis areas.",
+      "offaLabel": "Offa Woreda, Wolaita",
+      "any": "Any"
+    }
+  },
+  "calendar": {
+    "eyebrow": "Belg and Meher",
+    "title": "Seasonal calendar",
+    "lead": "Wolaita has two rainy seasons. The short Belg rains start the planting, the long Kiremt rains carry the main Meher cropping season, and Bega is the dry season. Each marker is a sign farmers saw on that date in 2025.",
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "seasons": {
+      "belg": [
+        "Belg",
+        "March–May",
+        "Short rains: land preparation and early planting."
+      ],
+      "kiremt": [
+        "Kiremt (Meher)",
+        "June–September",
+        "Main rains: the main cropping season."
+      ],
+      "bega": [
+        "Bega",
+        "October–February",
+        "Dry season: harvest, drying and storage."
+      ]
+    },
+    "all": "All seasons",
+    "filterLabel": "Show observations from",
+    "observationsTitle": "Signs seen in 2025",
+    "count": "{n} observations",
+    "dayUnknown": "day not recorded",
+    "activitiesNote": "Farm activities for Offa Woreda will be added from the team's field notes.",
+    "rainTitle": "Average monthly rainfall at Offa Woreda",
+    "rainNote": "1991–2020, ERA5 reanalysis via Open-Meteo, mm",
+    "rainFailed": "Rainfall data could not be loaded right now."
+  },
+  "stories": {
+    "eyebrow": "Farmer stories",
+    "title": "Wisdom Written in Nature",
+    "lead": "For generations, farmers in Wolaita have read the coming season in ants, birds, winds and stars. This is what they shared in 2025, with the meanings they gave.",
+    "bySeason": "By season",
+    "meaning": "What farmers say it means",
+    "seen": "Seen",
+    "consentTitle": "Farmers' own stories and voices",
+    "consentText": "We publish farmers' own stories, photos and recordings only with their consent and in their own words. If you farm in Wolaita and want to share a sign or a story, use Share a sign.",
+    "shareCta": "Share a sign",
+    "documentedTitle": "How this knowledge was documented",
+    "documented": [
+      [
+        "283",
+        "household heads interviewed (246 male-headed, 37 female-headed)"
+      ],
+      [
+        "3",
+        "randomly chosen kebeles of Offa Woreda: W/Dekeya, Wareza and Yakima"
+      ],
+      [
+        "17",
+        "distinct signs, each recorded once because many farmers named the same ones"
+      ]
+    ],
+    "documentedText": "The 2025 survey combined household interviews with key informant interviews, focus group discussions and field observation. The knowledge belongs to the community, so no names or villages are published.",
+    "scienceLink": "How each sign is tested →"
+  },
+  "pageHeads": {
+    "signsEyebrow": "Indigenous signs",
+    "shareEyebrow": "Community"
+  },
+  "explorer": {
+    "all": "All signs",
+    "groups": {
+      "sky": "Clouds and sky",
+      "animals": "Birds and animals",
+      "insects": "Insects and ants",
+      "wind": "Wind",
+      "plants": "Trees and flowering"
+    },
+    "status": {
+      "preliminary": "Preliminary field score",
+      "retested": "Re-tested with data",
+      "untested": "Not yet tested"
+    }
+  },
+  "evidence": {
+    "where": "Where",
+    "studyPoint": "Study point",
+    "observed": "Observed",
+    "forecastWindow": "Forecast window",
+    "statusTitle": "Scientific evaluation status",
+    "steps": {
+      "preliminary": "Preliminary field score",
+      "retested": "Re-tested with stored data",
+      "validated": "Validated over several seasons"
+    },
+    "statusText": {
+      "preliminary": "This score comes from the 2025 field record. The rainfall data behind it were not kept, so it cannot be checked yet. A reproducible re-test with CHIRPS and ERA5, with the prediction fixed in advance, is under way.",
+      "retested": "This sign has been re-tested with stored rainfall data. Each test below shows its data, so anyone can check it. One season is evidence about one event, not proof of long-run skill.",
+      "untested": "This sign has not been tested yet."
+    },
+    "validatedNote": "No sign is validated yet: that needs repeated tests over several seasons.",
+    "history": "Observation history",
+    "histObserved": "Sign observed",
+    "histField": "Preliminary field score recorded",
+    "histTest": "Weather test with stored data",
+    "chart": {
+      "title": "Weather test",
+      "h": "Did it happen? (H)",
+      "hYes": "Yes, the predicted weather happened",
+      "hNo": "No, it did not happen",
+      "p": "How unusual in the predicted direction? (P)",
+      "pHelp": "0 = least, 1 = most",
+      "window": "Forecast window",
+      "observed": "Sign seen",
+      "chartTitle": "This window compared with the same dates in earlier years",
+      "chartHelp": "Point at a bar to see the year and the amount.",
+      "metric": {
+        "total": "Total rainfall (mm)",
+        "maxDay": "Wettest day (mm)",
+        "max3": "Wettest 3 days (mm)"
+      },
+      "median": "Median",
+      "thisYear": "Year of the sign",
+      "refYears": "Reference years ({n})",
+      "table": "Year-by-year table",
+      "year": "Year",
+      "source": "Data",
+      "retrieved": "retrieved",
+      "download": "Download the data (JSON)"
+    }
+  },
+  "dashboard": {
+    "cards": {
+      "preliminary": [
+        "Preliminary field scores",
+        "From the 2025 field record. Indicative only: the data behind them were not kept."
+      ],
+      "retested": [
+        "Re-tested with stored data",
+        "Tests run with the published method, each with its rainfall data attached."
+      ],
+      "validated": [
+        "Validated signs",
+        "Needs repeated tests over several seasons. None yet."
+      ]
+    },
+    "overview": "Score overview",
+    "average": "Average preliminary score",
+    "averageNote": "Of the 17 field scores (not yet reproducible)",
+    "distribution": "Signs by trust band",
+    "perSign": "Score of each sign",
+    "calc": {
+      "title": "Try the formula",
+      "intro": "Move the controls to see how the two parts make a score. This is the published SNS-Score v1 formula, unchanged.",
+      "h": "Did the predicted weather happen?",
+      "yes": "Yes",
+      "no": "No",
+      "p": "How unusual was the window in the predicted direction (P)",
+      "pLow": "ordinary",
+      "pHigh": "most unusual in 10–30 years",
+      "result": "Resulting score and trust band",
+      "note": "A prediction that comes true in an ordinary way scores about 7.5; one that comes true in an unusual way approaches 10; one that does not come true scores 5 or less."
+    },
+    "retestedTitle": "Signs re-tested with stored data",
+    "retestedEmpty": "No sign has been re-tested with stored data yet. The research re-test with CHIRPS and ERA5 is under way, and researchers can run tests from the Research area; each one will appear here with its data.",
+    "cols": {
+      "date": "Tested on",
+      "window": "Forecast window",
+      "source": "Data source"
+    }
+  },
+  "science": {
+    "eyebrow": "Research & publication centre",
+    "title": "The science behind Sign & Sky",
+    "lead": "How farmers' signs are recorded, turned into testable predictions and checked against four decades of satellite and reanalysis rainfall, with every step open to review.",
+    "navLabel": "Sections of this page",
+    "nav": {
+      "publications": "Publications",
+      "methodology": "Methodology",
+      "score": "SNS-Score",
+      "datasets": "Datasets",
+      "validation": "Validation",
+      "projects": "Projects",
+      "collaborations": "Acknowledgements"
+    },
+    "pub": {
+      "status": "Manuscript in preparation · not yet peer reviewed",
+      "title": "Integrating Indigenous Weather Forecasting Knowledge and Climate Data for Agricultural Decision Support: An AI-Enabled Digital Framework for Sign & Sky in Wolaita, Ethiopia",
+      "authors": "Tewodros Birhanu Lera, Tesfaye Latebo, Ermias Gosaye",
+      "abstractLabel": "Abstract",
+      "abstract": "Smallholder farmers in Ethiopia read the coming rains from ants, birds, winds, clouds and stars, yet these indicators are rarely tested, and results seldom return to the community. Sign & Sky is an AI-enabled framework that integrates indigenous weather knowledge with satellite and reanalysis rainfall and returns the verdict to farmers in their language, by voice or text. Researchers collect only the primary data; the AI system listens to a farmer's sign, matches it to recorded indigenous knowledge, extracts rainfall for the relevant place and window through data APIs, tests the prediction against climatology and replies in Amharic or English. Seventeen indicators were documented in 2025 in a survey of 283 households in Offa Woreda, Wolaita Zone. Each farmer interpretation is translated by written rules into one testable event, fixed before any 2025 rainfall was examined, and verified with the Heidke skill score and an exact Poisson-binomial test over 30 reference years. SNS-Score communicates each result on a 0–10 scale; a sign with no skill would earn 3.63 for drought and up to 7.5 for rain in the rainy season. Preliminary field scores (mean 7.41, range 6–9) exceed these benchmarks but lack a data trail and are treated as indicative.",
+      "keywordsLabel": "Keywords",
+      "keywords": "Indigenous knowledge; artificial intelligence; forecast verification; CHIRPS; climate services; Ethiopia",
+      "doi": "Will be added when the paper is published",
+      "pdf": "Will be shared after peer review",
+      "note": "No publication has been issued yet. This page will list the journal, DOI and PDF only once they exist."
+    },
+    "method": {
+      "intro": "The research team collects the primary data. Every later step is done automatically by the AI system and can be recomputed by anyone.",
+      "steps": [
+        [
+          "Record",
+          "283 household heads in three kebeles of Offa Woreda described 17 signs, with the date seen and what they expected to follow."
+        ],
+        [
+          "Translate",
+          "Written rules turn each meaning into one testable event and time window, fixed on 6 November 2026 before any 2025 rainfall was examined."
+        ],
+        [
+          "Test",
+          "The AI system extracts daily rainfall for the place and window through data APIs and compares it with the same window in earlier years."
+        ],
+        [
+          "Return",
+          "The result, its trust band and practical advice go back to farmers by voice and text, in Amharic or English."
+        ]
+      ],
+      "rulesTitle": "Pre-registered translation rules",
+      "rulesIntro": "These rules stop anyone from choosing a window or threshold after seeing the rain.",
+      "rules": [
+        [
+          "R1",
+          "Short-lead events (\"rain is coming\"): a window from the day after the sign, as long as farmers said (hours or days → 3 days; a few weeks → 21 days), otherwise 7 days."
+        ],
+        [
+          "R2",
+          "Season character (normal, poor, drought): the rest of the current rainy season, or the next Belg if the sign was seen in the dry season."
+        ],
+        [
+          "R3",
+          "Seasonal transition (trees flowering before Belg): rain onset in the first month of Belg."
+        ],
+        [
+          "R4",
+          "Two-way signs (\"rain or drought\"): every branch is written down, but the sign waits until the reading farmers gave on the day is recorded."
+        ]
+      ],
+      "measuresTitle": "Standard verification measures",
+      "measures": "PC is the share of predictions that came true and E the share expected by chance, from how often each event happened in the same window in earlier years. The Heidke skill score (HSS) is 1 for perfect forecasts, 0 for no better than chance. An exact Poisson-binomial test gives the probability of so many hits by chance; checked on 20,000 simulated no-skill sets, it gave p ≤ 0.05 in 2.7% of them, so it is slightly conservative.",
+      "levelsTitle": "Five levels of evidence",
+      "levels": [
+        [
+          "1 · Documented",
+          "Reached: 17 signs, 283 households, 19 dated observations."
+        ],
+        [
+          "2 · Demonstrated",
+          "Reached: the public platform, voice in and out, open API and tested code."
+        ],
+        [
+          "3 · Indicative",
+          "Reached: preliminary field scores, mean 7.41. Not reproducible, so not used as proof."
+        ],
+        [
+          "4 · Verified for a season",
+          "Next: the pre-registered test against CHIRPS and ERA5 rainfall. Protocol fixed, results not yet published."
+        ],
+        [
+          "5 · Validated skill",
+          "Not yet reached: needs repeated observations over several seasons and places."
+        ]
+      ]
+    },
+    "score": {
+      "intro": "H is 1 if the predicted outcome happened in the window and 0 if not. P (0 to 1) shows how far the window lay in the predicted direction compared with the same window in earlier years. Being right and being informative count equally.",
+      "colOutcome": "Predicted outcome",
+      "colH": "Counts as happened (H = 1) when",
+      "rows": [
+        [
+          "rain",
+          "window total ≥ 10 mm",
+          "percentile of the total"
+        ],
+        [
+          "heavy_rain",
+          "at least one day ≥ 20 mm",
+          "percentile of the wettest day"
+        ],
+        [
+          "rain_onset",
+          "a 3-day total ≥ 20 mm with ≥ 2 wet days",
+          "percentile of the wettest such 3-day total"
+        ],
+        [
+          "normal_rain",
+          "percentile between 0.25 and 0.75",
+          "1 − 2·|p − 0.5|"
+        ],
+        [
+          "dry",
+          "total < 5 mm, or under half the usual median",
+          "1 − p"
+        ],
+        [
+          "drought",
+          "percentile ≤ 0.20, or total < 5 mm",
+          "1 − p"
+        ],
+        [
+          "below_normal",
+          "percentile ≤ 1/3",
+          "1 − p"
+        ],
+        [
+          "above_normal",
+          "percentile ≥ 2/3",
+          "p"
+        ],
+        [
+          "not_below_normal",
+          "percentile > 1/3",
+          "p"
+        ]
+      ],
+      "bandsTitle": "Trust bands",
+      "benchTitle": "What a sign with no skill would score",
+      "benchIntro": "A score only means something next to what chance would give. These exact values hold for any place and any rainfall record.",
+      "colChance": "Chance it happens anyway (N = 30)",
+      "rainGroup": "Rain, heavy rain, rain onset",
+      "limits": "Limits: SNS-Score judges one prediction at one place over one window. It does not measure long-run reliability, which needs many observations. The 10 mm and 20 mm thresholds suit Wolaita's climate and may need changing elsewhere.",
+      "calcLink": "Try the score calculator",
+      "codeLink": "Read the scoring code"
+    },
+    "outcomes": {
+      "heavy_rain": "Heavy rain",
+      "rain": "Rain",
+      "rain_onset": "Rain onset",
+      "normal_rain": "Normal rainfall",
+      "dry": "Dry spell",
+      "drought": "Drought",
+      "below_normal": "Below normal",
+      "above_normal": "Above normal",
+      "not_below_normal": "Not below normal"
+    },
+    "data": {
+      "intro": "No rainfall is downloaded or edited by hand. The AI system extracts each series from the provider for the exact place and dates a sign needs, and stores the request with the result.",
+      "items": [
+        {
+          "name": "GI-AI4AFS Spatio-Temporal API",
+          "role": "Live platform · first source",
+          "what": "Rainfall and vegetation through the Global Initiative on AI for Agri-Food Systems data service. Used first as soon as access is granted; until then the platform uses ERA5.",
+          "link": "https://nalamki.github.io/docs/sdk/overview",
+          "linkText": "Developer documentation"
+        },
+        {
+          "name": "CHIRPS v2.0 daily",
+          "role": "Research · primary",
+          "what": "Satellite and station blend, 0.05°, from 1981. Climate Hazards Center.",
+          "link": "https://www.chc.ucsb.edu/data/chirps",
+          "linkText": "Climate Hazards Center"
+        },
+        {
+          "name": "CHIRPS v3.0",
+          "role": "Research · sensitivity",
+          "what": "The newer CHIRPS version, used to check that results do not depend on one product.",
+          "link": "https://www.chc.ucsb.edu/data/chirps3",
+          "linkText": "Climate Hazards Center"
+        },
+        {
+          "name": "ERA5",
+          "role": "Live platform · research",
+          "what": "ECMWF reanalysis, 0.25°, hourly. Read on the platform through the Open-Meteo archive API.",
+          "link": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels",
+          "linkText": "Copernicus Climate Data Store"
+        },
+        {
+          "name": "ERA5-Land",
+          "role": "Research · sensitivity",
+          "what": "Land reanalysis, 0.1°, daily totals.",
+          "link": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land",
+          "linkText": "Copernicus Climate Data Store"
+        }
+      ],
+      "envLink": "See the rainfall data on the Environment page →"
+    },
+    "val": {
+      "intro": "Each of the 17 signs has one pre-registered test. Ten are confirmed, four wait for the exact timing from field notes, and three wait for the direction farmers read on the day.",
+      "status": {
+        "confirmed": "Confirmed",
+        "timing": "Timing provisional",
+        "direction": "Direction needed"
+      },
+      "statusHelp": {
+        "confirmed": "Ready to test as written",
+        "timing": "Window to be confirmed from field notes",
+        "direction": "Excluded until farmers' reading is recorded"
+      },
+      "colSign": "Sign",
+      "colOutcome": "Tested outcome",
+      "colWindow": "Target window",
+      "colRule": "Rule",
+      "colStatus": "Status",
+      "colResult": "Result",
+      "kiremtBelg": "Kiremt 2025; Belg 2026",
+      "pending": "Not yet published",
+      "note": "Results will appear here from the archived run once it is complete. The preliminary field scores shown elsewhere on this site are a separate, indicative measure."
+    },
+    "projects": [
+      [
+        "Wolaita pilot",
+        "2025–2026 · in progress",
+        "17 signs documented in Offa Woreda, published in English and Amharic with voice answers."
+      ],
+      [
+        "Wolaytta language",
+        "Translation under way",
+        "About 600 texts prepared for translation so farmers can ask and hear answers in Wolaytta."
+      ],
+      [
+        "Offline Android app",
+        "In development",
+        "The same library and advice on a phone, without a connection."
+      ],
+      [
+        "Multi-season validation",
+        "Planned",
+        "Repeated observations each season so every sign builds its own track record."
+      ],
+      [
+        "GI-AI4AFS data integration",
+        "Awaiting access",
+        "Connected in code; rainfall and vegetation will come from the spatio-temporal API once access is granted."
+      ]
+    ],
+    "collab": {
+      "items": [
+        [
+          "Farming communities of Offa Woreda",
+          "The farmers of W/Dekeya, Wareza and Yakima kebeles who shared their knowledge."
+        ],
+        [
+          "Hackathon on AI for Agri-Food Systems",
+          "Sign & Sky was developed for the hackathon organised under the Global Initiative on AI for Agri-Food Systems (GI-AI4AFS)."
+        ],
+        [
+          "Data and service providers",
+          "Climate Hazards Center (CHIRPS), Copernicus and ECMWF (ERA5), Open-Meteo, EOX (Sentinel-2 map) and Addis AI (Amharic voice). We credit their data and services; they are not project partners."
+        ]
+      ],
+      "note": "Formal research partnerships will be listed here once they are agreed in writing."
+    }
+  }
+}
