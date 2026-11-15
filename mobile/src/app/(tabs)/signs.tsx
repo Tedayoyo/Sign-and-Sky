@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { Screen } from "@/components/Screen";
-import { Chip, Field, H, P, ScoreRing, TrustBadge } from "@/components/ui";
+import { Chip, FadeIn, Field, GroupIcon, H, P, ScoreRing, shadow, TrustBadge } from "@/components/ui";
 import { useApp } from "@/lib/app";
 import { GROUPS, groupFor, type GroupKey } from "@/lib/explorer";
 import { fmt } from "@/lib/i18n";
@@ -37,8 +37,7 @@ export default function SignsScreen() {
   }, [records, lang, q, group, trust]);
 
   return (
-    <Screen title={d.signs.title}>
-      <P muted>{d.signs.intro}</P>
+    <Screen title={d.signs.title} subtitle={d.signs.intro} eyebrow={d.pageHeads.signsEyebrow} photo={{ source: require("@/assets/photos/signs-ant.jpg"), alt: d.media.signs }}>
       <Field label={d.signs.search} value={q} onChangeText={setQ} placeholder={d.signs.searchPlaceholder} autoCorrect={false} />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: space.s }}>
         <Chip title={d.explorer.all} selected={!group} onPress={() => setGroup(null)} />
@@ -54,20 +53,22 @@ export default function SignsScreen() {
       </ScrollView>
       <P muted small>{fmt(d.signs.count, { n: rows.length })}</P>
       {rows.length === 0 ? <P>{d.signs.none}</P> : null}
-      {rows.map(({ r, t, score, level, group: g }) => (
-        <Pressable
-          key={r.record_number}
-          accessibilityRole="button"
-          onPress={() => router.push({ pathname: "/sign/[n]", params: { n: String(r.record_number) } })}
-          style={({ pressed }) => ({ backgroundColor: c.card, borderColor: c.line, borderWidth: 1, borderRadius: 14, padding: space.m, flexDirection: "row", gap: space.m, alignItems: "center", opacity: pressed ? 0.75 : 1 })}>
-          <ScoreRing score={score} level={level} size={58} label={score === null ? d.ask.notTested : fmt(d.ask.gaugeLabel, { score })} />
-          <View style={{ flex: 1, gap: 4 }}>
-            <P muted small>{d.explorer.groups[g]}</P>
-            <H size={16}>{t.name}</H>
-            {t.expected_weather ? <P small>{t.expected_weather}</P> : null}
-            <TrustBadge level={level} label={d.trust[level]} />
-          </View>
-        </Pressable>
+      {rows.map(({ r, t, score, level, group: g }, i) => (
+        <FadeIn key={r.record_number} delay={Math.min(i, 8) * 40}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push({ pathname: "/sign/[n]", params: { n: String(r.record_number) } })}
+            style={({ pressed }) => [{ backgroundColor: c.card, borderColor: c.line, borderWidth: 1, borderRadius: 18, padding: space.m, flexDirection: "row", gap: space.m, alignItems: "center", transform: [{ scale: pressed ? 0.98 : 1 }] }, shadow(c)]}>
+            <GroupIcon group={g} size={48} />
+            <View style={{ flex: 1, gap: 4 }}>
+              <P muted small>{d.explorer.groups[g]}</P>
+              <H size={16}>{t.name}</H>
+              {t.expected_weather ? <P small>{t.expected_weather}</P> : null}
+              <TrustBadge level={level} label={d.trust[level]} />
+            </View>
+            <ScoreRing score={score} level={level} size={56} label={score === null ? d.ask.notTested : fmt(d.ask.gaugeLabel, { score })} />
+          </Pressable>
+        </FadeIn>
       ))}
     </Screen>
   );

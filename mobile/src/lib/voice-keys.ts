@@ -1,5 +1,6 @@
 // Names and matching of stored Amharic clips (no phone features here, so it can be unit-tested).
-export type Clip = { text: string; uri: string };
+/** uri: a file on the phone (downloaded) or a recording shipped inside the app. */
+export type Clip = { text: string; uri: string | number };
 export type VoiceManifest = Record<string, Clip>;
 
 export const clipKey = (kind: "sign" | "followup" | "unknown", n?: number) => (kind === "unknown" ? "am-unknown" : `am-${kind}-${n}`);

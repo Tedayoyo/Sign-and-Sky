@@ -35,4 +35,6 @@ export const KEYS = {
   outbox: "sns.outbox.v1",
   sent: "sns.sent.v1",
   draft: "sns.draft.v1",
+  diary: "sns.diary.v1",
+  onboarded: "sns.onboarded.v1",
 };

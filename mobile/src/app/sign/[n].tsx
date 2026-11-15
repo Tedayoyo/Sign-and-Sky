@@ -1,9 +1,12 @@
 // One sign: what farmers see, what they say it means, the score and how far it has been evaluated.
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Pressable, View } from "react-native";
-import { Screen } from "@/components/Screen";
-import { Btn, Card, H, Icon, Label, Notice, P, ScoreRing, TrustBadge } from "@/components/ui";
+import { View } from "react-native";
+import { BackButton, Screen } from "@/components/Screen";
+import { Btn, Card, FadeIn, GroupIcon, H, Icon, Label, Notice, P, ScoreRing, TrustBadge } from "@/components/ui";
+import { summarize } from "@/lib/diary-rules";
+import { groupFor } from "@/lib/explorer";
+import { evaluationFor } from "@/lib/records";
 import { useApp } from "@/lib/app";
 import { fmt } from "@/lib/i18n";
 import { tr } from "@/lib/records";
@@ -12,14 +15,11 @@ import { space, useTheme } from "@/lib/theme";
 
 export default function SignScreen() {
   const c = useTheme();
-  const { d, s, lang, records } = useApp();
+  const { d, s, lang, records, diary, noteSighting } = useApp();
+  const [noted, setNoted] = React.useState<string | null>(null);
   const { n } = useLocalSearchParams<{ n: string }>();
   const r = records.find((x) => x.record_number === Number(n));
-  const back = (
-    <Pressable accessibilityRole="button" accessibilityLabel={d.signs.back} hitSlop={10} onPress={() => (router.canGoBack() ? router.back() : router.replace("/signs"))}>
-      <Icon name="back" color={c.onDark} />
-    </Pressable>
-  );
+  const back = <BackButton label={d.signs.back} onPress={() => (router.canGoBack() ? router.back() : router.replace("/signs"))} />;
   if (!r) {
     return (
       <Screen title={d.signs.title} left={back}>
@@ -29,6 +29,9 @@ export default function SignScreen() {
   }
   const t = tr(r, lang);
   const g = d.signs;
+  const group = groupFor(r.record_number, r.category);
+  const ev = evaluationFor(r, "wol");
+  const mine = summarize(diary).find((x) => x.n === r.record_number);
   const retested = r.evaluations.some((e) => e.method_version && e.method_version !== "field-ai-2025");
   const status: "preliminary" | "retested" | "untested" = !r.evaluations.length ? "untested" : retested ? "retested" : "preliminary";
   const rows: [string, string | null][] = [
@@ -43,7 +46,18 @@ export default function SignScreen() {
     [g.place, d.places.wol.label],
   ];
   return (
-    <Screen title={t.name} left={back}>
+    <Screen title={t.name} left={back} subtitle={t.expected_weather ?? undefined} eyebrow={d.explorer.groups[group]}>
+      <FadeIn>
+        <Card style={{ flexDirection: "row", alignItems: "center", gap: space.m }}>
+          <ScoreRing score={ev ? ev.score : null} level={ev ? trustLevel(ev.score) : "untested"} size={84} label={ev ? fmt(d.ask.gaugeLabel, { score: ev.score }) : d.ask.notTested} />
+          <View style={{ flex: 1, gap: 6 }}>
+            <TrustBadge level={ev ? trustLevel(ev.score) : "untested"} label={d.trust[ev ? trustLevel(ev.score) : "untested"]} />
+            <P muted small>{ev ? s.ask.preliminary : d.ask.notTested}</P>
+            {mine ? <P small>{mine.checked ? fmt(s.diary.summary, { seen: mine.seen, yes: mine.yes, checked: mine.checked }) : fmt(s.diary.summaryNone, { seen: mine.seen })}</P> : null}
+          </View>
+          <GroupIcon group={group} size={48} />
+        </Card>
+      </FadeIn>
       <Card>
         {rows.map(([k, v]) =>
           v ? (
@@ -100,6 +114,8 @@ export default function SignScreen() {
           <P small>{r.source_reference}</P>
         </Card>
       ) : null}
+      <Btn kind="gold" title={s.diary.sawToday} icon={<Icon name="plus" color="#0f1a2e" size={18} />} onPress={() => setNoted(noteSighting(r.record_number) ? s.diary.added : s.diary.already)} />
+      {noted ? <P muted small>{noted}</P> : null}
       <Btn title={g.ask} onPress={() => router.navigate({ pathname: "/", params: { n: String(r.record_number) } })} />
     </Screen>
   );

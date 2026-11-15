@@ -152,8 +152,7 @@ export default function ShareScreen() {
   );
 
   return (
-    <Screen title={t.title}>
-      <P muted>{t.intro}</P>
+    <Screen title={t.title} subtitle={t.intro} eyebrow={d.pageHeads.shareEyebrow}>
       <Notice tone={online ? "info" : "warn"}>{online ? t.privacy : t.offline.offline}</Notice>
 
       {outbox.length > 0 || sent.length > 0 ? (

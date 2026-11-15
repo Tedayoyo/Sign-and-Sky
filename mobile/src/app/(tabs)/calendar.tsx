@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Screen } from "@/components/Screen";
-import { Card, H, Label, Notice, P } from "@/components/ui";
+import { Card, H, Label, LinkCard, Notice, P, useFont } from "@/components/ui";
 import { useApp } from "@/lib/app";
 import { fmt } from "@/lib/i18n";
 import { parseObservations } from "@/lib/observations";
@@ -36,8 +36,7 @@ export default function CalendarScreen() {
   const max = climate ? Math.max(1, ...climate.normal.map((v) => v ?? 0)) : 1;
   const seen = byMonth[month] ?? [];
   return (
-    <Screen title={cal.title}>
-      <P muted>{cal.lead}</P>
+    <Screen title={cal.title} subtitle={cal.lead} eyebrow={cal.eyebrow} photo={{ source: require("@/assets/photos/calendar-storm.jpg"), alt: d.media.calendar }}>
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: space.s }}>
         {cal.months.map((name, i) => {
@@ -113,6 +112,7 @@ export default function CalendarScreen() {
           <Notice>{s.calendar.rainMissing}</Notice>
         )}
       </Card>
+      <LinkCard icon="rain" title={s.explore.rainfall[0]} text={s.explore.rainfall[1]} onPress={() => router.push("/rainfall")} />
     </Screen>
   );
 }

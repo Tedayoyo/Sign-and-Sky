@@ -45,3 +45,6 @@ example
 # Generated native projects (made by expo prebuild / EAS)
 /android
 /ios
+
+# Amharic recordings fetched at build time (scripts/fetch-voice.mjs)
+/assets/voice/*.mp3

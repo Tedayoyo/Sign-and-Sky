@@ -4,6 +4,7 @@ import { test } from "node:test";
 import { differences } from "../scripts/sync-shared.mjs";
 import { APP_STRINGS } from "../src/lib/app-strings";
 import { analyzeTapped, analyzeText, clipKeyFor } from "../src/lib/ask";
+import { addEntry, isDiary, removeEntry, setOutcome, summarize } from "../src/lib/diary-rules";
 import { dict } from "../src/lib/i18n";
 import { validateShare } from "../src/lib/outbox-rules";
 import { BUILTIN, evaluationFor, fromOpenLibrary, tr } from "../src/lib/records";
@@ -124,4 +125,28 @@ test("app-only words exist in both languages with the same keys", () => {
   const holes = (s: string) => (s.match(/\{\w+\}/g) ?? []).sort().join();
   const flat = (o: object): string[] => Object.values(o).flatMap((v) => (typeof v === "object" ? flat(v) : [v as string]));
   flat(APP_STRINGS.en).forEach((s, i) => assert.equal(holes(flat(APP_STRINGS.am)[i]), holes(s), s));
+});
+
+test("the yearly rainfall the website sends is kept as sent, and older saved copies still load", () => {
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, null];
+  const c = parseClimate({ source: "ERA5", normal: months, years: { "2024": months, bad: months, "2025": [1, 2] }, seasons: [{ year: 2024, belg: 12, kiremt: 30, bega: null }], season_normal: { belg: 10, kiremt: 28, bega: 40 } })!;
+  assert.deepEqual(Object.keys(c.years!), ["2024"]);
+  assert.equal(c.years!["2024"][11], null);
+  assert.deepEqual(c.seasons, [{ year: 2024, belg: 12, kiremt: 30, bega: null }]);
+  assert.equal(parseClimate({ source: "ERA5", normal: months })!.years, undefined);
+});
+
+test("my observations: one note per sign per day, outcomes counted only when checked", () => {
+  let list = addEntry([], 15, "2026-11-10").list;
+  const again = addEntry(list, 15, "2026-11-10");
+  assert.equal(again.added, false);
+  list = addEntry(list, 15, "2026-11-12").list;
+  list = addEntry(list, 1, "2026-11-11").list;
+  assert.deepEqual(list.map((e) => e.date), ["2026-11-12", "2026-11-11", "2026-11-10"]);
+  list = setOutcome(list, list[0].id, "yes");
+  list = setOutcome(list, list[2].id, "no");
+  assert.deepEqual(summarize(list), [{ n: 15, seen: 2, checked: 2, yes: 1 }, { n: 1, seen: 1, checked: 0, yes: 0 }]);
+  assert.equal(removeEntry(list, list[1].id).length, 2);
+  assert.ok(isDiary(list));
+  assert.equal(isDiary([{ id: "x", n: 1, date: "yesterday", outcome: null }]), false);
 });

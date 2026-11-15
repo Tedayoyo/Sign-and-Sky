@@ -3,13 +3,15 @@
 import * as Localization from "expo-localization";
 import * as Network from "expo-network";
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { BUNDLED_VOICE } from "@/data/voice-bundled";
 import { APP_STRINGS, type AppStrings } from "./app-strings";
+import { addEntry, isDiary, removeEntry, setOutcome, type DiaryEntry, type Outcome } from "./diary-rules";
 import { dict, isLocale, type Dict, type Locale } from "./i18n";
 import { flushOutbox, loadOutbox, loadSent, type Queued, type Sent } from "./outbox";
 import { BUILTIN, type SignRecord } from "./records";
 import { KEYS, load, save } from "./storage";
 import { refreshClimate, refreshLibrary, storedClimate, storedLibrary, type StoredClimate } from "./sync";
-import { deleteVoicePack, downloadVoicePack, expectedClips, loadManifest, type VoiceManifest } from "./voicepack";
+import { deleteVoicePack, downloadVoicePack, expectedClips, loadManifest, type Clip, type VoiceManifest } from "./voicepack";
 
 type VoiceState = { running: boolean; done: number; total: number; problem: boolean };
 type UpdateState = "idle" | "running" | "ok" | "failed";
@@ -38,6 +40,21 @@ type AppState = {
   removeVoice: () => Promise<void>;
   update: UpdateState;
   updateNow: () => Promise<void>;
+  /** The recording of exactly this answer: shipped inside the app, or downloaded earlier. */
+  findClip: (key: string, text: string) => Clip | null;
+  /** How many Amharic answers can be spoken offline, and out of how many. */
+  voiceReady: { have: number; total: number; bundled: number };
+  onboarded: boolean;
+  finishWelcome: () => void;
+  diary: DiaryEntry[];
+  noteSighting: (n: number) => boolean;
+  setDiaryOutcome: (id: string, o: Outcome) => void;
+  removeSighting: (id: string) => void;
+};
+
+const localToday = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
 const Ctx = createContext<AppState | null>(null);
@@ -68,6 +85,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [manifest, setManifest] = useState<VoiceManifest>({});
   const [voice, setVoice] = useState<VoiceState>({ running: false, done: 0, total: 0, problem: false });
   const [update, setUpdate] = useState<UpdateState>("idle");
+  const [onboarded, setOnboarded] = useState(true);
+  const [diary, setDiary] = useState<DiaryEntry[]>([]);
+  const diaryRef = useRef<DiaryEntry[]>([]);
   const net = Network.useNetworkState();
   const online = net.isConnected !== false && net.isInternetReachable !== false;
   const stopVoice = useRef(false);
@@ -76,7 +96,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const [l, m, lib, cl, man] = await Promise.all([load<string>(KEYS.lang), load<boolean>(KEYS.muted), storedLibrary(), storedClimate(), loadManifest()]);
+      const [l, m, lib, cl, man, ob, di] = await Promise.all([load<string>(KEYS.lang), load<boolean>(KEYS.muted), storedLibrary(), storedClimate(), loadManifest(), load<boolean>(KEYS.onboarded), load<unknown>(KEYS.diary)]);
+      setOnboarded(ob === true);
+      if (isDiary(di)) {
+        diaryRef.current = di;
+        setDiary(di);
+      }
       setLangState(isLocale(l) ? l : deviceLang());
       setMutedState(m === true);
       if (lib) {
@@ -99,6 +124,40 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setMutedState(m);
     void save(KEYS.muted, m);
   }, []);
+
+  const finishWelcome = useCallback(() => {
+    setOnboarded(true);
+    void save(KEYS.onboarded, true);
+  }, []);
+  const putDiary = useCallback((list: DiaryEntry[]) => {
+    diaryRef.current = list;
+    setDiary(list);
+    void save(KEYS.diary, list);
+  }, []);
+  const noteSighting = useCallback(
+    (n: number) => {
+      const r = addEntry(diaryRef.current, n, localToday());
+      if (r.added) putDiary(r.list);
+      return r.added;
+    },
+    [putDiary],
+  );
+  const setDiaryOutcome = useCallback((id: string, o: Outcome) => putDiary(setOutcome(diaryRef.current, id, o)), [putDiary]);
+  const removeSighting = useCallback((id: string) => putDiary(removeEntry(diaryRef.current, id)), [putDiary]);
+
+  const findClip = useCallback(
+    (key: string, text: string): Clip | null => {
+      const b = BUNDLED_VOICE[key];
+      if (b && b.text === text) return { text, uri: b.file };
+      const c = manifest[key];
+      return c && c.text === text ? c : null;
+    },
+    [manifest],
+  );
+  const voiceReady = useMemo(() => {
+    const keys = new Set([...Object.keys(BUNDLED_VOICE), ...Object.keys(manifest)]);
+    return { have: keys.size, total: Math.max(expectedClips(records), keys.size), bundled: Object.keys(BUNDLED_VOICE).length };
+  }, [manifest, records]);
 
   const reloadOutbox = useCallback(async () => {
     setOutbox(await loadOutbox());
@@ -147,19 +206,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const updateNow = useCallback(async () => {
     setUpdate("running");
-    try {
-      const lib = await refreshLibrary();
-      if (lib) {
-        setRecords(lib.signs);
-        recordsRef.current = lib.signs;
-        setLibraryAt(lib.at);
-      }
-      const cl = await refreshClimate().catch(() => null);
-      if (cl) setClimate(cl);
-      setUpdate(lib ? "ok" : "failed");
-    } catch {
-      setUpdate("failed");
+    // The library and the rainfall are fetched separately: one failing does not stop the other.
+    const lib = await refreshLibrary().catch(() => null);
+    if (lib) {
+      setRecords(lib.signs);
+      recordsRef.current = lib.signs;
+      setLibraryAt(lib.at);
     }
+    const cl = await refreshClimate().catch(() => null);
+    if (cl) setClimate(cl);
+    setUpdate(lib ? "ok" : "failed");
   }, []);
 
   // When a connection appears: refresh the data, send waiting signs, and (in Amharic) fetch the voice.
@@ -171,7 +227,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     (async () => {
       await updateNow();
       await sendNow();
-      if (lang === "am" && Object.keys(await loadManifest()).length < expectedClips(recordsRef.current)) startVoiceDownload();
+      const have = new Set([...Object.keys(BUNDLED_VOICE), ...Object.keys(await loadManifest())]).size;
+      if (lang === "am" && have < expectedClips(recordsRef.current)) startVoiceDownload();
     })();
   }, [ready, online, lang, updateNow, sendNow, startVoiceDownload]);
 
@@ -179,8 +236,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     () => ({
       ready, lang, setLang, d: dict(lang), s: APP_STRINGS[lang], records, libraryAt, climate, online, muted, setMuted,
       outbox, sent, reloadOutbox, sendNow, sending, manifest, voice, startVoiceDownload, stopVoiceDownload, removeVoice, update, updateNow,
+      findClip, voiceReady, onboarded, finishWelcome, diary, noteSighting, setDiaryOutcome, removeSighting,
     }),
-    [ready, lang, setLang, records, libraryAt, climate, online, muted, setMuted, outbox, sent, reloadOutbox, sendNow, sending, manifest, voice, startVoiceDownload, stopVoiceDownload, removeVoice, update, updateNow],
+    [ready, lang, setLang, records, libraryAt, climate, online, muted, setMuted, outbox, sent, reloadOutbox, sendNow, sending, manifest, voice, startVoiceDownload, stopVoiceDownload, removeVoice, update, updateNow, findClip, voiceReady, onboarded, finishWelcome, diary, noteSighting, setDiaryOutcome, removeSighting],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

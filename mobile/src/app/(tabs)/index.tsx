@@ -1,9 +1,11 @@
 // Ask: the farmer speaks, types or taps a sign and gets the score and advice, with no internet needed.
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import * as Haptics from "expo-haptics";
+import { Pressable, ScrollView, Share, Text, TextInput, View } from "react-native";
 import { Screen } from "@/components/Screen";
-import { Btn, Card, Chip, H, Icon, Label, Notice, P, ScoreRing, TrustBadge } from "@/components/ui";
+import { Btn, Card, Chip, FadeIn, GroupIcon, H, Icon, Label, LinkCard, Notice, P, ScoreRing, shadow, TrustBadge, useFont } from "@/components/ui";
+import { groupFor } from "@/lib/explorer";
 import type { Analysis } from "@/lib/analyze";
 import { useApp } from "@/lib/app";
 import { analyzeTapped, analyzeText, clipKeyFor } from "@/lib/ask";
@@ -12,11 +14,12 @@ import { useListen, type ListenError } from "@/lib/listen";
 import { tr } from "@/lib/records";
 import { speakReply, stopSpeaking, type Spoken } from "@/lib/speak";
 import { space, useTheme } from "@/lib/theme";
-import { clipFor } from "@/lib/voicepack";
 
 export default function AskScreen() {
   const c = useTheme();
-  const { d, s, lang, records, manifest, muted, setMuted, online } = useApp();
+  const { d, s, lang, records, findClip, muted, setMuted, online, noteSighting, diary } = useApp();
+  const f = useFont();
+  const [noted, setNoted] = useState<string | null>(null);
   const a = d.ask;
   const params = useLocalSearchParams<{ n?: string }>();
   const [text, setText] = useState("");
@@ -32,17 +35,18 @@ export default function AskScreen() {
       if (!r.reply) return;
       const key = clipKeyFor(r);
       setSpeaking(true);
-      const how = await speakReply(r.lang, r.reply, key ? clipFor(manifest, key, r.reply) : null, () => setSpeaking(false));
+      const how = await speakReply(r.lang, r.reply, key ? findClip(key, r.reply) : null, () => setSpeaking(false));
       setSpoken(how);
       if (how === "written") setSpeaking(false);
     },
-    [manifest],
+    [findClip],
   );
 
   const show = useCallback(
     (r: Analysis | null) => {
       setMessage(null);
       setSpoken(null);
+      setNoted(null);
       if (!r || r.kind === "empty") {
         setResult(null);
         setMessage(a.empty);
@@ -50,6 +54,7 @@ export default function AskScreen() {
       }
       last.current = r.last;
       setResult(r);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       scroll.current?.scrollTo({ y: 0, animated: true });
       if (!muted) void say(r);
     },
@@ -97,7 +102,7 @@ export default function AskScreen() {
   const rec = result?.record;
   const test = result?.test;
   return (
-    <Screen title={d.home.title} scrollRef={scroll}>
+    <Screen title={d.home.title} subtitle={d.landing.tagline} eyebrow="Sign & Sky" photo={{ source: require("@/assets/photos/hero-landscape.jpg"), alt: d.media.hero }} scrollRef={scroll}>
       <Card>
         <Label>{a.label}</Label>
         <TextInput
@@ -108,7 +113,7 @@ export default function AskScreen() {
           placeholderTextColor={c.muted}
           multiline
           onSubmitEditing={() => run(text)}
-          style={{ backgroundColor: c.field, color: c.ink, borderColor: c.line, borderWidth: 1, borderRadius: 10, padding: space.m, fontSize: 17, lineHeight: 27, minHeight: 84, textAlignVertical: "top" }}
+          style={{ backgroundColor: c.field, color: c.ink, borderColor: c.line, borderWidth: 1, borderRadius: 10, padding: space.m, fontSize: 17, lineHeight: 27, minHeight: 84, textAlignVertical: "top", ...f("body") }}
         />
         <View style={{ flexDirection: "row", gap: space.s }}>
           <View style={{ flex: 1 }}>
@@ -123,6 +128,7 @@ export default function AskScreen() {
       </Card>
 
       {result ? (
+        <FadeIn key={`${result.lang}-${result.kind}-${result.record?.number ?? 0}-${result.heard}`}>
         <Card>
           <Label>{s.ask.heard}</Label>
           <P>{result.heard}</P>
@@ -151,7 +157,7 @@ export default function AskScreen() {
             <TrustBadge level="untested" label={a.notRecognised} />
           )}
           <View style={{ backgroundColor: c.soft, borderRadius: 10, padding: space.m, marginTop: space.s }}>
-            <Text style={{ color: c.ink, fontSize: 17, lineHeight: 28 }}>{result.reply}</Text>
+            <Text style={[{ color: c.ink, fontSize: 17, lineHeight: 28 }, f("body")]}>{result.reply}</Text>
           </View>
           {rec?.translationNeedsReview ? <P muted small>{s.signs.needsReview}</P> : null}
           {spoken === "written" && !muted ? <Notice>{lang === "am" ? (online ? s.ask.writtenOnly : `${s.ask.writtenOnly} ${s.more.voiceNeedsInternet}`) : a.noVoice}</Notice> : null}
@@ -162,8 +168,15 @@ export default function AskScreen() {
               <Btn small kind="ghost" title={a.playAgain} icon={<Icon name="play" color={c.ink} size={18} />} onPress={() => void say(result)} />
             )}
             <Btn small kind="ghost" title={muted ? a.unmute : a.mute} onPress={() => { if (!muted) { void stopSpeaking(); setSpeaking(false); } setMuted(!muted); }} />
+            <Btn small kind="ghost" title={a.shareAnswer} icon={<Icon name="send" color={c.ink} size={18} />} onPress={() => void Share.share({ title: a.shareTitle, message: `${result.reply}\n\n${a.shareTitle} · ${d.footer.note}` }).catch(() => {})} />
             {rec ? <Btn small kind="ghost" title={a.openRecord} onPress={() => router.push({ pathname: "/sign/[n]", params: { n: String(rec.number) } })} /> : null}
           </View>
+          {rec ? (
+            <View style={{ gap: space.s }}>
+              <Btn kind="gold" title={s.diary.sawToday} icon={<Icon name="plus" color="#0f1a2e" size={18} />} onPress={() => setNoted(noteSighting(rec.number) ? s.diary.added : s.diary.already)} />
+              {noted ? <P muted small>{noted}</P> : null}
+            </View>
+          ) : null}
           {result.kind === "unknown" ? (
             <>
               <P muted small>{a.unknownTest}</P>
@@ -171,7 +184,10 @@ export default function AskScreen() {
             </>
           ) : null}
         </Card>
+        </FadeIn>
       ) : null}
+
+      {diary.length ? <LinkCard icon="note" title={s.diary.title} text={s.explore.diary[1]} badge={String(diary.length)} onPress={() => router.push("/diary")} /> : null}
 
       {last.current ? (
         <View style={{ gap: space.s }}>
@@ -185,14 +201,16 @@ export default function AskScreen() {
       <View style={{ gap: space.s }}>
         <H size={16}>{a.examplesTitle}</H>
         <View style={{ gap: space.s }}>
-          {records.map((r) => (
-            <Pressable
-              key={r.record_number}
-              accessibilityRole="button"
-              onPress={() => { setText(""); show(analyzeTapped(records, r.record_number, lang, d)); }}
-              style={({ pressed }) => ({ backgroundColor: c.card, borderColor: c.line, borderWidth: 1, borderRadius: 12, paddingHorizontal: space.m, paddingVertical: 10, minHeight: 48, justifyContent: "center", opacity: pressed ? 0.7 : 1 })}>
-              <P>{d.ask.examples[r.record_number - 1] ?? tr(r, lang).name}</P>
-            </Pressable>
+          {records.map((r, i) => (
+            <FadeIn key={r.record_number} delay={Math.min(i, 8) * 40}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => { setText(""); show(analyzeTapped(records, r.record_number, lang, d)); }}
+                style={({ pressed }) => [{ backgroundColor: c.card, borderColor: c.line, borderWidth: 1, borderRadius: 16, paddingHorizontal: space.m, paddingVertical: 10, minHeight: 60, flexDirection: "row", alignItems: "center", gap: space.m, transform: [{ scale: pressed ? 0.98 : 1 }] }, shadow(c)]}>
+                <GroupIcon group={groupFor(r.record_number, r.category)} />
+                <P style={{ flex: 1 }}>{d.ask.examples[r.record_number - 1] ?? tr(r, lang).name}</P>
+              </Pressable>
+            </FadeIn>
           ))}
         </View>
       </View>

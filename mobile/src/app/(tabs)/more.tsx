@@ -1,23 +1,37 @@
-// Language, what is stored on the phone for offline use, and what the app is.
+// Explore: the other parts of Sign & Sky, then language, offline data and privacy.
+import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import React from "react";
 import { View } from "react-native";
 import { Screen } from "@/components/Screen";
-import { Btn, Card, Chip, H, Label, Notice, P } from "@/components/ui";
+import { Btn, Card, Chip, FadeIn, H, Label, LinkCard, Notice, P } from "@/components/ui";
 import { useApp } from "@/lib/app";
 import { API_BASE, APP_VERSION } from "@/lib/config";
 import { fmt, LOCALES } from "@/lib/i18n";
 import { space } from "@/lib/theme";
-import { expectedClips } from "@/lib/voicepack";
 
 export default function MoreScreen() {
   const app = useApp();
-  const { d, s, lang, setLang, records, libraryAt, climate, online, manifest, voice, update, outbox } = app;
+  const { d, s, lang, setLang, records, libraryAt, climate, online, voice, voiceReady, update, outbox, diary } = app;
   const m = s.more;
-  const clips = Object.keys(manifest).length;
-  const total = expectedClips(records);
+  const e = s.explore;
+  const links = [
+    ["note", e.diary, "/diary", diary.length ? String(diary.length) : undefined],
+    ["chart", e.results, "/results", undefined],
+    ["rain", e.rainfall, "/rainfall", undefined],
+    ["book", e.stories, "/stories", undefined],
+    ["leaf", e.about, "/about", undefined],
+    ["people", e.team, "/team", undefined],
+  ] as const;
   return (
-    <Screen title={s.tabs.more}>
+    <Screen title={e.title} subtitle={d.landing.taglineText} eyebrow="Sign & Sky" photo={{ source: require("@/assets/photos/science-landscape.jpg"), alt: d.media.science }}>
+      {links.map(([icon, [title, text], href, badge], i) => (
+        <FadeIn key={href} delay={i * 50}>
+          <LinkCard icon={icon} title={title} text={text} badge={badge} onPress={() => router.push(href)} />
+        </FadeIn>
+      ))}
+
+      <H size={18}>{e.settings}</H>
       <Card>
         <H size={17}>{m.language}</H>
         <View style={{ flexDirection: "row", gap: space.s }}>
@@ -51,32 +65,24 @@ export default function MoreScreen() {
 
       <Card>
         <H size={17}>{m.voice}</H>
-        <P>{voice.running ? fmt(m.voiceDownloading, { done: voice.done, total: voice.total }) : fmt(m.voiceCount, { done: clips, total })}</P>
+        <P>{voice.running ? fmt(m.voiceDownloading, { done: voice.done, total: voice.total }) : fmt(m.voiceCount, { done: voiceReady.have, total: voiceReady.total })}</P>
         {voice.problem && !voice.running ? <Notice tone="warn">{m.voiceUnavailable}</Notice> : null}
-        {!online ? <P muted small>{m.voiceNeedsInternet}</P> : null}
+        {!online && voiceReady.have < voiceReady.total ? <P muted small>{m.voiceNeedsInternet}</P> : null}
         {voice.running ? (
           <Btn kind="ghost" title={m.voiceStop} onPress={app.stopVoiceDownload} />
-        ) : (
-          <Btn title={m.voiceDownload} disabled={!online || clips >= total} onPress={app.startVoiceDownload} />
-        )}
-        {clips > 0 && !voice.running ? <Btn small kind="danger" title={m.voiceDelete} onPress={() => void app.removeVoice()} /> : null}
-      </Card>
-
-      <Card>
-        <H size={17}>{m.aboutTitle}</H>
-        <P>{d.about.lead}</P>
-        <P small>{m.scope}</P>
-        {d.about.promises.map((p) => (
-          <P key={p} small>{`• ${p}`}</P>
-        ))}
-        <P muted small>{d.footer.note}</P>
-        <Btn kind="ghost" title={m.website} disabled={!online} onPress={() => void WebBrowser.openBrowserAsync(`${API_BASE}/${lang}`)} />
+        ) : voiceReady.have < voiceReady.total ? (
+          <Btn title={m.voiceDownload} disabled={!online} onPress={app.startVoiceDownload} />
+        ) : null}
+        {Object.keys(app.manifest).length > 0 && !voice.running ? <Btn small kind="danger" title={m.voiceDelete} onPress={() => void app.removeVoice()} /> : null}
       </Card>
 
       <Card>
         <H size={17}>{m.privacyTitle}</H>
         <P small>{m.privacy}</P>
+        <P small>{s.diary.private}</P>
       </Card>
+      <Btn kind="ghost" title={m.website} disabled={!online} onPress={() => void WebBrowser.openBrowserAsync(`${API_BASE}/${lang}`)} />
+      <P muted small>{d.footer.note}</P>
       <P muted small>{`Sign & Sky · ${fmt(m.version, { v: APP_VERSION })}`}</P>
     </Screen>
   );

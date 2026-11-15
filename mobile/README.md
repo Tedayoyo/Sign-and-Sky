@@ -6,6 +6,25 @@ seasonal calendar all work offline. One codebase (Expo / React Native, SDK 58).
 
 Live website the app syncs with: https://sign-and-sky-wolaita.vercel.app
 
+## Screens (version 1.1)
+
+- **Welcome** (first launch): choose English or Amharic.
+- **Ask**: speak, type or tap one of the 17 signs; score ring, trust level, advice, voice; share the answer; "I saw this today".
+- **Signs**: library with search, group and trust filters; a page per sign with its score and evaluation status.
+- **Calendar**: Belg, Kiremt (Meher), Bega; the 2025 observation dates; average rainfall.
+- **Share**: send a sign with photo and voice note; waits on the phone when offline.
+- **Explore**: My observations (the farmer's own notebook of sightings and what followed, kept on the phone only),
+  Results (all scores, trust bands, the SNS-Score v1 formula and a calculator), Rainfall (monthly and seasonal, year by year,
+  as downloaded from the website), Wisdom written in nature, About and mission, Meet our team, then settings.
+
+Design: the website's colours; Bricolage Grotesque for English headings and Noto Sans Ethiopic for Amharic (both shipped in the
+app); the team's photographs from the website (resized only; illustrative ones are labelled); light and dark themes; motion is
+skipped when the phone asks for reduced motion.
+
+Amharic voice inside the app: when the app is built on GitHub, `scripts/fetch-voice.mjs` downloads the website's Amharic
+recording of every answer and ships them in the app, so Amharic voice works from first install. If the website's voice
+service cannot be reached during the build, the app downloads the recordings itself the first time it is online.
+
 ## What works offline, and what needs a connection
 
 | Always works (no internet) | Needs a connection once | Needs a connection each time |
@@ -47,7 +66,7 @@ through signed links returned by `/api/analyze`.
 cd mobile
 npm install
 npm run typecheck        # types
-npm test                 # 14 checks: shared files, all 17 signs in both languages, offline rules
+npm test                 # 16 checks: shared files, all 17 signs in both languages, offline rules
 npx expo start           # development (needs a development build, not Expo Go: the app uses native modules)
 npm run export:android   # checks that the Android bundle compiles
 ```
