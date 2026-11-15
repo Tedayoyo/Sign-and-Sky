@@ -1,6 +1,6 @@
 # Sign & Sky app: privacy policy (draft for the team to review and publish)
 
-Last updated: 14 November 2026
+Last updated: 15 November 2026
 
 Sign & Sky records farmers' weather signs from Wolaita, South Ethiopia, tests them against recorded
 weather and returns the result to farmers. This policy covers the Sign & Sky mobile app.
@@ -10,6 +10,7 @@ weather and returns the result to farmers. This policy covers the Sign & Sky mob
 - A copy of the sign library, average rainfall figures and Amharic voice recordings, so the app works
   without internet.
 - A sign you are writing (draft) and signs waiting to be sent, with any photo or voice note you added.
+- "My observations": the signs you noted and whether the predicted weather came. This notebook is never sent anywhere.
 
 This stays on your phone. Deleting the app deletes it.
 
