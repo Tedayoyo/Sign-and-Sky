@@ -14,6 +14,7 @@ import { Nav } from "@/components/Nav";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavProgress } from "@/components/NavProgress";
+import { Pwa } from "@/components/Pwa";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "am" }];
@@ -37,7 +38,8 @@ export const metadata: Metadata = {
     images: [{ url: "/media/hero-landscape-1106.jpg", width: 1106, height: 736 }],
   },
   twitter: { card: "summary_large_image", title: "Sign & Sky", description: DESCRIPTION, images: ["/media/hero-landscape-1106.jpg"] },
-  icons: { icon: "/icon.svg" },
+  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/icons/icon-192.png", sizes: "192x192" }], apple: "/apple-touch-icon.png" },
+  appleWebApp: { capable: true, title: "Sign & Sky", statusBarStyle: "black-translucent" },
   manifest: "/manifest.webmanifest",
 };
 
@@ -93,7 +95,12 @@ export default async function LangLayout({ children, params }: { children: React
             lang={lang}
             langNames={d.langName}
             label={d.nav.menu}
-            themeToggle={<ThemeToggle toLight={d.theme.toLight} toDark={d.theme.toDark} />}
+            themeToggle={
+              <>
+                <ThemeToggle toLight={d.theme.toLight} toDark={d.theme.toDark} />
+                <Pwa t={d.pwa} />
+              </>
+            }
           />
         </div>
       </header>

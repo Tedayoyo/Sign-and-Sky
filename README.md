@@ -24,6 +24,12 @@ Public pages: Ask (home), Signs (explorer with groups, search and per-sign evide
 
 Paths without a language (`/`, `/signs`, `/research` …) redirect to the visitor's language (cookie, then browser setting).
 
+## Install as an app and offline use
+
+Sign & Sky is an installable web app (PWA). On Android, Chrome shows **Install app** in the top bar; on iPhone, Safari → Share → **Add to Home Screen**. A service worker (`public/sw.js`) saves pages a visitor has opened, photos, fonts, recorded Amharic answers and the sign library (`/api/library`). Without a connection, Ask still recognises signs on the phone (`src/lib/offline-analyze.ts`), saved pages open, shared signs wait in the outbox, and unopened pages show `/[lang]/offline`. Research pages and sign-in are never cached.
+
+The home page shows a 7-day forecast for the Offa study point from the Open-Meteo forecast API (`/api/forecast`, cached for one hour, attributed on screen).
+
 ## Put it online (Supabase + Vercel, about 20 minutes, free tiers)
 
 You need: a Supabase account, a Vercel account and a GitHub account.

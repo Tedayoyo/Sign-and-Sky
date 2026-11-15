@@ -103,7 +103,8 @@
     "copied": "Answer copied",
     "shareTitle": "Sign & Sky answer",
     "preparingVoice": "Preparing the voice…",
-    "voiceFallback": "The natural voice is not available right now, so your phone's voice is reading the answer."
+    "voiceFallback": "The natural voice is not available right now, so your phone's voice is reading the answer.",
+    "offlineAnswer": "No connection: this answer comes from the library saved on your phone. Scores are from the last time you were online."
   },
   "reply": {
     "thanks": "Thank you for sharing.",
@@ -1311,6 +1312,48 @@
         ]
       ],
       "note": "Formal research partnerships will be listed here once they are agreed in writing."
+    }
+  },
+  "pwa": {
+    "install": "Install app",
+    "installHelp": "Add Sign & Sky to your phone. It opens like an app and works without internet.",
+    "iosTitle": "Add Sign & Sky to your iPhone",
+    "iosSteps": "Tap the Share button (the square with an arrow) at the bottom of Safari, then choose “Add to Home Screen”.",
+    "ready": "Sign & Sky is saved on this device and now works offline.",
+    "update": "A new version is ready. Tap to update",
+    "close": "Close",
+    "offline": {
+      "title": "You are offline",
+      "text": "This page has not been saved on your phone yet. Pages you have opened before still work without internet.",
+      "works": [
+        "Ask about a sign: answers come from the library saved on your phone",
+        "Browse the 17 signs and their scores",
+        "Share a sign: it waits on your phone and is sent when you are back online"
+      ],
+      "ask": "Ask about a sign",
+      "signs": "Browse signs"
+    },
+    "forecast": {
+      "title": "Next 7 days in Offa",
+      "help": "What weather models expect for the study point (6.75° N, 37.50° E). Compare it with the signs you see.",
+      "rain": "Rain",
+      "chance": "chance",
+      "max": "High",
+      "min": "Low",
+      "source": "Forecast: Open-Meteo (national weather service models), updated hourly.",
+      "loading": "Loading the forecast…",
+      "failed": "The forecast cannot be loaded right now.",
+      "savedAt": "Saved forecast from",
+      "today": "Today",
+      "weekdays": [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ]
     }
   }
 }

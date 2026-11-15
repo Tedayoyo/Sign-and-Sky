@@ -12,7 +12,7 @@ const ok = (name, pass, info = "") => {
 };
 const external = (t) => /ERR_TUNNEL_CONNECTION_FAILED|ERR_NAME_NOT_RESOLVED|ERR_CONNECTION|tiles\.maps\.eox|fonts\.g/.test(t);
 
-const PAGES = ["", "/signs", "/signs/1", "/signs/17", "/results", "/environment", "/calendar", "/share", "/about", "/science", "/team", "/stories", "/research/login"];
+const PAGES = ["", "/signs", "/signs/1", "/signs/17", "/results", "/environment", "/calendar", "/share", "/about", "/science", "/team", "/stories", "/offline", "/research/login"];
 
 (async () => {
   const browser = await chromium.launch({ args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] });
@@ -22,12 +22,19 @@ const PAGES = ["", "/signs", "/signs/1", "/signs/17", "/results", "/environment"
     for (const [w, label] of [[1280, "desktop"], [390, "phone"]]) {
       const ctx = await browser.newContext({ viewport: { width: w, height: 860 } });
       const page = await ctx.newPage();
+      const pending = new Map();
+      page.on("request", (r) => pending.set(r, Date.now()));
+      page.on("requestfinished", (r) => pending.delete(r));
+      page.on("requestfailed", (r) => pending.delete(r));
       const errs = [];
       page.on("pageerror", (e) => errs.push(e.message));
       page.on("console", (m) => m.type() === "error" && !external(m.text()) && errs.push(m.text()));
       for (const p of PAGES) {
         const url = `${BASE}/${lang}${p}`;
-        const r = await page.goto(url, { waitUntil: "networkidle" });
+        const r = await page.goto(url, { waitUntil: "networkidle" }).catch((e) => {
+          console.log("STUCK", url, [...pending].map(([q, t]) => `${q.url()} ${Date.now() - t}ms`).join(" | "));
+          throw e;
+        });
         const info = await page.evaluate(() => ({
           lang: document.documentElement.lang,
           h1: document.querySelectorAll("h1").length,
@@ -237,6 +244,41 @@ const PAGES = ["", "/signs", "/signs/1", "/signs/17", "/results", "/environment"
   } else ok("Test data trail is downloadable", false, "no link on sign page");
   await page.goto(`${BASE}/en/research/records`, { waitUntil: "networkidle" });
   ok("Research records list opens", (await page.locator("main").textContent())?.includes("17") || (await page.locator("table tr").count()) > 10);
+
+  // App install and offline use (service worker)
+  {
+    const octx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: "allow" });
+    const op = await octx.newPage();
+    await op.goto(`${BASE}/en`, { waitUntil: "networkidle" });
+    const fx = await op.locator(".forecast__day").count();
+    ok("Home shows the 7-day forecast with its source", fx === 7 && /Open-Meteo/.test((await op.locator(".forecast").textContent()) || ""), `days ${fx}`);
+    const swReady = await op.evaluate(async () => {
+      if (!("serviceWorker" in navigator)) return false;
+      const reg = await Promise.race([navigator.serviceWorker.ready, new Promise((r) => setTimeout(() => r(null), 8000))]);
+      return !!reg;
+    });
+    ok("Service worker installs (site works offline after first visit)", swReady);
+    const man = await (await op.request.get(`${BASE}/manifest.webmanifest`)).json();
+    ok("App manifest has name, start page and PNG + maskable icons", man.short_name === "Sign & Sky" && man.start_url.startsWith("/en") && man.icons.some((i) => i.purpose === "maskable") && man.icons.some((i) => i.sizes === "512x512"));
+    // Visit pages so they are saved, then go offline
+    await op.reload({ waitUntil: "networkidle" });
+    await op.goto(`${BASE}/en/signs`, { waitUntil: "networkidle" });
+    await op.goto(`${BASE}/en`, { waitUntil: "networkidle" });
+    await op.waitForTimeout(3000);
+    await octx.setOffline(true);
+    await op.goto(`${BASE}/en/signs`, { waitUntil: "domcontentloaded" }).catch(() => {});
+    ok("Offline: a page opened before still loads", (await op.locator("main h1").count()) === 1 && (await op.locator(".explorer-card, .explorer__grid > li").count()) === 17);
+    await op.goto(`${BASE}/en/science`, { waitUntil: "domcontentloaded" }).catch(() => {});
+    ok("Offline: a page never opened shows the offline page", /offline/i.test((await op.locator("main h1").textContent().catch(() => "")) || ""));
+    await op.goto(`${BASE}/en`, { waitUntil: "domcontentloaded" }).catch(() => {});
+    await op.fill("#said", "I hear frogs croaking");
+    await op.click(".ask-row button[type=submit]");
+    await op.waitForSelector(".advice", { timeout: 15000 }).catch(() => {});
+    const offTxt = (await op.locator("main").textContent()) || "";
+    ok("Offline: Ask still recognises a sign on the phone", /frog/i.test(offTxt) && (await op.locator(".offline-note").count()) === 1);
+    await octx.setOffline(false);
+    await octx.close();
+  }
 
   // 4. Public APIs
   const req = page.request;

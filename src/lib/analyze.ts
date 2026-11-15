@@ -4,7 +4,7 @@
 import { dict, fmt, isLocale, type Locale } from "./i18n";
 import { findSign, isAsking } from "./match";
 import { isPlace, seasonFor, type PlaceSlug } from "./places";
-import { evaluationFor, tr, type SignRecord } from "./records";
+import { evaluationFor, tr, type SignRecord } from "./record-types";
 import { trustLevel, type TrustLevel } from "./scoring";
 
 /** A piece of the spoken reply. clips: recorded Amharic clips that say exactly this text (all must exist to be played). */

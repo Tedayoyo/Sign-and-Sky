@@ -4,6 +4,7 @@ import { dict, fmt, SPEECH, type Locale } from "@/lib/i18n";
 import { librarySigns } from "@/lib/assistant";
 import { evaluationFor, BUILTIN } from "@/lib/records";
 import AskClient from "@/components/AskClient";
+import { ForecastStrip } from "@/components/ForecastStrip";
 import { Photo } from "@/components/Photo";
 import { Reveal } from "@/components/Reveal";
 import { StepIcon } from "@/components/StepIcon";
@@ -100,6 +101,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           t={{ ask: d.ask, trust: d.trust, places: d.places, home: d.home }}
           categories={BUILTIN.map((s) => s.category)}
         />
+      </div>
+
+      <div className="wrap">
+        <ForecastStrip t={d.pwa.forecast} lang={lang} />
       </div>
 
       <section className="how" aria-labelledby="how-title">

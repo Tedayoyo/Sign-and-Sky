@@ -46,6 +46,11 @@ async function main() {
       res.setHeader("content-type", "application/json");
       return res.end(JSON.stringify(list.length === 1 ? list[0] : list));
     }
+    if (u.pathname === "/forecast") {
+      const t = Array.from({ length: 7 }, (_, i) => new Date(Date.now() + i * 864e5).toISOString().slice(0, 10));
+      res.setHeader("content-type", "application/json");
+      return res.end(JSON.stringify({ daily: { time: t, precipitation_sum: [0, 1.2, 6.5, 0.4, 0, 12.3, 3], precipitation_probability_max: [10, 40, 75, 30, 5, 90, 55], temperature_2m_max: [24, 23, 21, 23, 25, 20, 22], temperature_2m_min: [13, 13, 14, 12, 12, 14, 13], weather_code: [1, 2, 61, 3, 0, 95, 80] } }));
+    }
     if (u.pathname.startsWith("/api/v1/voice/usage")) {
       res.setHeader("content-type", "application/json");
       return res.end(JSON.stringify({ balance: 100, currency: "ETB" }));
@@ -70,6 +75,7 @@ async function main() {
     `SESSION_SECRET=e2e-only-${"x".repeat(40)}`,
     `OPEN_METEO_ARCHIVE_URL_TEST_ONLY=http://127.0.0.1:${port}/archive`,
     `ADDIS_API_BASE_TEST_ONLY=http://127.0.0.1:${port}`,
+    `OPEN_METEO_FORECAST_URL_TEST_ONLY=http://127.0.0.1:${port}/forecast`,
     "ADDIS_API_KEY=e2e-dummy",
   ].join("\n");
   (await import("node:fs")).writeFileSync(DB_PORT_FILE, env + "\n");

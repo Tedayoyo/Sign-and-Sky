@@ -1092,3 +1092,46 @@ fieldset { border-radius: 16px; box-shadow: 0 8px 24px -22px rgba(16, 30, 60, 0.
 .sk--card { height: 170px; border-radius: 18px; background: linear-gradient(90deg, color-mix(in srgb, var(--line) 60%, transparent) 25%, color-mix(in srgb, var(--line) 120%, transparent) 50%, color-mix(in srgb, var(--line) 60%, transparent) 75%); background-size: 200% 100%; }
 @keyframes sk-shine { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .page-enter, .sk, .link-pending.is-pending { animation: none; } .navprogress--busy { transition: none; } }
+
+/* ===== App install, offline and 7-day forecast (15 Nov 2026) ===== */
+.install-btn { display: inline-flex; align-items: center; gap: 0.35rem; font: inherit; font-size: 0.88rem; font-weight: 700; padding: 0.4rem 0.8rem; min-height: 36px; border-radius: 999px; border: 0; cursor: pointer;
+  background: linear-gradient(135deg, var(--gold), #e2b25a); color: #1b1407; box-shadow: 0 4px 14px rgba(200, 144, 46, 0.35); transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+.install-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(200, 144, 46, 0.45); }
+.pwa-sheet { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); width: min(26rem, calc(100% - 2rem)); z-index: 900; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow-l, 0 20px 50px rgba(0,0,0,0.25)); animation: page-enter 0.3s var(--ease) both; }
+.pwa-sheet h2 { font-size: 1.1rem; margin: 0 0 0.4rem; }
+.pwa-toast { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 900; background: var(--navy); color: #fff; padding: 0.65rem 1rem; border-radius: 999px; font-weight: 600; font-size: 0.92rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: page-enter 0.3s var(--ease) both; max-width: calc(100% - 2rem); }
+.pwa-toast .linklike { color: var(--gold); font-weight: 800; }
+.offline-note { margin: 0.8rem 0 0; padding: 0.6rem 0.9rem; border-radius: 12px; background: color-mix(in srgb, var(--gold) 14%, transparent); border-left: 4px solid var(--gold); font-size: 0.93rem; }
+.offline-page { text-align: center; padding-block: 4rem; max-width: 40rem; }
+.offline-page__icon { color: var(--skyblue); margin-bottom: 0.5rem; }
+.offline-page__list { text-align: left; display: grid; gap: 0.5rem; margin: 1.5rem auto; max-width: 30rem; }
+
+.forecast { margin: 2rem 0 0.5rem; padding: 1.4rem; border-radius: 22px; color: #eef4fb;
+  background: radial-gradient(120% 140% at 0% 0%, #2c5a8c 0%, #1b2a4a 55%, #13203a 100%); box-shadow: 0 18px 40px rgba(16, 30, 56, 0.28); position: relative; overflow: hidden; }
+.forecast::after { content: ""; position: absolute; inset: -40% -20% auto auto; width: 60%; aspect-ratio: 1; background: radial-gradient(circle, rgba(232, 182, 92, 0.25), transparent 65%); pointer-events: none; }
+.forecast h2 { color: #fff; margin: 0 0 0.25rem; font-size: clamp(1.25rem, 2.6vw, 1.6rem); }
+.forecast .muted { color: rgba(238, 244, 251, 0.75); }
+.forecast a { color: #ffd98a; }
+.forecast__days { list-style: none; padding: 0; margin: 1.1rem 0 0.6rem; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.6rem; position: relative; z-index: 1; }
+.forecast__day { display: grid; justify-items: center; gap: 0.35rem; padding: 0.8rem 0.4rem; border-radius: 16px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.1); animation: page-enter 0.45s var(--ease) both; text-align: center; }
+.forecast__day.is-today { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 217, 138, 0.55); }
+.forecast__day--sk { height: 168px; background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: sk-shine 1.2s linear infinite; }
+.forecast__name { font-weight: 700; font-size: 0.88rem; }
+.forecast__icon .fx-sun { fill: #ffc94d; }
+.forecast__icon .fx-cloud { fill: #dbe6f3; }
+.forecast__icon .fx-cloud--dark { fill: #9fb1c8; }
+.forecast__icon .fx-drop, .forecast__icon .fx-fog path { stroke: #8cc8ff; stroke-width: 2; stroke-linecap: round; fill: none; }
+.forecast__icon .fx-bolt { stroke: #ffd24d; stroke-width: 2.2; fill: none; stroke-linejoin: round; }
+.forecast__day:hover .forecast__icon { animation: fx-bob 1.2s ease-in-out infinite alternate; }
+@keyframes fx-bob { to { transform: translateY(-3px); } }
+.forecast__temp { display: flex; gap: 0.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.forecast__bar { width: 10px; height: 46px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); display: flex; align-items: flex-end; overflow: hidden; }
+.forecast__bar i { display: block; width: 100%; border-radius: 999px; background: linear-gradient(180deg, #8cc8ff, #4b9be0); transition: height 0.6s var(--ease); }
+.forecast__rain { font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.forecast__src { position: relative; z-index: 1; margin: 0; }
+@media (max-width: 720px) {
+  .forecast { padding: 1.1rem; }
+  .forecast__days { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 6.2rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.4rem; }
+  .forecast__day { scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) { .forecast__day, .forecast__day--sk, .pwa-sheet, .pwa-toast { animation: none; } }

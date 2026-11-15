@@ -262,13 +262,21 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
       setSaveState({ status: "idle" });
       setConsent(false);
       try {
-        const r = await fetch("/api/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: said, alt: altRef.current, lang, loc, last: lastRef.current }),
-        });
-        if (!r.ok) throw new Error();
-        const a: Analysis = await r.json();
+        const input = { text: said, alt: altRef.current, lang, loc, last: lastRef.current };
+        let a: Analysis;
+        let offlineAnswer = false;
+        try {
+          if (typeof navigator !== "undefined" && navigator.onLine === false) throw new Error("offline");
+          const r = await fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input) });
+          if (!r.ok) throw new Error();
+          a = await r.json();
+        } catch {
+          // No connection (or the server is unreachable): answer on the phone from the saved library.
+          const { analyzeOffline } = await import("@/lib/offline-analyze");
+          a = await analyzeOffline(input);
+          offlineAnswer = true;
+        }
+        setOffline(offlineAnswer);
         altRef.current = "";
         if (a.last) {
           lastRef.current = a.last;
@@ -297,6 +305,19 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
     },
     [busy, lang, speak, stopAudio, t.ask.error],
   );
+
+  // Offline answers: load the on-phone assistant while online so it is ready (and cached) before it is needed.
+  const [offline, setOffline] = useState(false);
+  useEffect(() => {
+    const go = () =>
+      import("@/lib/offline-analyze")
+        .then(() => fetch("/api/library"))
+        .then((r) => r.arrayBuffer())
+        .catch(() => {});
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(go);
+    else setTimeout(go, 2500);
+  }, []);
 
   // Run once when opened with ?q= (read in the browser so the page itself can be served from cache)
   const ranInitial = useRef(false);
@@ -540,6 +561,7 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
         </p>
       </div>
 
+      {res && res.kind !== "empty" && offline && <p className="offline-note">{a.offlineAnswer}</p>}
       {res && res.kind !== "empty" && (
         <ol className="steps" ref={resultRef} aria-live="polite">
           {stage >= 1 && (

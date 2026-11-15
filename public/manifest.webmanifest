@@ -1,9 +1,27 @@
 {
-  "name": "Sign & Sky",
+  "id": "/",
+  "name": "Sign & Sky — nature's signs, tested by satellites",
   "short_name": "Sign & Sky",
-  "start_url": "/",
+  "description": "Indigenous weather signs from Wolaita, tested against satellite rainfall and returned to farmers in Amharic and English. Works offline.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/en?source=app",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
   "background_color": "#F4F6F3",
   "theme_color": "#1B2A4A",
-  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+  "categories": ["weather", "education", "utilities"],
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Ask about a sign", "short_name": "Ask", "url": "/en?source=shortcut", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "የምልክት ጥያቄ (Amharic)", "short_name": "አማርኛ", "url": "/am?source=shortcut", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Share a sign", "short_name": "Share", "url": "/en/share?source=shortcut", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
 }
