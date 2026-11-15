@@ -5,7 +5,8 @@ import { parseObservations, yearFraction } from "@/lib/observations";
 import { PageHero } from "@/components/PageHero";
 import { CalendarClient, type CalendarItem } from "./CalendarClient";
 
-export const dynamic = "force-dynamic";
+// Served from cache and refreshed every 5 minutes, or at once when researchers change a record (revalidatePath).
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;

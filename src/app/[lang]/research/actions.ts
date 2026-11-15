@@ -1,6 +1,7 @@
 "use server";
 // Research area actions. Every action checks the signed-in researcher on the server.
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { one, query, tx } from "@/lib/db";
 import {
   attemptLogin,
@@ -15,6 +16,12 @@ import {
 } from "@/lib/auth";
 import bcrypt from "bcryptjs";
 import { clearLibraryCache } from "@/lib/assistant";
+
+// Public pages are served from cache; after a change researchers make, refresh them at once.
+function refreshPublic() {
+  clearLibraryCache();
+  revalidatePath("/", "layout");
+}
 import { runWeatherTest, type Source } from "@/lib/weather";
 import { TESTABLE, type Outcome } from "@/lib/scoring";
 
@@ -124,6 +131,7 @@ export async function reviewSubmission(f: FormData) {
     return rec.record_number as number;
   });
   if (!n) back(path);
+  refreshPublic();
   back(`/${lang}/research/records/${n}`, { ok: "saved" });
 }
 
@@ -219,7 +227,7 @@ export async function saveRecord(f: FormData) {
     console.error("saveRecord", e);
     back(path, { e: "invalid" });
   }
-  clearLibraryCache();
+  refreshPublic();
   back(path, { ok: "saved" });
 }
 
@@ -229,7 +237,7 @@ export async function setPublished(f: FormData) {
   const id = s(f, "id");
   if (!UUID.test(id)) back(`/${lang}/research/records`);
   await query("update knowledge_records set is_published = $2, updated_by = $3 where id = $1", [id, s(f, "publish") === "1", user.id]);
-  clearLibraryCache();
+  refreshPublic();
   back(await recordPath(lang, id), { ok: "saved" });
 }
 
@@ -265,7 +273,7 @@ export async function runTest(f: FormData) {
   } catch (e) {
     back(path, { e: "test", r: (e as Error).message.slice(0, 300) });
   }
-  clearLibraryCache();
+  refreshPublic();
   back(path, { ok: "test", score: String(score) });
 }
 
@@ -301,6 +309,7 @@ export async function recordOutcome(f: FormData) {
   } catch {
     back(path, { e: "invalid" });
   }
+  refreshPublic();
   back(path, { ok: "saved" });
 }
 

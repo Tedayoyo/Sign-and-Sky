@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { LinkPending } from "./LinkPending";
 
 type Item = { href: string; label: string };
 
@@ -24,7 +25,10 @@ export function Nav({
 }) {
   const path = usePathname() || "/";
   const rest = path.replace(/^\/(en|am)(?=\/|$)/, "");
-  const active = (href: string) => (href === `/${lang}` ? path === href : path === href || path.startsWith(href + "/"));
+  const active = (href: string) => {
+    const base = href.replace(/\/research\/login$/, "/research"); // the Research item covers the whole research area
+    return href === `/${lang}` ? path === href : path === base || path.startsWith(base + "/");
+  };
   const moreActive = more.some((i) => active(i.href));
   const details = useRef<HTMLDetailsElement>(null);
 
@@ -51,6 +55,7 @@ export function Nav({
       {items.map((i) => (
         <Link key={i.href} href={i.href} aria-current={active(i.href) ? "page" : undefined}>
           {i.label}
+          <LinkPending />
         </Link>
       ))}
       <details className="nav-more" ref={details}>
@@ -64,6 +69,7 @@ export function Nav({
           {more.map((i) => (
             <Link key={i.href} href={i.href} aria-current={active(i.href) ? "page" : undefined}>
               {i.label}
+              <LinkPending />
             </Link>
           ))}
         </div>

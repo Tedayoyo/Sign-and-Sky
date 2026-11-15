@@ -15,6 +15,14 @@ export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const first = pathname.split("/")[1];
   if (LOCALES.includes(first)) {
+    // Research pages without a session go straight to sign-in here, saving a slow server round trip.
+    const second = pathname.split("/")[2];
+    if (second === "research" && !pathname.startsWith(`/${first}/research/login`) && !req.cookies.get("sns_session")?.value) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/${first}/research/login`;
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
     const headers = new Headers(req.headers);
     headers.set("x-sns-lang", first);
     const res = NextResponse.next({ request: { headers } });

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { normalize } from "@/lib/match";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ScoreRing } from "@/components/ScoreRing";
-import type { GroupKey } from "@/lib/explorer";
+import { groupFor, type GroupKey } from "@/lib/explorer";
 
 type Level = "very_strong" | "strong" | "fair" | "weak" | "untested";
 
@@ -42,20 +42,32 @@ export function SignsExplorer({
   items,
   groups,
   t,
-  initial,
 }: {
   lang: string;
   items: ExplorerItem[];
   groups: GroupKey[];
   t: T;
-  initial: { q: string; group: GroupKey | ""; trust: Level | "" };
 }) {
-  const [q, setQ] = useState(initial.q);
-  const [group, setGroup] = useState<GroupKey | "">(initial.group);
-  const [trust, setTrust] = useState<Level | "">(initial.trust);
+  const [q, setQ] = useState("");
+  const [group, setGroup] = useState<GroupKey | "">("");
+  const [trust, setTrust] = useState<Level | "">("");
+  const [ready, setReady] = useState(false);
 
-  // Keep the address shareable: /signs?q=ants&group=insects&trust=strong
+  // Filters come from the address in the browser (/signs?q=ants&group=insects&trust=strong),
+  // so the page itself can be served instantly from cache. Old links with ?cat= still work.
   useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const g = sp.get("group") || (sp.get("cat") ? groupFor(0, sp.get("cat")!) : "");
+    setQ((sp.get("q") || "").slice(0, 100));
+    if ((groups as string[]).includes(g)) setGroup(g as GroupKey);
+    const tr = sp.get("trust") || "";
+    if (["very_strong", "strong", "fair", "weak"].includes(tr)) setTrust(tr as Level);
+    setReady(true);
+  }, [groups]);
+
+  // Keep the address shareable
+  useEffect(() => {
+    if (!ready) return;
     const u = new URL(window.location.href);
     for (const [k, v] of [["q", q.trim()], ["group", group], ["trust", trust]] as const) {
       if (v) u.searchParams.set(k, v);
@@ -64,7 +76,7 @@ export function SignsExplorer({
     u.searchParams.delete("cat");
     u.searchParams.delete("type");
     window.history.replaceState(null, "", u.toString());
-  }, [q, group, trust]);
+  }, [q, group, trust, ready]);
 
   const shown = useMemo(() => {
     const words = normalize(q).split(" ").filter(Boolean);

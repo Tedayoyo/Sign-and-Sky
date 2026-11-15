@@ -7,7 +7,8 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { TrustBadge } from "@/components/Gauge";
 
-export const dynamic = "force-dynamic";
+// Served from cache and refreshed every 5 minutes, or at once when researchers change a record (revalidatePath).
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;

@@ -298,12 +298,16 @@ export default function AskClient({ lang, t, initialText, speechLang, categories
     [busy, lang, speak, stopAudio, t.ask.error],
   );
 
-  // Run once when opened with ?q=
+  // Run once when opened with ?q= (read in the browser so the page itself can be served from cache)
   const ranInitial = useRef(false);
   useEffect(() => {
-    if (initialText && !ranInitial.current) {
+    if (ranInitial.current) return;
+    const fromUrl = new URLSearchParams(window.location.search).get("q")?.slice(0, 300) || "";
+    const first = initialText || fromUrl;
+    if (first) {
       ranInitial.current = true;
-      run(initialText);
+      setText(first);
+      run(first);
     }
   }, [initialText, run]);
 

@@ -14,7 +14,8 @@ export default async function Login({ params, searchParams }: { params: Promise<
   const { e, ok } = await searchParams;
   const r = dict(lang).research;
   if (await currentUser()) redirect(`/${lang}/research`);
-  const down = await dbStatus();
+  // The database is only checked when a sign-in has just failed for that reason, so the page opens instantly.
+  const down = e === "db" ? await dbStatus() : null;
   return (
     <main className="wrap" style={{ maxWidth: 440 }}>
       <header className="page-head">

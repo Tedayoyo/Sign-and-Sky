@@ -11,7 +11,8 @@ import { KnowledgeMap, type MapArea, type MapObs } from "./KnowledgeMap";
 import { groupFor } from "@/lib/explorer";
 import { query } from "@/lib/db";
 
-export const dynamic = "force-dynamic";
+// Served from cache and refreshed every 5 minutes, or at once when researchers change a record (revalidatePath).
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;

@@ -8,18 +8,16 @@ import { parseObservations } from "@/lib/observations";
 import { GROUPS, groupFor, type GroupKey } from "@/lib/explorer";
 import { SignsExplorer, type ExplorerItem } from "./SignsExplorer";
 
-export const dynamic = "force-dynamic";
+// Served from cache and refreshed every 5 minutes, or at once when researchers change a record (revalidatePath).
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   return { title: dict(lang).signs.title };
 }
 
-type SP = { q?: string; cat?: string; group?: string; trust?: string };
-
-export default async function Signs({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<SP> }) {
+export default async function Signs({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const sp = await searchParams;
   const d = dict(lang);
   const all = await publishedSigns();
   const items: ExplorerItem[] = all.map((s) => {
@@ -47,9 +45,6 @@ export default async function Signs({ params, searchParams }: { params: Promise<
       ),
     };
   });
-  const legacyCat = sp.cat ? (GROUPS.find((g) => g === groupFor(0, sp.cat!)) ?? "") : "";
-  const group = (GROUPS as string[]).includes(sp.group ?? "") ? (sp.group as GroupKey) : legacyCat;
-  const trust = ["very_strong", "strong", "fair", "weak"].includes(sp.trust ?? "") ? (sp.trust as "strong") : "";
   const x = d.explorer;
   return (
     <main>
@@ -59,7 +54,6 @@ export default async function Signs({ params, searchParams }: { params: Promise<
           lang={lang}
           items={items}
           groups={GROUPS}
-          initial={{ q: String(sp.q ?? "").slice(0, 100), group, trust }}
           t={{
             search: d.signs.search,
             placeholder: d.signs.searchPlaceholder,

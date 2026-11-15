@@ -13,7 +13,15 @@ import { groupFor } from "@/lib/explorer";
 import { query } from "@/lib/db";
 import { PLACES } from "@/lib/places";
 
-export const dynamic = "force-dynamic";
+// Served from cache and refreshed every 5 minutes, or at once when researchers change a record (revalidatePath).
+export const revalidate = 300;
+
+// The published signs are built ahead of time; new ones render on first visit and are then cached.
+export async function generateStaticParams() {
+  const { publishedSigns } = await import("@/lib/records");
+  const signs = await publishedSigns().catch(() => []);
+  return signs.map((s) => ({ n: String(s.record_number) }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; n: string }> }): Promise<Metadata> {
   const { lang, n } = await params;

@@ -9,7 +9,8 @@ import { Reveal } from "@/components/Reveal";
 import { StepIcon } from "@/components/StepIcon";
 import { MEDIA, type MediaKey } from "@/lib/media";
 
-export const dynamic = "force-dynamic";
+// Served from cache and refreshed every 5 minutes, or at once when researchers change a record (revalidatePath).
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -23,9 +24,8 @@ const PARTICLES = [
   [70, 36, 7], [78, 66, 5], [86, 24, 9], [93, 80, 3.5], [10, 18, 11], [58, 14, 12], [82, 52, 6.5], [35, 92, 9.5],
 ] as const;
 
-export default async function Home({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<{ q?: string }> }) {
+export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const { q } = await searchParams;
   const d = dict(lang);
   const L = d.landing;
   let stats = "";
@@ -99,7 +99,6 @@ export default async function Home({ params, searchParams }: { params: Promise<{
           speechLang={SPEECH[lang as Locale]}
           t={{ ask: d.ask, trust: d.trust, places: d.places, home: d.home }}
           categories={BUILTIN.map((s) => s.category)}
-          initialText={typeof q === "string" ? q.slice(0, 300) : undefined}
         />
       </div>
 
