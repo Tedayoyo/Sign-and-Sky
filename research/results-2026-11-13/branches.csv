@@ -1,0 +1,11 @@
+sign_id,sign,status,rule,branch,obs,outcome,start,end,total_mm,percentile,score,null_mean,p_value
+3,Wind pattern changes,direction_needed,R4,onset,2025-06-05,rain_onset,2025-06-06,2025-06-26,60.0,0.633,8.2,6.37,0.378
+3,Wind pattern changes,direction_needed,R4,onset,2025-11-03,rain_onset,2026-03-01,2026-03-31,365.7,0.967,9.8,6.73,0.087
+3,Wind pattern changes,direction_needed,R4,intensity,2025-06-05,above_normal,2025-06-06,2025-09-30,612.1,0.483,2.4,4.2,0.533
+3,Wind pattern changes,direction_needed,R4,intensity,2025-11-03,above_normal,2026-03-01,2026-05-31,721.6,0.967,9.8,4.17,0.087
+3,Wind pattern changes,direction_needed,R4,failure,2025-06-05,below_normal,2025-06-06,2025-09-30,612.1,0.483,2.6,4.2,0.511
+3,Wind pattern changes,direction_needed,R4,failure,2025-11-03,below_normal,2026-03-01,2026-05-31,721.6,0.967,0.2,4.17,0.957
+4,Star pattern shifts,direction_needed,R4,rainfall,2025-03-23,not_below_normal,2025-03-24,2025-05-31,481.6,0.533,7.7,5.8,0.489
+4,Star pattern shifts,direction_needed,R4,drought,2025-03-23,drought,2025-03-24,2025-05-31,481.6,0.533,2.3,3.52,0.556
+8,Star-moon alignment,direction_needed,R4,rainfall,2025-02-03,not_below_normal,2025-03-01,2025-05-31,639.3,0.767,8.8,5.8,0.267
+8,Star-moon alignment,direction_needed,R4,drought,2025-02-03,drought,2025-03-01,2025-05-31,639.3,0.767,1.2,3.52,0.778

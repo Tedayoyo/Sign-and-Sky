@@ -1,0 +1,842 @@
+{
+ "method": "sns-score-v1",
+ "sign_id": 17,
+ "sign": "Dark cloud formation and movement",
+ "status": "confirmed",
+ "rule": "R1",
+ "dataset": "chirps",
+ "location": "offa_point",
+ "test": {
+  "obs": "2025-07-08",
+  "outcome": "rain",
+  "window_days": 3
+ },
+ "thresholds": {
+  "wetDayMm": 1,
+  "heavyDayMm": 20,
+  "rainTotalMm": 10,
+  "onset3DayMm": 20,
+  "dryTotalMm": 5,
+  "droughtPct": 0.2,
+  "normalBand": [
+   0.25,
+   0.75
+  ],
+  "minReferenceYears": 5,
+  "tercileLow": 0.3333333333333333,
+  "tercileHigh": 0.6666666666666666
+ },
+ "target": {
+  "stats": {
+   "year": 2025,
+   "start": "2025-07-09",
+   "end": "2025-07-11",
+   "totalMm": 0.0,
+   "maxDayMm": 0.0,
+   "wetDays": 0,
+   "max3DayMm": 0.0,
+   "complete": true
+  },
+  "daily": [
+   {
+    "date": "2025-07-09",
+    "mm": 0.0
+   },
+   {
+    "date": "2025-07-10",
+    "mm": 0.0
+   },
+   {
+    "date": "2025-07-11",
+    "mm": 0.0
+   }
+  ]
+ },
+ "reference": [
+  {
+   "stats": {
+    "year": 2024,
+    "start": "2024-07-09",
+    "end": "2024-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2024-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2024-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2024-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2023,
+    "start": "2023-07-09",
+    "end": "2023-07-11",
+    "totalMm": 37.1,
+    "maxDayMm": 37.1,
+    "wetDays": 1,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2023-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2023-07-10",
+     "mm": 37.077
+    },
+    {
+     "date": "2023-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2022,
+    "start": "2022-07-09",
+    "end": "2022-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2022-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2022-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2022-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2021,
+    "start": "2021-07-09",
+    "end": "2021-07-11",
+    "totalMm": 48.0,
+    "maxDayMm": 48.0,
+    "wetDays": 1,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2021-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2021-07-10",
+     "mm": 47.993
+    },
+    {
+     "date": "2021-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2020,
+    "start": "2020-07-09",
+    "end": "2020-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2020-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2020-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2020-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2019,
+    "start": "2019-07-09",
+    "end": "2019-07-11",
+    "totalMm": 39.0,
+    "maxDayMm": 19.5,
+    "wetDays": 2,
+    "max3DayMm": 39.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2019-07-09",
+     "mm": 19.482
+    },
+    {
+     "date": "2019-07-10",
+     "mm": 19.482
+    },
+    {
+     "date": "2019-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2018,
+    "start": "2018-07-09",
+    "end": "2018-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2018-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2018-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2018-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2017,
+    "start": "2017-07-09",
+    "end": "2017-07-11",
+    "totalMm": 57.8,
+    "maxDayMm": 19.3,
+    "wetDays": 3,
+    "max3DayMm": 57.8,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2017-07-09",
+     "mm": 19.308
+    },
+    {
+     "date": "2017-07-10",
+     "mm": 19.308
+    },
+    {
+     "date": "2017-07-11",
+     "mm": 19.212
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2016,
+    "start": "2016-07-09",
+    "end": "2016-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2016-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2016-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2016-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2015,
+    "start": "2015-07-09",
+    "end": "2015-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2015-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2015-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2015-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2014,
+    "start": "2014-07-09",
+    "end": "2014-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2014-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2014-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2014-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2013,
+    "start": "2013-07-09",
+    "end": "2013-07-11",
+    "totalMm": 30.5,
+    "maxDayMm": 30.5,
+    "wetDays": 1,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2013-07-09",
+     "mm": 30.45
+    },
+    {
+     "date": "2013-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2013-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2012,
+    "start": "2012-07-09",
+    "end": "2012-07-11",
+    "totalMm": 36.2,
+    "maxDayMm": 18.1,
+    "wetDays": 2,
+    "max3DayMm": 36.2,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2012-07-09",
+     "mm": 18.087
+    },
+    {
+     "date": "2012-07-10",
+     "mm": 18.087
+    },
+    {
+     "date": "2012-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2011,
+    "start": "2011-07-09",
+    "end": "2011-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2011-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2011-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2011-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2010,
+    "start": "2010-07-09",
+    "end": "2010-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2010-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2010-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2010-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2009,
+    "start": "2009-07-09",
+    "end": "2009-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2009-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2009-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2009-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2008,
+    "start": "2008-07-09",
+    "end": "2008-07-11",
+    "totalMm": 65.4,
+    "maxDayMm": 22.2,
+    "wetDays": 3,
+    "max3DayMm": 65.4,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2008-07-09",
+     "mm": 21.605
+    },
+    {
+     "date": "2008-07-10",
+     "mm": 21.605
+    },
+    {
+     "date": "2008-07-11",
+     "mm": 22.218
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2007,
+    "start": "2007-07-09",
+    "end": "2007-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2007-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2007-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2007-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2006,
+    "start": "2006-07-09",
+    "end": "2006-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2006-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2006-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2006-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2005,
+    "start": "2005-07-09",
+    "end": "2005-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2005-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2005-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2005-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2004,
+    "start": "2004-07-09",
+    "end": "2004-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2004-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2004-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2004-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2003,
+    "start": "2003-07-09",
+    "end": "2003-07-11",
+    "totalMm": 40.5,
+    "maxDayMm": 40.5,
+    "wetDays": 1,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2003-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2003-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2003-07-11",
+     "mm": 40.457
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2002,
+    "start": "2002-07-09",
+    "end": "2002-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2002-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2002-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2002-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2001,
+    "start": "2001-07-09",
+    "end": "2001-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2001-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "2001-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "2001-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 2000,
+    "start": "2000-07-09",
+    "end": "2000-07-11",
+    "totalMm": 21.7,
+    "maxDayMm": 10.9,
+    "wetDays": 2,
+    "max3DayMm": 21.7,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "2000-07-09",
+     "mm": 10.85
+    },
+    {
+     "date": "2000-07-10",
+     "mm": 10.85
+    },
+    {
+     "date": "2000-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 1999,
+    "start": "1999-07-09",
+    "end": "1999-07-11",
+    "totalMm": 31.0,
+    "maxDayMm": 31.0,
+    "wetDays": 1,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "1999-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "1999-07-10",
+     "mm": 30.978
+    },
+    {
+     "date": "1999-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 1998,
+    "start": "1998-07-09",
+    "end": "1998-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "1998-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "1998-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "1998-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 1997,
+    "start": "1997-07-09",
+    "end": "1997-07-11",
+    "totalMm": 0.0,
+    "maxDayMm": 0.0,
+    "wetDays": 0,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "1997-07-09",
+     "mm": 0.0
+    },
+    {
+     "date": "1997-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "1997-07-11",
+     "mm": 0.0
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 1996,
+    "start": "1996-07-09",
+    "end": "1996-07-11",
+    "totalMm": 50.8,
+    "maxDayMm": 25.1,
+    "wetDays": 3,
+    "max3DayMm": 50.8,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "1996-07-09",
+     "mm": 12.852
+    },
+    {
+     "date": "1996-07-10",
+     "mm": 12.852
+    },
+    {
+     "date": "1996-07-11",
+     "mm": 25.118
+    }
+   ]
+  },
+  {
+   "stats": {
+    "year": 1995,
+    "start": "1995-07-09",
+    "end": "1995-07-11",
+    "totalMm": 42.6,
+    "maxDayMm": 42.6,
+    "wetDays": 1,
+    "max3DayMm": 0.0,
+    "complete": true
+   },
+   "daily": [
+    {
+     "date": "1995-07-09",
+     "mm": 42.62
+    },
+    {
+     "date": "1995-07-10",
+     "mm": 0.0
+    },
+    {
+     "date": "1995-07-11",
+     "mm": 0.0
+    }
+   ]
+  }
+ ],
+ "happened": false,
+ "percentile": 0.3,
+ "oriented": 0.3,
+ "score": 1.5,
+ "explanation": "The predicted outcome did not happen in 2025-07-09 to 2025-07-11 (0 mm total, wettest day 0 mm; rain counts as happened when the window total reaches 10 mm). Compared with the same window in 30 earlier years, the result ranks at 30%. Score = 10 \u00d7 (0.5 \u00d7 0 + 0.5 \u00d7 0.30) = 1.5."
+}

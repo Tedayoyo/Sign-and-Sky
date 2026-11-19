@@ -1,0 +1,297 @@
+# Sign & Sky re-scoring: pre-registered test specification
+# Fixed on 2026-11-06, BEFORE any 2025 rainfall for Wolaita was downloaded or looked at.
+# Any later change must be added as a dated amendment at the bottom, never by editing above it.
+# Human-readable version with the reasoning: PREREGISTRATION.md
+#
+# status:
+#   confirmed            direction and timing follow mechanically from the field record (rules R1-R3)
+#   timing_provisional   direction is clear; the window depends on a reading the team should confirm
+#   direction_needed     the record says "rainfall OR drought" (or onset/intensity/failure) without saying
+#                        which one the farmers read on that date. Excluded from the primary analysis until
+#                        the team records it; every branch is pre-specified below so no choice is made after
+#                        seeing data.
+
+version: 1
+fixed_on: "2026-11-06"
+method: sns-score-v1.1   # v1 formula; adds calendar-date windows and tercile outcomes (see sns_score.py)
+
+seasons:   # Wolaita, confirmed by the project owner
+  belg:   {start: "03-01", end: "05-31"}
+  kiremt: {start: "06-01", end: "09-30"}
+  bega:   {start: "10-01", end: "02-28"}   # 02-29 in leap years
+
+primary:
+  dataset: chirps          # CHIRPS v2.0 daily, 0.05 deg, gauge-blended, the standard for Ethiopia
+  location: offa_point     # amended 2026-11-12: Offa Woreda, 6.75 N, 37.50 E, where the fieldwork took place (was sodo_pixel)
+  reference_years: 30      # WMO climatological standard; the website default of 10 is a sensitivity run
+  require_complete_target: true
+
+locations:
+  offa_point: {lat: 6.75, lon: 37.50}     # Offa Woreda, as documented in the field methods
+  offa_box: {lat_min: 6.61, lat_max: 6.83, lon_min: 37.40, lon_max: 37.68}   # bounds of Offa Woreda (geoBoundaries ADM3 "Ofa")
+  sodo_pixel: {lat: 6.855, lon: 37.761}
+  # Approximate Wolaita Zone bounding box. Replace with the zone polygon if the team has the shapefile.
+  wolaita_box: {lat_min: 6.50, lat_max: 7.20, lon_min: 37.40, lon_max: 38.20}
+
+sensitivity:
+  reference_years: [10, 30]
+  datasets: [chirps, chirps_v3, era5, era5_land]
+  locations: [offa_point, offa_box, sodo_pixel, wolaita_box]
+
+null_model:
+  # The "climatology forecaster": issue the same prediction on the same calendar date every year
+  # 1981 .. (target year - 1) and score each year against all the other years in that span
+  # (leave-one-out). Gives a base rate for H, the score expected with zero skill, and a one-sided
+  # empirical p-value for the 2025 score: p = (1 + #null >= observed) / (1 + n).
+  first_year: 1981
+
+signs:
+  - id: 1
+    name: Ants carrying eggs uphill
+    category: animal
+    field_score: 9
+    observed: ["2025-06-10"]
+    record: "Escaping; approaching seasonal rainfall/heavy rainfall"
+    rule: R1
+    status: confirmed
+    tests:
+      - {obs: "2025-06-10", outcome: heavy_rain, window_days: 7}
+    sensitivity_windows: [3, 14]
+
+  - id: 2
+    name: Bird plumage colouration
+    category: animal
+    field_score: 6
+    observed: ["2025-03-03"]
+    record: "Glossy blue = favourable rainfall; greyish = poor rainfall. Greyish seen on 3 Mar 2025 (owner)."
+    rule: R2
+    status: confirmed
+    tests:
+      - {obs: "2025-03-03", outcome: below_normal, start: "2025-03-04", end: "2025-05-31"}
+    sensitivity_outcomes: [dry, drought]
+
+  - id: 3
+    name: Wind pattern changes
+    category: cloud_wind
+    field_score: 8
+    observed: ["2025-06-05", "2025-11-03"]
+    record: "Direction, strength and duration; onset, intensity, or failure of seasonal rains"
+    rule: R4
+    status: direction_needed
+    branches:
+      onset:
+        - {obs: "2025-06-05", outcome: rain_onset, window_days: 21}
+        - {obs: "2025-11-03", outcome: rain_onset, start: "2026-03-01", end: "2026-03-31"}
+      intensity:
+        - {obs: "2025-06-05", outcome: above_normal, start: "2025-06-06", end: "2025-09-30"}
+        - {obs: "2025-11-03", outcome: above_normal, start: "2026-03-01", end: "2026-05-31"}
+      failure:
+        - {obs: "2025-06-05", outcome: below_normal, start: "2025-06-06", end: "2025-09-30"}
+        - {obs: "2025-11-03", outcome: below_normal, start: "2026-03-01", end: "2026-05-31"}
+
+  - id: 4
+    name: Star pattern shifts
+    category: celestial
+    field_score: 7.5
+    observed: ["2025-03-23"]
+    record: "Appearance of specific stars; prediction of seasonal rainfall or drought"
+    rule: R4
+    status: direction_needed
+    branches:
+      rainfall:
+        - {obs: "2025-03-23", outcome: not_below_normal, start: "2025-03-24", end: "2025-05-31"}
+      drought:
+        - {obs: "2025-03-23", outcome: drought, start: "2025-03-24", end: "2025-05-31"}
+
+  - id: 5
+    name: Coloured solar or lunar rings
+    category: celestial
+    field_score: 6
+    observed: ["2025-06-30"]
+    record: "Halos around the sun or moon; possible forthcoming rainfall"
+    rule: R1
+    status: confirmed
+    tests:
+      - {obs: "2025-06-30", outcome: rain, window_days: 7}
+    sensitivity_windows: [3, 14]
+
+  - id: 6
+    name: Misty and foggy conditions
+    category: atmospheric
+    field_score: 8
+    observed: ["2025-07-02"]
+    record: "Low visibility; possible rainfall during traditional seasons"
+    rule: R1
+    status: confirmed
+    tests:
+      - {obs: "2025-07-02", outcome: rain, window_days: 7}
+    sensitivity_windows: [3, 14]
+
+  - id: 7
+    name: Ants marching in line
+    category: animal
+    field_score: 7.5
+    observed: ["2025-12-10"]
+    record: "Movement in a straight line; expected normal rainfall"
+    rule: R2
+    status: timing_provisional   # 'normal rainfall' read as the next rainy season (Belg 2026)
+    tests:
+      - {obs: "2025-12-10", outcome: normal_rain, start: "2026-03-01", end: "2026-05-31"}
+    sensitivity_tests:
+      - {obs: "2025-12-10", outcome: normal_rain, window_days: 30}
+
+  - id: 8
+    name: Star-moon alignment
+    category: celestial
+    field_score: 8
+    observed: ["2025-02-03"]
+    record: "Relative celestial positions; seasonal rainfall or drought forecast"
+    rule: R4
+    status: direction_needed
+    branches:
+      rainfall:
+        - {obs: "2025-02-03", outcome: not_below_normal, start: "2025-03-01", end: "2025-05-31"}
+      drought:
+        - {obs: "2025-02-03", outcome: drought, start: "2025-03-01", end: "2025-05-31"}
+
+  - id: 9
+    name: Squirrel digging behaviour
+    category: animal
+    field_score: 6
+    observed: ["2025-11-29"]
+    record: "Ground squirrels actively digging; expected normal rainy season"
+    rule: R2
+    status: confirmed
+    tests:
+      - {obs: "2025-11-29", outcome: normal_rain, start: "2026-03-01", end: "2026-05-31"}
+    sensitivity_tests:
+      - {obs: "2025-11-29", outcome: normal_rain, window_days: 30}
+
+  - id: 10
+    name: Dispersed ant behaviour
+    category: animal
+    field_score: 7
+    observed: ["2025-02-19"]
+    record: "Scattered searching for food; possible drought"
+    rule: R2
+    status: confirmed
+    tests:
+      - {obs: "2025-02-19", outcome: drought, start: "2025-03-01", end: "2025-05-31"}
+    sensitivity_tests:
+      - {obs: "2025-02-19", outcome: drought, window_days: 30}
+
+  - id: 11
+    name: Dusty slow winds
+    category: cloud_wind
+    field_score: 8
+    observed: ["2025-07-03"]
+    record: "Slow breeze raising dust upward; expected normal rainfall at usual onset"
+    rule: R2
+    status: timing_provisional   # seen in July, after Kiremt onset; read as the rest of Kiremt
+    tests:
+      - {obs: "2025-07-03", outcome: normal_rain, start: "2025-07-04", end: "2025-09-30"}
+    sensitivity_tests:
+      - {obs: "2025-07-03", outcome: normal_rain, window_days: 30}
+
+  - id: 12
+    name: Strong east-to-west winds
+    category: cloud_wind
+    field_score: 7
+    observed: ["2025-03-01"]
+    record: "High intensity directional wind; possible drought"
+    rule: R2
+    status: confirmed
+    tests:
+      - {obs: "2025-03-01", outcome: drought, start: "2025-03-02", end: "2025-05-31"}
+    sensitivity_tests:
+      - {obs: "2025-03-01", outcome: drought, window_days: 30}
+
+  - id: 13
+    name: Red sun at sunrise
+    category: celestial
+    field_score: 6
+    observed: ["2025-06-07"]   # field table says "Jue 7"; read as June (as on the website). Team to confirm.
+    record: "Reddish solar appearance; expected normal rainfall"
+    rule: R2
+    status: timing_provisional
+    tests:
+      - {obs: "2025-06-07", outcome: normal_rain, start: "2025-06-08", end: "2025-09-30"}
+    sensitivity_tests:
+      - {obs: "2025-06-07", outcome: normal_rain, window_days: 30}
+      - {obs: "2025-07-07", outcome: normal_rain, start: "2025-07-08", end: "2025-09-30"}
+
+  - id: 14
+    name: Flowering of trees
+    category: plant
+    field_score: 7.5
+    observed: ["2025-02"]      # month only
+    record: "Tree flowering patterns; seasonal transition indicator"
+    rule: R3
+    status: timing_provisional   # read as: the Belg rains will start in the first month of Belg
+    tests:
+      - {obs: "2025-02-28", outcome: rain_onset, start: "2025-03-01", end: "2025-03-31"}
+    sensitivity_tests:
+      - {obs: "2025-02-28", outcome: rain_onset, start: "2025-03-01", end: "2025-04-15"}
+
+  - id: 15
+    name: Frogs croaking
+    category: animal
+    field_score: 8
+    observed: ["2025-07-04"]
+    record: "Hearing frog sounds; rain is coming in this season"
+    rule: R2
+    status: confirmed
+    tests:
+      - {obs: "2025-07-04", outcome: not_below_normal, start: "2025-07-05", end: "2025-09-30"}
+    sensitivity_tests:
+      - {obs: "2025-07-04", outcome: rain, window_days: 7}
+
+  - id: 16
+    name: Birds migrating from far away
+    category: animal
+    field_score: 8.5
+    observed: ["2025-11-25"]
+    record: "Bird migration; rain is likely to come within a few weeks"
+    rule: R1
+    status: confirmed
+    tests:
+      - {obs: "2025-11-25", outcome: rain, window_days: 21}
+    sensitivity_windows: [14, 30]
+
+  - id: 17
+    name: Dark cloud formation and movement
+    category: cloud_wind
+    field_score: 8
+    observed: ["2025-07-08", "2025-12-03"]
+    record: "Dark, watery cloud; going to rain within a few hours or days"
+    rule: R1
+    status: confirmed
+    tests:
+      - {obs: "2025-07-08", outcome: rain, window_days: 3}
+      - {obs: "2025-12-03", outcome: rain, window_days: 3}
+    sensitivity_windows: [1, 7]
+
+amendments:
+  - date: "2026-11-07"
+    before_data: true   # no 2025 rainfall for Wolaita had been downloaded or examined
+    change: >
+      Primary verification measures are now standard ones, pooled over the pre-registered tests:
+      proportion correct (PC), Heidke skill score with climatological chance HSS = (PC - E)/(1 - E),
+      where E is the mean climatological probability b_i of each test's event, and an exact one-sided
+      Poisson-binomial test of the number of hits. Reported for (a) confirmed tests and (b) confirmed
+      plus timing-provisional tests. The Brier skill score against climatology is reported as a
+      supplementary measure. SNS-Score is kept, unchanged, as the per-sign score shown to farmers.
+      Tests, windows, outcomes, data and b_i (leave-one-out base rate 1981 .. target year - 1) are unchanged.
+    reason: >
+      Reviewers expect established, citable verification measures (Heidke 1926; Wilks 2019;
+      Jolliffe and Stephenson 2012); the exact test is calibrated (p <= 0.05 in 2.7% of 20,000 no-skill sets).
+  - date: "2026-11-12"
+    before_data: true   # no 2025 rainfall for Wolaita had been downloaded or examined
+    change: >
+      Primary location moved from the Wolaita Sodo pixel to Offa Woreda (6.75 N, 37.50 E), where the
+      283 household interviews took place (kebeles W/Dekeya, Wareza and Yakima). Offa Woreda's bounding box
+      is added as an area-mean sensitivity location; the Sodo pixel and the Wolaita Zone box are kept as
+      sensitivity locations. Tests, windows, outcomes and measures are unchanged.
+    reason: >
+      The team's recovered field-methods record places the fieldwork in Offa Woreda, about 29 km south-west
+      of Sodo; rainfall should be tested where the signs were observed.

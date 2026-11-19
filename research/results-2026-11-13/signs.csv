@@ -1,0 +1,15 @@
+sign_id,sign,status,rule,category,field_score,rescored,trust,null_mean,skill_vs_null,base_rate,p_value,n_tests
+1,Ants carrying eggs uphill,confirmed,R1,animal,9,1.3,weak,4.33,-3.03,0.36,0.756,1
+2,Bird plumage colouration,confirmed,R2,animal,6,1.2,weak,4.2,-3.0,0.34,0.778,1
+5,Coloured solar or lunar rings,confirmed,R1,celestial,6,8.8,strong,5.92,2.88,0.68,0.267,1
+6,Misty and foggy conditions,confirmed,R1,atmospheric,8,8.3,strong,5.8,2.5,0.66,0.378,1
+7,Ants marching in line,timing_provisional,R2,animal,7.5,0.3,weak,5.0,-4.7,0.51,0.913,1
+9,Squirrel digging behaviour,confirmed,R2,animal,6,0.3,weak,5.0,-4.7,0.51,0.913,1
+10,Dispersed ant behaviour,confirmed,R2,animal,7,1.2,weak,3.52,-2.32,0.2,0.778,1
+11,Dusty slow winds,timing_provisional,R2,cloud_wind,8,9.7,very strong,4.95,4.75,0.5,0.111,1
+12,Strong east-to-west winds,confirmed,R2,cloud_wind,7,1.2,weak,3.52,-2.32,0.2,0.778,1
+13,Red sun at sunrise,timing_provisional,R2,celestial,6,9.8,very strong,4.95,4.85,0.5,0.067,1
+14,Flowering of trees,timing_provisional,R3,plant,7.5,9.5,very strong,6.7,2.8,0.84,0.133,1
+15,Frogs croaking,confirmed,R2,animal,8,7.5,fair,5.8,1.7,0.66,0.511,1
+16,Birds migrating from far away,confirmed,R1,animal,8.5,7.7,fair,5.45,2.25,0.59,0.489,1
+17,Dark cloud formation and movement,confirmed,R1,cloud_wind,8,1.6,weak,4.27,-2.67,0.35,1.0,2
