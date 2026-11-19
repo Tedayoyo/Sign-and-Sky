@@ -5,10 +5,8 @@ type: software
 authors:
   - family-names: "Lera"
     given-names: "Tewodros Birhanu"
-  - family-names: "Helsabo"
-    given-names: "Tesfaye Letebo"
-  - family-names: "Gosaye"
-    given-names: "Ermias"
+  - family-names: "Letebo"
+    given-names: "Tesfaye"
 version: "1.0.0"
 date-released: "2026-11-19"
 license: MIT
