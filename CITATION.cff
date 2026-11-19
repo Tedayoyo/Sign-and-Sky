@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software or its data, please cite it as below."
+title: "Sign & Sky: indigenous weather knowledge tested against satellite rainfall and returned to farmers by voice"
+type: software
+authors:
+  - family-names: "Lera"
+    given-names: "Tewodros Birhanu"
+  - family-names: "Helsabo"
+    given-names: "Tesfaye Letebo"
+  - family-names: "Gosaye"
+    given-names: "Ermias"
+version: "1.0.0"
+date-released: "2026-11-19"
+license: MIT
+repository-code: "https://github.com/Tedayoyo/Sign-and-Sky"
+url: "https://sign-and-sky-wolaita.vercel.app"
+abstract: >-
+  Sign & Sky is an AI-enabled platform that records farmers' indigenous weather signs from Offa Woreda,
+  Wolaita, Ethiopia, tests each prediction against CHIRPS and ERA5-Land rainfall for 1981-2026 against a
+  zero-skill benchmark, and returns the result to farmers by voice or text in Amharic and English. The
+  repository contains the web platform, the offline mobile app and the pre-registered analysis code and
+  results (research/).
+keywords:
+  - indigenous knowledge
+  - artificial intelligence
+  - forecast verification
+  - CHIRPS
+  - climate services
+  - Ethiopia

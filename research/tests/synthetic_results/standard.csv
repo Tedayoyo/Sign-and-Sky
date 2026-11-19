@@ -1,0 +1,3 @@
+set,n,hits,expected_hits,PC,PC_chance,HSS,BS,BS_clim,BSS,p_exact
+confirmed,11,6,5.42,0.545,0.493,0.104,0.455,0.245,-0.856,0.4673
+confirmed + timing provisional,15,8,7.59,0.533,0.506,0.055,0.467,0.259,-0.8,0.5191

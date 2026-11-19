@@ -7,6 +7,12 @@ Built with Next.js 16, React 19 and PostgreSQL (Supabase). Requirements: `REQUIR
 
 Public pages: Ask (home), Signs (explorer with groups, search and per-sign evidence), Environment, Calendar, Results (dashboard with an H/P calculator), Share a sign (voice notes, offline drafts and sending), About, Team, Farmer stories; researchers sign in under Research. Photographs supplied by the team are in `public/media` (resized only; catalogue in `src/lib/media.ts`). Light and dark themes follow the device unless the visitor uses the switch in the header. · English `/en` · Amharic `/am` · open data `/api/v1/signs`
 
+## Research code, citation and licence
+
+- **Research code:** `research/` holds the pre-registered analysis of the 17 indicators, the self-tests and the archived run reported in the paper (see `research/README.md`).
+- **Cite:** use GitHub's "Cite this repository" button or `CITATION.cff`. A DOI will be added here once the release is archived at Zenodo.
+- **Licence:** code under MIT (`LICENSE`); knowledge records, results, text and documentation under CC BY 4.0, with credit to the farming community of Offa Woreda (`DATA-LICENSE.md`).
+
 ## What it does
 
 | Page | For | What happens |
